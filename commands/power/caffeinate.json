@@ -4,7 +4,7 @@
   "command": "caffeinate",
   "name": "Caffeinate",
   "category": "power",
-  "description": "Prevent the system from sleeping.",
+  "description": "システムのスリープを防止します。caffeinateはアサーションを作成し、システムのスリープ動作を変更します。アサーションフラグを指定しない場合、アイドルスリープを防止するアサーションを作成します。ユーティリティを指定した場合、そのユーティリティの実行期間中アサーションが有効になります。",
   "platform": "macos",
   "requiresAdmin": false,
   "dangerous": false,
@@ -13,41 +13,58 @@
     "paths": ["/usr/bin/caffeinate"]
   },
   "timeoutMs": 30000,
-  "tags": ["power", "sleep", "prevent"],
-  "aliases": ["prevent sleep", "keep awake"],
+  "tags": ["power", "sleep", "prevent", "display", "disk", "idle"],
+  "aliases": ["スリープ防止", "スリープ抑止", "prevent sleep", "keep awake"],
   "arguments": [
     {
-      "id": "duration",
-      "name": "Duration",
-      "description": "Duration in seconds to prevent sleep. If not specified, runs indefinitely.",
-      "type": "duration",
-      "required": false,
-      "default": null,
-      "min": 1
-    },
-    {
       "id": "display",
-      "name": "Prevent Display Sleep",
-      "description": "Prevent the display from sleeping.",
-      "type": "boolean",
-      "required": false,
-      "default": false
-    },
-    {
-      "id": "disk",
-      "name": "Prevent Disk Sleep",
-      "description": "Prevent the disk from sleeping.",
+      "name": "ディスプレイスリープ防止",
+      "description": "ディスプレイのスリープを防止するアサーションを作成します（-dフラグ）。ビデオ再生やプレゼンテーション中にディスプレイがオフになるのを防ぎます。",
       "type": "boolean",
       "required": false,
       "default": false
     },
     {
       "id": "idle",
-      "name": "Prevent Idle Sleep",
-      "description": "Prevent the system from idle sleeping.",
+      "name": "アイドルスリープ防止",
+      "description": "システムのアイドルスリープを防止するアサーションを作成します（-iフラグ）。デフォルトで有効です。長時間の計算やダウンロード中にシステムがスリープするのを防ぎます。",
       "type": "boolean",
       "required": false,
       "default": true
+    },
+    {
+      "id": "disk",
+      "name": "ディスクスリープ防止",
+      "description": "ディスクのアイドルスリープを防止するアサーションを作成します（-mフラグ）。HDDのスピンダウンを防ぎます。",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    {
+      "id": "system",
+      "name": "システムスリープ防止（AC電源時のみ）",
+      "description": "システムのスリープを防止するアサーションを作成します（-sフラグ）。このアサーションはAC電源接続時にのみ有効です。バッテリー駆動時はスリープが許可されます。",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    {
+      "id": "useractive",
+      "name": "ユーザーアクティブ宣言",
+      "description": "ユーザーがアクティブであることを宣言するアサーションを作成します（-uフラグ）。ディスプレイがオフの場合、このオプションはディスプレイをオンにし、アイドルスリープを防止します。タイムアウトを指定しない場合は5秒のデフォルトタイムアウトが適用されます。",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    {
+      "id": "duration",
+      "name": "タイムアウト（秒）",
+      "description": "アサーションが有効な期間を秒単位で指定します（-tフラグ）。指定した時間経過後にアサーションが解除されます。ユーティリティを指定した場合はこのオプションが無視されます。",
+      "type": "duration",
+      "required": false,
+      "default": null,
+      "min": 1,
+      "unit": "seconds"
     }
   ]
 }

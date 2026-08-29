@@ -39,14 +39,6 @@
     "loading": "Loading history...",
     "noHistory": "No execution history yet."
   },
-  "validation": {
-    "required": "is required",
-    "invalidType": "must be a {{type}}",
-    "invalidRange": "must be {{min}} to {{max}}",
-    "invalidEnum": "must be one of: {{options}}",
-    "fileNotFound": "does not exist",
-    "directoryNotFound": "is not a directory"
-  },
   "categories": {
     "power": "Power",
     "network": "Network",
@@ -55,42 +47,102 @@
   },
   "commands": {
     "macos.pmset": {
-      "name": "Power Management",
-      "description": "Configure macOS power management settings including sleep, display sleep, and Power Nap.",
+      "name": "Power Management (pmset)",
+      "description": "Manipulate power management settings such as idle sleep timing, wake on administrative access, automatic restart on power loss, etc. Settings are saved in /Library/Preferences/com.apple.PowerManagement.plist.",
       "arguments": {
+        "target": {
+          "name": "Target",
+          "description": "Power source to apply settings to. -a (all), -b (battery), -c (charger), -u (UPS). Defaults to -a (all) if not specified."
+        },
         "sleep": {
           "name": "System Sleep",
-          "description": "System sleep timeout in minutes. 0 disables sleep."
+          "description": "System sleep timer in minutes. 0 disables sleep. Sets how long the system waits before automatically sleeping on battery or AC power."
         },
         "displaysleep": {
           "name": "Display Sleep",
-          "description": "Display sleep timeout in minutes. 0 disables display sleep."
+          "description": "Display sleep timer in minutes. 0 disables display sleep. Sets how long before the display dims and eventually turns off."
+        },
+        "disksleep": {
+          "name": "Disk Sleep",
+          "description": "Disk spindown timer in minutes. 0 disables disk sleep. Turns off disk heads on HDDs; has no effect on SSDs."
+        },
+        "womp": {
+          "name": "Wake on Magic Packet",
+          "description": "Enable/disable wake on ethernet magic packet. Same as 'Wake for network access' in System Settings. Allows the Mac to be woken remotely over the network."
+        },
+        "ring": {
+          "name": "Modem Ring Wake",
+          "description": "Enable/disable wake on modem ring. Not used on modern Macs."
         },
         "powernap": {
           "name": "Power Nap",
-          "description": "Enable or disable Power Nap feature."
+          "description": "Enable/disable Power Nap on supported machines. While sleeping, the Mac can receive email, update calendars, sync Photo Stream, download Mac App Store updates, and more in the background. May increase battery consumption."
+        },
+        "proximitywake": {
+          "name": "Proximity Wake",
+          "description": "Control system wake based on proximity of devices using the same iCloud ID. Wakes the Mac when an iPhone is nearby."
+        },
+        "autorestart": {
+          "name": "Automatic Restart on Power Loss",
+          "description": "Automatically restart the system when power is restored. Mac turns on automatically after a power outage."
+        },
+        "lidwake": {
+          "name": "Lid Wake",
+          "description": "Wake the system when the laptop lid (clamshell) is opened. Set to 0 to disable."
+        },
+        "acwake": {
+          "name": "Wake on Power Source Change",
+          "description": "Wake the system when the power source changes (AC/battery). Wakes the Mac when switching from battery to AC power."
+        },
+        "lessbright": {
+          "name": "Auto Brightness Adjustment",
+          "description": "Slightly turn down display brightness when switching to a different power source. Reduces brightness on battery to extend battery life."
+        },
+        "halfdim": {
+          "name": "Half Dim",
+          "description": "Use an intermediate half-brightness state between full brightness and fully off during display sleep. Warns the user that sleep is impending."
+        },
+        "sms": {
+          "name": "Sudden Motion Sensor",
+          "description": "Use the Sudden Motion Sensor to park disk heads during sudden G-force changes. Protects data on Macs with HDDs."
+        },
+        "hibernatemode": {
+          "name": "Hibernate Mode",
+          "description": "Change hibernation mode. 0=battery only, 3=default (battery+sleep), 25=AC only. Caution: affects system behavior; change carefully."
+        },
+        "ttyskeepawake": {
+          "name": "TTY Keep Awake",
+          "description": "Prevent idle system sleep when any tty (e.g. remote login session) is active. A tty is considered inactive only when its idle time exceeds the system sleep timer."
         }
       }
     },
     "macos.caffeinate": {
-      "name": "Caffeinate",
-      "description": "Prevent the system from sleeping.",
+      "name": "Caffeinate (caffeinate)",
+      "description": "Prevent the system from sleeping. Creates assertions to alter system sleep behavior. If no assertion flags are specified, creates an assertion to prevent idle sleep. If a utility is specified, assertions persist for the duration of the utility's execution.",
       "arguments": {
-        "duration": {
-          "name": "Duration",
-          "description": "Duration in seconds to prevent sleep. If not specified, runs indefinitely."
-        },
         "display": {
           "name": "Prevent Display Sleep",
-          "description": "Prevent the display from sleeping."
-        },
-        "disk": {
-          "name": "Prevent Disk Sleep",
-          "description": "Prevent the disk from sleeping."
+          "description": "Create an assertion to prevent the display from sleeping (-d flag). Prevents the display from turning off during video playback or presentations."
         },
         "idle": {
           "name": "Prevent Idle Sleep",
-          "description": "Prevent the system from idle sleeping."
+          "description": "Create an assertion to prevent the system from idle sleeping (-i flag). Enabled by default. Prevents the system from sleeping during long computations or downloads."
+        },
+        "disk": {
+          "name": "Prevent Disk Sleep",
+          "description": "Create an assertion to prevent the disk from idle sleeping (-m flag). Prevents HDD spindown."
+        },
+        "system": {
+          "name": "Prevent System Sleep (AC Only)",
+          "description": "Create an assertion to prevent the system from sleeping (-s flag). This assertion is only valid when the system is running on AC power. Sleep is allowed on battery."
+        },
+        "useractive": {
+          "name": "Declare User Active",
+          "description": "Create an assertion to declare that the user is active (-u flag). If the display is off, turns the display on and prevents idle sleep. Default timeout is 5 seconds if not specified with -t."
+        },
+        "duration": {
+          "name": "Timeout (seconds)",
+          "description": "Duration in seconds for which the assertion should be valid (-t flag). Assertion is dropped after the specified timeout. Ignored when a utility is specified."
         }
       }
     }
