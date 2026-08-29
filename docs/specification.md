@@ -68,7 +68,7 @@ Frontend
 
 * React
 * TypeScript
-* Vite+
+* Vite
 * Vite+
     * Vite
     * Vitest
@@ -76,6 +76,9 @@ Frontend
     * Oxfmt
     * Rolldown
     * Vite Task
+* react-i18next（多言語対応）
+* i18next
+* i18next-browser-languagedetector
 
 Vite+をFrontend Toolchainの統一エントリポイントとして使用する。
 
@@ -91,6 +94,13 @@ Vite+のvp checkでformat / lint / type checkを統合し、vp testでVitestを�
 Vite+の設定は原則としてルートのvite.config.tsへ集約する。
 
 vitest.config.tsは原則作成しない。
+
+多言語対応:
+
+日本語（ja）と英語（en）をサポートする。
+デフォルトは日本語。
+ユーザーの選択はlocalStorageに保存する。
+Command Definition JSONの翻訳はi18n側で管理する。
 
 ⸻
 
@@ -311,37 +321,43 @@ Rustで完結できる処理をSwiftへ移さない。
 
 React + TypeScript。
 
-推奨構成:
+実装構成:
 
 src/
-├── app/
-│   ├── App.tsx
-│   ├── router.tsx
-│   └── providers/
+├── App.tsx
+├── main.tsx
+├── index.css
 │
 ├── components/
-│   ├── common/
 │   ├── command/
+│   │   └── CommandDetailView.tsx
 │   ├── form/
+│   │   └── DynamicForm.tsx
 │   ├── result/
+│   │   └── ExecutionResult.tsx
 │   └── layout/
-│
-├── features/
-│   ├── commands/
-│   ├── search/
-│   ├── execution/
-│   ├── history/
-│   ├── favorites/
-│   └── settings/
+│       └── Sidebar.tsx
 │
 ├── hooks/
-├── stores/
+│   ├── useCommands.ts
+│   ├── useCommandExecution.ts
+│   └── useSearch.ts
+│
 ├── services/
 │   └── tauri/
+│       └── index.ts
+│
 ├── types/
-└── main.tsx
+│   └── index.ts
+│
+└── i18n/
+    ├── index.ts
+    └── locales/
+        ├── ja.json
+        └── en.json
 
-UIコンポーネントはfeature単位で管理する。
+UIコンポーネントは機能単位で管理する。
+i18nは日本語・英語をサポートし、Command Definitionの翻訳はi18n側で管理する。
 
 ⸻
 
@@ -1468,19 +1484,42 @@ AIには実行権限を与えない。
 
 55. Project Structure
 
-最終構成:
+Phase 1 実装構成:
 
 project-root/
 │
 ├── src/
-│   ├── app/
+│   ├── App.tsx
+│   ├── main.tsx
+│   ├── index.css
+│   │
 │   ├── components/
-│   ├── features/
+│   │   ├── command/
+│   │   │   └── CommandDetailView.tsx
+│   │   ├── form/
+│   │   │   └── DynamicForm.tsx
+│   │   ├── result/
+│   │   │   └── ExecutionResult.tsx
+│   │   └── layout/
+│   │       └── Sidebar.tsx
+│   │
 │   ├── hooks/
-│   ├── stores/
+│   │   ├── useCommands.ts
+│   │   ├── useCommandExecution.ts
+│   │   └── useSearch.ts
+│   │
 │   ├── services/
+│   │   └── tauri/
+│   │       └── index.ts
+│   │
 │   ├── types/
-│   └── main.tsx
+│   │   └── index.ts
+│   │
+│   └── i18n/
+│       ├── index.ts
+│       └── locales/
+│           ├── ja.json
+│           └── en.json
 │
 ├── src-tauri/
 │   ├── src/
@@ -1489,10 +1528,11 @@ project-root/
 │   │   ├── builder/
 │   │   ├── validator/
 │   │   ├── registry/
-│   │   ├── parser/
 │   │   ├── storage/
 │   │   ├── security/
 │   │   ├── native/
+│   │   ├── models/
+│   │   ├── lib.rs
 │   │   └── main.rs
 │   │
 │   ├── capabilities/
@@ -1500,22 +1540,29 @@ project-root/
 │   ├── Cargo.toml
 │   └── tauri.conf.json
 │
+├── commands/
+│   └── power/
+│       ├── pmset.json
+│       └── caffeinate.json
+│
+├── docs/
+│   └── specification.md
+│
+├── .gitignore
+├── index.html
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+├── tsconfig.app.json
+└── tsconfig.node.json
+
+将来的に追加予定:
 ├── native/
 │   └── macos/
 │       ├── Package.swift
 │       └── Sources/
 │           └── MacOSNative/
-│
-├── commands/
-│   ├── power/
-│   ├── network/
-│   ├── disk/
-│   └── system/
-│
 ├── tests/
-│
-├── vite.config.ts
-├── tsconfig.json
 ├── package.json
 └── README.md
 
@@ -1541,7 +1588,7 @@ executor/
 → Process execution
 
 parser/
-→ man parser
+→ man parser（Phase 4）
 
 storage/
 → SQLite
@@ -1551,6 +1598,9 @@ security/
 
 native/
 → Swift Bridge
+
+models/
+→ Domain models（CommandDefinition, ArgumentDefinition, ExecutionRecord, DTO）
 
 models/
 → Domain models
@@ -2466,6 +2516,7 @@ MVPは以下をすべて満たした時点で完了とする。
 * 権限が必要な操作を適切に扱える
 * READMEに開発手順が記載されている
 * CIでFrontend / Rust / Swiftのテストが実行される
+* 日本語・英語の多言語対応が動作する
 
 ⸻
 
@@ -2488,3 +2539,39 @@ Vite+はFrontend Toolchain。
 特に、Reactから直接OS操作をさせず、すべての実行要求をRustへ渡し、Rust側でCommand Definition・Validation・Securityを通過させてからCLIを実行する。
 
 将来的にAIやman Parserを追加する場合も、最終的な実行経路は必ずCommand Definition → Validation → User Confirmation → Rust Executorとし、AIや外部入力から直接shell commandを実行できない設計を維持する。
+
+⸻
+
+99. 多言語対応（i18n）
+
+Phase 1で実装済み。
+
+使用ライブラリ:
+
+* react-i18next
+* i18next
+* i18next-browser-languagedetector
+
+対応言語:
+
+* 日本語（ja）- デフォルト
+* 英語（en）
+
+翻訳対象:
+
+* アプリ名、サブタイトル
+* ホーム画面テキスト
+* サイドバー（検索、ローディング、カテゴリ名）
+* コマンドDetail（名前、説明、引数名、引数説明）
+* 実行結果（完了、失敗、終了コード、出力）
+* 履歴画面
+* ボタン（検証、プレビュー、実行）
+* 単位（minutes→分、seconds→秒）
+
+翻訳管理方針:
+
+* Command Definition JSONのname/descriptionは英語のまま保持
+* 画面表示用の翻訳はi18nのJSONファイルで管理
+* コマンド名は「日本語名（コマンド名）」の形式で表示
+* ユーザーの言語選択はlocalStorageに保存
+* ブラウザ言語検出は使用しない（設定上書きの防止）
