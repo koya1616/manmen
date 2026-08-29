@@ -234,7 +234,12 @@ pub async fn execute_command(
         .ok_or_else(|| format!("Command path is not valid UTF-8: {:?}", resolved_program))?
         .to_string();
     let execution_args = args.clone();
-    let requires_admin = cmd_def.requires_admin;
+    
+    // Check if any provided arguments require admin
+    let requires_admin = cmd_def.requires_admin || cmd_def.arguments.iter().any(|arg| {
+        arg.requires_admin && request.arguments.contains_key(&arg.id)
+    });
+    
     let result = tauri::async_runtime::spawn_blocking(move || {
         if requires_admin {
             Executor::execute_as_admin(&resolved_program, &execution_args, timeout_ms)

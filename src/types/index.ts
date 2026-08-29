@@ -34,6 +34,7 @@ export interface ArgumentDef {
   options?: string[];
   cli_flag?: string;
   cli_key?: string;
+  requires_admin?: boolean;
 }
 
 export type ArgumentType =

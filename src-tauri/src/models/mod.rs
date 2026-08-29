@@ -53,6 +53,8 @@ pub struct ArgumentDefinition {
     pub cli_flag: Option<String>,
     #[serde(default)]
     pub cli_key: Option<String>,
+    #[serde(default)]
+    pub requires_admin: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -101,7 +103,11 @@ mod tests {
         .expect("pmset command definition should deserialize");
 
         assert_eq!(definition.schema_version, Some(1));
-        assert!(definition.requires_admin);
+        assert!(!definition.requires_admin);
         assert_eq!(definition.timeout_ms, Some(10_000));
+        
+        // Verify argument-level requires_admin
+        let sleep_arg = definition.arguments.iter().find(|a| a.id == "sleep").unwrap();
+        assert!(sleep_arg.requires_admin);
     }
 }
