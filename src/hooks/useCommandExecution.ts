@@ -20,7 +20,18 @@ export function useCommandExecution() {
     try {
       const data = await tauriService.getCommand(id);
       setCommand(data);
-      setArgs({});
+      
+      // Initialize args with default values from command definition
+      const initialArgs: Record<string, unknown> = {};
+      if (data.arguments) {
+        for (const arg of data.arguments) {
+          if (arg.default !== null && arg.default !== undefined) {
+            initialArgs[arg.id] = arg.default;
+          }
+        }
+      }
+      setArgs(initialArgs);
+      
       setValidation(null);
       setPreview(null);
       setResult(null);
