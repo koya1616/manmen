@@ -142,7 +142,7 @@ impl Executor {
         })
     }
 
-    fn is_permission_error(stderr: &str, exit_code: i32) -> bool {
+    pub fn is_permission_error(stderr: &str, exit_code: i32) -> bool {
         let stderr_lower = stderr.to_lowercase();
         stderr_lower.contains("must be run as root")
             || stderr_lower.contains("permission denied")

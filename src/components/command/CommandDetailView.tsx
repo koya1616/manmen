@@ -38,11 +38,6 @@ export function CommandDetailView({
     description: t(`commands.${command.id}.arguments.${arg.id}.description`, arg.description),
   }));
 
-  // Check if any selected arguments require admin
-  const requiresAdmin = command.requires_admin || command.arguments.some((arg) => {
-    return arg.requires_admin && args[arg.id] !== undefined && args[arg.id] !== null;
-  });
-
   return (
     <div className="command-detail">
       <header className="command-header">
@@ -50,20 +45,11 @@ export function CommandDetailView({
         <p className="command-description">{cmdDesc}</p>
         <div className="command-meta">
           <span className="category">{t(`categories.${command.category}`, command.category)}</span>
-          {requiresAdmin && (
-            <span className="badge admin">{t("command.adminRequired")}</span>
-          )}
           {command.dangerous && (
             <span className="badge dangerous">{t("command.dangerous")}</span>
           )}
         </div>
       </header>
-
-      {requiresAdmin && (
-        <div className="warning-banner">
-          <p>{t("command.adminWarning")}</p>
-        </div>
-      )}
 
       <section className="arguments-section">
         <h2>{t("command.arguments")}</h2>

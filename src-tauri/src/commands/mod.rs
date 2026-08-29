@@ -235,20 +235,36 @@ pub async fn execute_command(
         .to_string();
     let execution_args = args.clone();
     
-    // Check if any provided arguments require admin
-    let requires_admin = cmd_def.requires_admin || cmd_def.arguments.iter().any(|arg| {
-        arg.requires_admin && request.arguments.contains_key(&arg.id)
-    });
-    
-    let result = tauri::async_runtime::spawn_blocking(move || {
-        if requires_admin {
-            Executor::execute_as_admin(&resolved_program, &execution_args, timeout_ms)
-        } else {
-            Executor::execute(&resolved_program, &execution_args, timeout_ms)
-        }
+    // First try to execute normally
+    let result = tauri::async_runtime::spawn_blocking({
+        let program = resolved_program.clone();
+        let args = execution_args.clone();
+        move || Executor::execute(&program, &args, timeout_ms)
     })
     .await
     .map_err(|error| format!("Execution task failed: {}", error))??;
+    
+    // If permission error detected, retry with admin privileges
+    if !result.success && Executor::is_permission_error(&result.stderr, result.exit_code) {
+        warn!("Permission error detected, retrying with admin privileges");
+        let result_with_admin = tauri::async_runtime::spawn_blocking(move || {
+            Executor::execute_as_admin(&resolved_program, &execution_args, timeout_ms)
+        })
+        .await
+        .map_err(|error| format!("Execution task failed: {}", error))??;
+        
+        // Return the admin result if it succeeded, otherwise return the original result
+        if result_with_admin.success {
+            return Ok(CommandExecutionResponseDTO {
+                execution_id: result_with_admin.execution_id,
+                success: result_with_admin.success,
+                exit_code: result_with_admin.exit_code,
+                stdout: result_with_admin.stdout,
+                stderr: result_with_admin.stderr,
+                duration_ms: result_with_admin.duration_ms,
+            });
+        }
+    }
 
     info!(
         "Execution complete: id={} success={} exit_code={} duration={}ms",

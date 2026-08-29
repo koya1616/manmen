@@ -23,8 +23,7 @@
       "type": "enum",
       "required": false,
       "default": "-a",
-      "options": ["-a", "-b", "-c", "-u"],
-      "requires_admin": true
+      "options": ["-a", "-b", "-c", "-u"]
     },
     {
       "id": "sleep",
@@ -35,8 +34,7 @@
       "default": null,
       "min": 0,
       "max": 100000,
-      "unit": "minutes",
-      "requires_admin": true
+      "unit": "minutes"
     },
     {
       "id": "displaysleep",
@@ -47,8 +45,7 @@
       "default": null,
       "min": 0,
       "max": 100000,
-      "unit": "minutes",
-      "requires_admin": true
+      "unit": "minutes"
     },
     {
       "id": "disksleep",
@@ -59,8 +56,7 @@
       "default": null,
       "min": 0,
       "max": 100000,
-      "unit": "minutes",
-      "requires_admin": true
+      "unit": "minutes"
     },
     {
       "id": "womp",
@@ -68,8 +64,7 @@
       "description": "イーサネットのMagic Packetによるウェイクを有効/無効にします。System Settingsの「ネットワークアクセス時のウェイク」と同じです。外部からネットワーク経由でMacを起動できるようにします。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "ring",
@@ -77,8 +72,7 @@
       "description": "モデム着信によるシステムウェイクを有効/無効にします。現在のMacでは基本的には使用されません。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "powernap",
@@ -86,8 +80,7 @@
       "description": "Power Nap機能の有効/無効。対応するMacで、スリープ中でもメール受信、カレンダー更新、Photo Streamの同期、Mac App Storeのアップデートなどをバックグラウンドで実行します。バッテリー消費が増加する可能性があります。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "proximitywake",
@@ -95,8 +88,7 @@
       "description": "同じiCloud IDを使用するデバイスの近接に基づくシステムウェイクを制御します。iPhoneがMacの近くにある場合に自動的にウェイクする機能です。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "autorestart",
@@ -104,8 +96,7 @@
       "description": "電源が復帰した際にシステムを自動的に再起動します。停電などの電源喪失後に、Macが自動的にオンになります。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "lidwake",
@@ -113,8 +104,7 @@
       "description": "ノートPCの蓋（クランシェル）を開いた時にシステムをウェイクします。0で無効化できます。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "acwake",
@@ -122,8 +112,7 @@
       "description": "電源ソース（AC/バッテリー）が変更された時にシステムをウェイクします。バッテリーからAC電源に切り替えた際に起こす機能です。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "lessbright",
@@ -131,8 +120,7 @@
       "description": "電源ソースを切り替えた時にディスプレイの明るさを少し下げます。バッテリー駆動時に明るさを抑えることで、バッテリー持続時間を延ばします。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "halfdim",
@@ -140,8 +128,7 @@
       "description": "ディスプレイスリープ時に、フル明るさとオフの中間段階として半分の明るさの状態を使用します。ユーザーにスリープ impending を警告する効果があります。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "sms",
@@ -149,8 +136,7 @@
       "description": "Sudden Motion Sensorを使用して、急激なGフォースの変化時にディスクヘッドをパーキングします。HDD搭載モデルでデータ保護に効果的です。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     },
     {
       "id": "hibernatemode",
@@ -160,8 +146,7 @@
       "required": false,
       "default": null,
       "min": 0,
-      "max": 25,
-      "requires_admin": true
+      "max": 25
     },
     {
       "id": "ttyskeepawake",
@@ -169,8 +154,7 @@
       "description": "tty（例: リモートログインセッション）がアクティブな場合、アイドルシステムスリープを防止します。ttyがアイドル状態でシステムスリープタイマーを超えた場合のみ「非アクティブ」と見なされます。",
       "type": "boolean",
       "required": false,
-      "default": null,
-      "requires_admin": true
+      "default": null
     }
   ]
 }
