@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { DynamicForm } from "../form/DynamicForm";
-import type { CommandDetail, CommandValidationResult, BuildCommandResponse, ArgumentDef } from "../../types";
+import type { CommandDetail, CommandValidationResult, BuildCommandResponse } from "../../types";
 
 interface CommandDetailProps {
   command: CommandDetail;
@@ -53,6 +53,12 @@ export function CommandDetailView({
           )}
         </div>
       </header>
+
+      {command.requires_admin && (
+        <div className="warning-banner">
+          <p>{t("command.adminWarning")}</p>
+        </div>
+      )}
 
       <section className="arguments-section">
         <h2>{t("command.arguments")}</h2>

@@ -25,6 +25,10 @@ impl CommandBuilder {
         Ok((command_def.command.clone(), args))
     }
 
+    fn get_cli_key(arg_def: &crate::models::ArgumentDefinition) -> &str {
+        arg_def.cli_key.as_deref().unwrap_or(&arg_def.id)
+    }
+
     fn build_argument(
         arg_def: &crate::models::ArgumentDefinition,
         value: &serde_json::Value,
@@ -33,9 +37,16 @@ impl CommandBuilder {
 
         match &arg_def.arg_type {
             crate::models::ArgumentType::Boolean => {
-                let b = value.as_bool().unwrap_or(false);
-                if b {
-                    result.push(arg_def.id.clone());
+                let b = value.as_bool().ok_or_else(|| {
+                    format!("Argument '{}' must be a boolean", arg_def.id)
+                })?;
+                if let Some(flag) = &arg_def.cli_flag {
+                    if b {
+                        result.push(flag.clone());
+                    }
+                } else {
+                    result.push(Self::get_cli_key(arg_def).to_string());
+                    result.push(if b { "1" } else { "0" }.to_string());
                 }
             }
             crate::models::ArgumentType::Integer => {
@@ -61,7 +72,11 @@ impl CommandBuilder {
                     }
                 }
 
-                result.push(arg_def.id.clone());
+                if let Some(flag) = &arg_def.cli_flag {
+                    result.push(flag.clone());
+                } else {
+                    result.push(Self::get_cli_key(arg_def).to_string());
+                }
                 result.push(n.to_string());
             }
             crate::models::ArgumentType::Number => {
@@ -87,7 +102,11 @@ impl CommandBuilder {
                     }
                 }
 
-                result.push(arg_def.id.clone());
+                if let Some(flag) = &arg_def.cli_flag {
+                    result.push(flag.clone());
+                } else {
+                    result.push(Self::get_cli_key(arg_def).to_string());
+                }
                 result.push(n.to_string());
             }
             crate::models::ArgumentType::String | crate::models::ArgumentType::Path | crate::models::ArgumentType::File | crate::models::ArgumentType::Directory => {
@@ -95,7 +114,11 @@ impl CommandBuilder {
                     format!("Argument '{}' must be a string", arg_def.id)
                 })?;
 
-                result.push(arg_def.id.clone());
+                if let Some(flag) = &arg_def.cli_flag {
+                    result.push(flag.clone());
+                } else {
+                    result.push(Self::get_cli_key(arg_def).to_string());
+                }
                 result.push(s.to_string());
             }
             crate::models::ArgumentType::Enum => {
@@ -113,32 +136,135 @@ impl CommandBuilder {
                     }
                 }
 
-                result.push(arg_def.id.clone());
-                result.push(s.to_string());
+                if let Some(flag) = &arg_def.cli_flag {
+                    result.push(flag.clone());
+                } else if arg_def.cli_key.is_some() {
+                    result.push(Self::get_cli_key(arg_def).to_string());
+                } else {
+                    result.push(s.to_string());
+                }
             }
             crate::models::ArgumentType::Duration => {
                 let n = value.as_f64().ok_or_else(|| {
                     format!("Argument '{}' must be a number (seconds)", arg_def.id)
                 })?;
 
-                result.push(arg_def.id.clone());
+                if let Some(flag) = &arg_def.cli_flag {
+                    result.push(flag.clone());
+                } else {
+                    result.push(Self::get_cli_key(arg_def).to_string());
+                }
                 result.push(n.to_string());
             }
             crate::models::ArgumentType::Multiple => {
                 if let Some(arr) = value.as_array() {
                     for item in arr {
                         if let Some(s) = item.as_str() {
-                            result.push(arg_def.id.clone());
+                            if let Some(flag) = &arg_def.cli_flag {
+                                result.push(flag.clone());
+                            } else {
+                                result.push(Self::get_cli_key(arg_def).to_string());
+                            }
                             result.push(s.to_string());
                         }
                     }
                 } else if let Some(s) = value.as_str() {
-                    result.push(arg_def.id.clone());
+                    if let Some(flag) = &arg_def.cli_flag {
+                        result.push(flag.clone());
+                    } else {
+                        result.push(Self::get_cli_key(arg_def).to_string());
+                    }
                     result.push(s.to_string());
                 }
             }
         }
 
         Ok(result)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::CommandBuilder;
+    use crate::models::CommandDefinition;
+    use serde_json::json;
+    use std::collections::HashMap;
+
+    fn command_with_argument(argument: serde_json::Value) -> CommandDefinition {
+        serde_json::from_value(json!({
+            "id": "test.command",
+            "command": "test-command",
+            "name": "Test",
+            "category": "test",
+            "description": "Test command",
+            "arguments": [argument]
+        }))
+        .expect("command definition should deserialize")
+    }
+
+    #[test]
+    fn boolean_key_uses_numeric_value() {
+        let command = command_with_argument(json!({
+            "id": "ttyskeepawake",
+            "name": "TTY sleep prevention",
+            "type": "boolean",
+            "required": false,
+            "default": null
+        }));
+        let arguments = HashMap::from([("ttyskeepawake".to_string(), json!(true))]);
+
+        let (_, args) = CommandBuilder::build(&command, &arguments).unwrap();
+
+        assert_eq!(args, vec!["ttyskeepawake", "1"]);
+    }
+
+    #[test]
+    fn false_boolean_key_uses_zero() {
+        let command = command_with_argument(json!({
+            "id": "ttyskeepawake",
+            "name": "TTY sleep prevention",
+            "type": "boolean",
+            "required": false,
+            "default": null
+        }));
+        let arguments = HashMap::from([("ttyskeepawake".to_string(), json!(false))]);
+
+        let (_, args) = CommandBuilder::build(&command, &arguments).unwrap();
+
+        assert_eq!(args, vec!["ttyskeepawake", "0"]);
+    }
+
+    #[test]
+    fn false_boolean_flag_is_omitted() {
+        let command = command_with_argument(json!({
+            "id": "display",
+            "name": "Prevent display sleep",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "cli_flag": "-d"
+        }));
+        let arguments = HashMap::from([("display".to_string(), json!(false))]);
+
+        let (_, args) = CommandBuilder::build(&command, &arguments).unwrap();
+
+        assert!(args.is_empty());
+    }
+
+    #[test]
+    fn true_boolean_flag_is_emitted_without_value() {
+        let command = command_with_argument(json!({
+            "id": "display",
+            "name": "Prevent display sleep",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "cli_flag": "-d"
+        }));
+        let arguments = HashMap::from([("display".to_string(), json!(true))]);
+
+        let (_, args) = CommandBuilder::build(&command, &arguments).unwrap();
+
+        assert_eq!(args, vec!["-d"]);
     }
 }

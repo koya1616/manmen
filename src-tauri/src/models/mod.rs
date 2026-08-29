@@ -4,6 +4,7 @@ pub mod execution;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CommandDefinition {
     pub schema_version: Option<u32>,
     pub id: String,
@@ -48,6 +49,10 @@ pub struct ArgumentDefinition {
     pub unit: Option<String>,
     pub options: Option<Vec<String>>,
     pub multiple: Option<bool>,
+    #[serde(default)]
+    pub cli_flag: Option<String>,
+    #[serde(default)]
+    pub cli_key: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -82,4 +87,21 @@ pub struct CommandCategory {
     pub id: String,
     pub name: String,
     pub description: Option<String>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::CommandDefinition;
+
+    #[test]
+    fn reads_camel_case_command_metadata() {
+        let definition: CommandDefinition = serde_json::from_str(include_str!(
+            "../../../commands/power/pmset.json"
+        ))
+        .expect("pmset command definition should deserialize");
+
+        assert_eq!(definition.schema_version, Some(1));
+        assert!(definition.requires_admin);
+        assert_eq!(definition.timeout_ms, Some(10_000));
+    }
 }

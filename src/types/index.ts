@@ -32,6 +32,8 @@ export interface ArgumentDef {
   max?: number;
   unit?: string;
   options?: string[];
+  cli_flag?: string;
+  cli_key?: string;
 }
 
 export type ArgumentType =

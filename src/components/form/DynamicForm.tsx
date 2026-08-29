@@ -40,7 +40,7 @@ function FormField({ argument, value, onChange, error }: FormFieldProps) {
   const { t } = useTranslation();
   const inputId = `arg-${argument.id}`;
   const unitKey = argument.unit ? `units.${argument.unit}` : null;
-  const unitLabel = unitKey ? t(unitKey, argument.unit) : null;
+  const unitLabel = unitKey ? t(unitKey, { defaultValue: argument.unit ?? '' }) : null;
 
   return (
     <div className={`form-field ${error ? "has-error" : ""}`}>

@@ -23,6 +23,7 @@
     "execute": "実行",
     "executing": "実行中...",
     "adminRequired": "管理者権限が必要",
+    "adminWarning": "このコマンドの実行時にmacOSの管理者認証が表示されます。設定変更がシステムに影響するため、注意して操作してください。",
     "dangerous": "危険"
   },
   "result": {

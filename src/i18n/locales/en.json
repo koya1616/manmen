@@ -23,6 +23,7 @@
     "execute": "Execute",
     "executing": "Executing...",
     "adminRequired": "Admin Required",
+    "adminWarning": "This command requires administrator privileges. macOS will ask you to authenticate when you execute it. Since settings changes affect the system, please operate with caution.",
     "dangerous": "Dangerous"
   },
   "result": {

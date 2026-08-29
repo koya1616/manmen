@@ -22,7 +22,8 @@
       "description": "ディスプレイのスリープを防止するアサーションを作成します（-dフラグ）。ビデオ再生やプレゼンテーション中にディスプレイがオフになるのを防ぎます。",
       "type": "boolean",
       "required": false,
-      "default": false
+      "default": false,
+      "cli_flag": "-d"
     },
     {
       "id": "idle",
@@ -30,7 +31,8 @@
       "description": "システムのアイドルスリープを防止するアサーションを作成します（-iフラグ）。デフォルトで有効です。長時間の計算やダウンロード中にシステムがスリープするのを防ぎます。",
       "type": "boolean",
       "required": false,
-      "default": true
+      "default": true,
+      "cli_flag": "-i"
     },
     {
       "id": "disk",
@@ -38,7 +40,8 @@
       "description": "ディスクのアイドルスリープを防止するアサーションを作成します（-mフラグ）。HDDのスピンダウンを防ぎます。",
       "type": "boolean",
       "required": false,
-      "default": false
+      "default": false,
+      "cli_flag": "-m"
     },
     {
       "id": "system",
@@ -46,7 +49,8 @@
       "description": "システムのスリープを防止するアサーションを作成します（-sフラグ）。このアサーションはAC電源接続時にのみ有効です。バッテリー駆動時はスリープが許可されます。",
       "type": "boolean",
       "required": false,
-      "default": false
+      "default": false,
+      "cli_flag": "-s"
     },
     {
       "id": "useractive",
@@ -54,7 +58,8 @@
       "description": "ユーザーがアクティブであることを宣言するアサーションを作成します（-uフラグ）。ディスプレイがオフの場合、このオプションはディスプレイをオンにし、アイドルスリープを防止します。タイムアウトを指定しない場合は5秒のデフォルトタイムアウトが適用されます。",
       "type": "boolean",
       "required": false,
-      "default": false
+      "default": false,
+      "cli_flag": "-u"
     },
     {
       "id": "duration",
@@ -64,7 +69,8 @@
       "required": false,
       "default": null,
       "min": 1,
-      "unit": "seconds"
+      "unit": "seconds",
+      "cli_flag": "-t"
     }
   ]
 }
