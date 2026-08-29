@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Sidebar } from "./components/layout/Sidebar";
 import { CommandDetailView } from "./components/command/CommandDetailView";
 import { ExecutionResult } from "./components/result/ExecutionResult";
@@ -10,6 +11,7 @@ import type { HistoryEntry } from "./types";
 type View = "home" | "command" | "history";
 
 function App() {
+  const { t } = useTranslation();
   const { commands, loading: commandsLoading } = useCommands();
   const {
     command,
@@ -76,11 +78,11 @@ function App() {
       <main className="main-content">
         {view === "home" && (
           <div className="home-view">
-            <h2>Welcome to Manmen</h2>
-            <p>macOS CLI GUI Manager</p>
+            <h2>{t("home.welcome")}</h2>
+            <p>{t("home.description")}</p>
             <div className="quick-actions">
               <button onClick={() => setView("history")}>
-                View Execution History
+                {t("home.viewHistory")}
               </button>
             </div>
           </div>
@@ -106,11 +108,11 @@ function App() {
 
         {view === "history" && (
           <div className="history-view">
-            <h2>Execution History</h2>
+            <h2>{t("history.title")}</h2>
             {historyLoading ? (
-              <p>Loading history...</p>
+              <p>{t("history.loading")}</p>
             ) : history.length === 0 ? (
-              <p>No execution history yet.</p>
+              <p>{t("history.noHistory")}</p>
             ) : (
               <ul className="history-list">
                 {history.map((entry) => (

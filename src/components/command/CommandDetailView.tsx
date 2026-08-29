@@ -1,5 +1,6 @@
+import { useTranslation } from "react-i18next";
 import { DynamicForm } from "../form/DynamicForm";
-import type { CommandDetail, CommandValidationResult, BuildCommandResponse } from "../../types";
+import type { CommandDetail, CommandValidationResult, BuildCommandResponse, ArgumentDef } from "../../types";
 
 interface CommandDetailProps {
   command: CommandDetail;
@@ -26,27 +27,38 @@ export function CommandDetailView({
   onBuild,
   onExecute,
 }: CommandDetailProps) {
+  const { t } = useTranslation();
+
+  const cmdName = t(`commands.${command.id}.name`, command.name);
+  const cmdDesc = t(`commands.${command.id}.description`, command.description);
+
+  const translatedArgs = command.arguments.map((arg) => ({
+    ...arg,
+    name: t(`commands.${command.id}.arguments.${arg.id}.name`, arg.name),
+    description: t(`commands.${command.id}.arguments.${arg.id}.description`, arg.description),
+  }));
+
   return (
     <div className="command-detail">
       <header className="command-header">
-        <h1>{command.name}</h1>
-        <p className="command-description">{command.description}</p>
+        <h1>{cmdName}</h1>
+        <p className="command-description">{cmdDesc}</p>
         <div className="command-meta">
-          <span className="category">{command.category}</span>
+          <span className="category">{t(`categories.${command.category}`, command.category)}</span>
           {command.requires_admin && (
-            <span className="badge admin">Admin Required</span>
+            <span className="badge admin">{t("command.adminRequired")}</span>
           )}
           {command.dangerous && (
-            <span className="badge dangerous">Dangerous</span>
+            <span className="badge dangerous">{t("command.dangerous")}</span>
           )}
         </div>
       </header>
 
       <section className="arguments-section">
-        <h2>Arguments</h2>
-        {command.arguments.length > 0 ? (
+        <h2>{t("command.arguments")}</h2>
+        {translatedArgs.length > 0 ? (
           <DynamicForm
-            arguments={command.arguments}
+            arguments={translatedArgs}
             values={args}
             onChange={onArgChange}
             errors={validation?.errors?.reduce(
@@ -55,21 +67,21 @@ export function CommandDetailView({
             )}
           />
         ) : (
-          <p className="no-arguments">This command has no configurable arguments.</p>
+          <p className="no-arguments">{t("command.noArguments")}</p>
         )}
       </section>
 
       <section className="preview-section">
-        <h2>Generated Command</h2>
+        <h2>{t("command.generatedCommand")}</h2>
         <div className="command-preview">
-          <code>{preview?.full_command || "Configure arguments above"}</code>
+          <code>{preview?.full_command || t("command.configureAbove")}</code>
         </div>
         <div className="preview-actions">
           <button onClick={onValidate} className="btn-secondary">
-            Validate
+            {t("command.validate")}
           </button>
           <button onClick={onBuild} className="btn-secondary">
-            Preview
+            {t("command.preview")}
           </button>
         </div>
       </section>
@@ -86,7 +98,7 @@ export function CommandDetailView({
           disabled={executing || (validation !== null && !validation.valid)}
           className="btn-primary"
         >
-          {executing ? "Executing..." : "Execute"}
+          {executing ? t("command.executing") : t("command.execute")}
         </button>
       </section>
     </div>

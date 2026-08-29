@@ -1,0 +1,107 @@
+{
+  "app": {
+    "name": "Manmen",
+    "subtitle": "macOS CLI GUIマネージャー"
+  },
+  "home": {
+    "welcome": "Manmenへようこそ",
+    "description": "macOS CLI GUIマネージャー",
+    "viewHistory": "実行履歴を表示"
+  },
+  "sidebar": {
+    "searchPlaceholder": "コマンドを検索...",
+    "loading": "コマンドを読み込み中...",
+    "noCommands": "コマンドが見つかりません"
+  },
+  "command": {
+    "arguments": "引数",
+    "noArguments": "このコマンドには設定可能な引数がありません。",
+    "generatedCommand": "生成されたコマンド",
+    "configureAbove": "上記で引数を設定してください",
+    "validate": "検証",
+    "preview": "プレビュー",
+    "execute": "実行",
+    "executing": "実行中...",
+    "adminRequired": "管理者権限が必要",
+    "dangerous": "危険"
+  },
+  "result": {
+    "completed": "コマンドが完了しました",
+    "failed": "コマンドが失敗しました",
+    "exitCode": "終了コード",
+    "duration": "所要時間",
+    "output": "出力",
+    "error": "エラー",
+    "noOutput": "出力なし"
+  },
+  "history": {
+    "title": "実行履歴",
+    "loading": "履歴を読み込み中...",
+    "noHistory": "まだ実行履歴がありません。"
+  },
+  "validation": {
+    "required": "は必須です",
+    "invalidType": "は{{type}}である必要があります",
+    "invalidRange": "は{{min}}から{{max}}の範囲である必要があります",
+    "invalidEnum": "は次のいずれかである必要があります: {{options}}",
+    "fileNotFound": "が存在しません",
+    "directoryNotFound": "はディレクトリではありません"
+  },
+  "categories": {
+    "power": "電源",
+    "network": "ネットワーク",
+    "disk": "ディスク",
+    "system": "システム"
+  },
+  "commands": {
+    "macos.pmset": {
+      "name": "電源管理",
+      "description": "スリープ、ディスプレイスリープ、Power Napを含むmacOSの電源管理設定を設定します。",
+      "arguments": {
+        "sleep": {
+          "name": "システムスリープ",
+          "description": "システムスリープのタイムアウト（分）。0でスリープ無効。"
+        },
+        "displaysleep": {
+          "name": "ディスプレイスリープ",
+          "description": "ディスプレイスリープのタイムアウト（分）。0でディスプレイスリープ無効。"
+        },
+        "powernap": {
+          "name": "Power Nap",
+          "description": "Power Nap機能の有効/無効。"
+        }
+      }
+    },
+    "macos.caffeinate": {
+      "name": "スリープ防止",
+      "description": "システムのスリープを防止します。",
+      "arguments": {
+        "duration": {
+          "name": "期間",
+          "description": "スリープを防止する期間（秒）。未指定の場合は無限に実行。"
+        },
+        "display": {
+          "name": "ディスプレイスリープ防止",
+          "description": "ディスプレイのスリープを防止します。"
+        },
+        "disk": {
+          "name": "ディスクスリープ防止",
+          "description": "ディスクのスリープを防止します。"
+        },
+        "idle": {
+          "name": "アイドルスリープ防止",
+          "description": "システムのアイドルスリープを防止します。"
+        }
+      }
+    }
+  },
+  "units": {
+    "minutes": "分",
+    "seconds": "秒"
+  },
+  "settings": {
+    "language": "言語",
+    "japanese": "日本語",
+    "english": "英語"
+  }
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { ArgumentDef, ArgumentType } from "../../types";
 
 interface DynamicFormProps {
@@ -36,7 +37,10 @@ interface FormFieldProps {
 }
 
 function FormField({ argument, value, onChange, error }: FormFieldProps) {
+  const { t } = useTranslation();
   const inputId = `arg-${argument.id}`;
+  const unitKey = argument.unit ? `units.${argument.unit}` : null;
+  const unitLabel = unitKey ? t(unitKey, argument.unit) : null;
 
   return (
     <div className={`form-field ${error ? "has-error" : ""}`}>
@@ -53,6 +57,7 @@ function FormField({ argument, value, onChange, error }: FormFieldProps) {
         value={value}
         argument={argument}
         onChange={onChange}
+        unitLabel={unitLabel}
       />
       {error && <p className="field-error">{error}</p>}
     </div>
@@ -65,9 +70,10 @@ interface InputControlProps {
   value: unknown;
   argument: ArgumentDef;
   onChange: (value: unknown) => void;
+  unitLabel: string | null;
 }
 
-function InputControl({ id, type, value, argument, onChange }: InputControlProps) {
+function InputControl({ id, type, value, argument, onChange, unitLabel }: InputControlProps) {
   switch (type) {
     case "boolean":
       return (
@@ -98,7 +104,7 @@ function InputControl({ id, type, value, argument, onChange }: InputControlProps
             }}
             placeholder={argument.default !== null && argument.default !== undefined ? String(argument.default) : ""}
           />
-          {argument.unit && <span className="unit">{argument.unit}</span>}
+          {unitLabel && <span className="unit">{unitLabel}</span>}
         </div>
       );
 
@@ -132,7 +138,7 @@ function InputControl({ id, type, value, argument, onChange }: InputControlProps
             }}
             placeholder={argument.default !== null && argument.default !== undefined ? String(argument.default) : ""}
           />
-          <span className="unit">{argument.unit ?? "seconds"}</span>
+          <span className="unit">{unitLabel || argument.unit || "seconds"}</span>
         </div>
       );
 

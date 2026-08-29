@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { CommandSummary } from "../../types";
 
 interface SidebarProps {
@@ -17,6 +18,8 @@ export function Sidebar({
   onSearchChange,
   loading,
 }: SidebarProps) {
+  const { t, i18n } = useTranslation();
+
   const grouped = commands.reduce(
     (acc, cmd) => {
       if (!acc[cmd.category]) {
@@ -28,17 +31,23 @@ export function Sidebar({
     {} as Record<string, CommandSummary[]>
   );
 
+  const toggleLanguage = () => {
+    const newLang = i18n.language.startsWith("ja") ? "en" : "ja";
+    i18n.changeLanguage(newLang);
+    localStorage.setItem("manmen-lang", newLang);
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <h1>Manmen</h1>
-        <p className="subtitle">macOS CLI GUI Manager</p>
+        <h1>{t("app.name")}</h1>
+        <p className="subtitle">{t("app.subtitle")}</p>
       </div>
 
       <div className="search-box">
         <input
           type="text"
-          placeholder="Search commands..."
+          placeholder={t("sidebar.searchPlaceholder")}
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
         />
@@ -46,13 +55,13 @@ export function Sidebar({
 
       <nav className="command-list">
         {loading ? (
-          <p className="loading">Loading commands...</p>
+          <p className="loading">{t("sidebar.loading")}</p>
         ) : commands.length === 0 ? (
-          <p className="no-commands">No commands found</p>
+          <p className="no-commands">{t("sidebar.noCommands")}</p>
         ) : (
           Object.entries(grouped).map(([category, cmds]) => (
             <div key={category} className="category-group">
-              <h3 className="category-name">{category}</h3>
+              <h3 className="category-name">{t(`categories.${category}`, category)}</h3>
               <ul>
                 {cmds.map((cmd) => (
                   <li
@@ -60,7 +69,7 @@ export function Sidebar({
                     className={`command-item ${selectedId === cmd.id ? "selected" : ""}`}
                     onClick={() => onSelect(cmd.id)}
                   >
-                    <span className="command-name">{cmd.name}</span>
+                    <span className="command-name">{t(`commands.${cmd.id}.name`, cmd.name)}</span>
                     {cmd.requires_admin && <span className="badge admin">A</span>}
                     {cmd.dangerous && <span className="badge dangerous">!</span>}
                   </li>
@@ -70,6 +79,12 @@ export function Sidebar({
           ))
         )}
       </nav>
+
+      <div className="language-toggle">
+        <button onClick={toggleLanguage} className="btn-language">
+          {i18n.language.startsWith("ja") ? "EN" : "JA"}
+        </button>
+      </div>
     </aside>
   );
 }

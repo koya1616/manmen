@@ -1,0 +1,107 @@
+{
+  "app": {
+    "name": "Manmen",
+    "subtitle": "macOS CLI GUI Manager"
+  },
+  "home": {
+    "welcome": "Welcome to Manmen",
+    "description": "macOS CLI GUI Manager",
+    "viewHistory": "View Execution History"
+  },
+  "sidebar": {
+    "searchPlaceholder": "Search commands...",
+    "loading": "Loading commands...",
+    "noCommands": "No commands found"
+  },
+  "command": {
+    "arguments": "Arguments",
+    "noArguments": "This command has no configurable arguments.",
+    "generatedCommand": "Generated Command",
+    "configureAbove": "Configure arguments above",
+    "validate": "Validate",
+    "preview": "Preview",
+    "execute": "Execute",
+    "executing": "Executing...",
+    "adminRequired": "Admin Required",
+    "dangerous": "Dangerous"
+  },
+  "result": {
+    "completed": "Command completed",
+    "failed": "Command failed",
+    "exitCode": "Exit Code",
+    "duration": "Duration",
+    "output": "Output",
+    "error": "Error",
+    "noOutput": "No output"
+  },
+  "history": {
+    "title": "Execution History",
+    "loading": "Loading history...",
+    "noHistory": "No execution history yet."
+  },
+  "validation": {
+    "required": "is required",
+    "invalidType": "must be a {{type}}",
+    "invalidRange": "must be {{min}} to {{max}}",
+    "invalidEnum": "must be one of: {{options}}",
+    "fileNotFound": "does not exist",
+    "directoryNotFound": "is not a directory"
+  },
+  "categories": {
+    "power": "Power",
+    "network": "Network",
+    "disk": "Disk",
+    "system": "System"
+  },
+  "commands": {
+    "macos.pmset": {
+      "name": "Power Management",
+      "description": "Configure macOS power management settings including sleep, display sleep, and Power Nap.",
+      "arguments": {
+        "sleep": {
+          "name": "System Sleep",
+          "description": "System sleep timeout in minutes. 0 disables sleep."
+        },
+        "displaysleep": {
+          "name": "Display Sleep",
+          "description": "Display sleep timeout in minutes. 0 disables display sleep."
+        },
+        "powernap": {
+          "name": "Power Nap",
+          "description": "Enable or disable Power Nap feature."
+        }
+      }
+    },
+    "macos.caffeinate": {
+      "name": "Caffeinate",
+      "description": "Prevent the system from sleeping.",
+      "arguments": {
+        "duration": {
+          "name": "Duration",
+          "description": "Duration in seconds to prevent sleep. If not specified, runs indefinitely."
+        },
+        "display": {
+          "name": "Prevent Display Sleep",
+          "description": "Prevent the display from sleeping."
+        },
+        "disk": {
+          "name": "Prevent Disk Sleep",
+          "description": "Prevent the disk from sleeping."
+        },
+        "idle": {
+          "name": "Prevent Idle Sleep",
+          "description": "Prevent the system from idle sleeping."
+        }
+      }
+    }
+  },
+  "units": {
+    "minutes": "minutes",
+    "seconds": "seconds"
+  },
+  "settings": {
+    "language": "Language",
+    "japanese": "Japanese",
+    "english": "English"
+  }
+}
