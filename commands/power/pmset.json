@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "macos.pmset",
+  "command": "pmset",
+  "name": "Power Management",
+  "category": "power",
+  "description": "Configure macOS power management settings including sleep, display sleep, and Power Nap.",
+  "platform": "macos",
+  "requiresAdmin": true,
+  "dangerous": false,
+  "binary": {
+    "name": "pmset",
+    "paths": ["/usr/bin/pmset"]
+  },
+  "timeoutMs": 10000,
+  "tags": ["power", "sleep", "energy"],
+  "aliases": ["power management", "sleep settings"],
+  "arguments": [
+    {
+      "id": "sleep",
+      "name": "System Sleep",
+      "description": "System sleep timeout in minutes. 0 disables sleep.",
+      "type": "integer",
+      "required": false,
+      "default": null,
+      "min": 0,
+      "max": 100000,
+      "unit": "minutes"
+    },
+    {
+      "id": "displaysleep",
+      "name": "Display Sleep",
+      "description": "Display sleep timeout in minutes. 0 disables display sleep.",
+      "type": "integer",
+      "required": false,
+      "default": null,
+      "min": 0,
+      "max": 100000,
+      "unit": "minutes"
+    },
+    {
+      "id": "powernap",
+      "name": "Power Nap",
+      "description": "Enable or disable Power Nap feature.",
+      "type": "boolean",
+      "required": false,
+      "default": null
+    }
+  ]
+}

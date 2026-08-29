@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "macos.caffeinate",
+  "command": "caffeinate",
+  "name": "Caffeinate",
+  "category": "power",
+  "description": "Prevent the system from sleeping.",
+  "platform": "macos",
+  "requiresAdmin": false,
+  "dangerous": false,
+  "binary": {
+    "name": "caffeinate",
+    "paths": ["/usr/bin/caffeinate"]
+  },
+  "timeoutMs": 30000,
+  "tags": ["power", "sleep", "prevent"],
+  "aliases": ["prevent sleep", "keep awake"],
+  "arguments": [
+    {
+      "id": "duration",
+      "name": "Duration",
+      "description": "Duration in seconds to prevent sleep. If not specified, runs indefinitely.",
+      "type": "duration",
+      "required": false,
+      "default": null,
+      "min": 1
+    },
+    {
+      "id": "display",
+      "name": "Prevent Display Sleep",
+      "description": "Prevent the display from sleeping.",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    {
+      "id": "disk",
+      "name": "Prevent Disk Sleep",
+      "description": "Prevent the disk from sleeping.",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    {
+      "id": "idle",
+      "name": "Prevent Idle Sleep",
+      "description": "Prevent the system from idle sleeping.",
+      "type": "boolean",
+      "required": false,
+      "default": true
+    }
+  ]
+}
