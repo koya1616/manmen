@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { tauriService } from "../../services/tauri";
-import type { CommandSummary } from "../../types";
+import { tauriService } from "../services/tauri";
+import type { CommandSummary } from "../types";
 
 export function useCommands() {
   const [commands, setCommands] = useState<CommandSummary[]>([]);

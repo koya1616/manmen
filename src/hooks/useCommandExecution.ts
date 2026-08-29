@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { tauriService } from "../../services/tauri";
+import { tauriService } from "../services/tauri";
 import type {
   CommandDetail,
   CommandValidationResult,
   BuildCommandResponse,
   CommandExecutionResponse,
-} from "../../types";
+} from "../types";
 
 export function useCommandExecution() {
   const [command, setCommand] = useState<CommandDetail | null>(null);

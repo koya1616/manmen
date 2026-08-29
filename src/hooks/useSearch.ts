@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { tauriService } from "../../services/tauri";
-import type { CommandSummary } from "../../types";
+import { tauriService } from "../services/tauri";
+import type { CommandSummary } from "../types";
 
 export function useSearch() {
   const [query, setQuery] = useState("");
