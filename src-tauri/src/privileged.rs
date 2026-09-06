@@ -24,6 +24,19 @@ pub fn remember_enabled() -> bool {
     REMEMBER.load(Ordering::SeqCst)
 }
 
+/// 権限不要コマンドをそのまま実行する (管理者権限を使わない)。
+pub fn execute_plain(
+    program: &str,
+    args: &[&str],
+    preview: String,
+) -> Result<CommandResult, String> {
+    let output = std::process::Command::new(program)
+        .args(args)
+        .output()
+        .map_err(|e| format!("failed to run {program}: {e}"))?;
+    Ok(CommandResult::from_output(output, preview))
+}
+
 /// 管理者権限で実行する (省略ONの経路: `sudo -n` → 初回のみ `sudo -A` でGUI認証)。
 /// 成功時はsudoタイムスタンプの維持スレッドを起動する。
 pub fn execute_privileged(

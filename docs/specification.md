@@ -59,6 +59,7 @@ macOS標準のCLIコマンドをGUIから安全かつ直感的に操作できる
 ```sh
 sudo pmset -a disablesleep 1  # スリープ抑止 ON
 sudo pmset -a disablesleep 0  # スリープ抑止 OFF
+man <topic>                   # マニュアル表示（権限不要）
 ```
 
 ### 要件
