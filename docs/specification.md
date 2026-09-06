@@ -24,7 +24,7 @@ macOS標準のCLIコマンドをGUIから安全かつ直感的に操作できる
 - Vite+ (Vite / Vitest / Oxlint / Oxfmt / Rolldown / Vite Task) - 統一エントリポイント
   - `vp dev` / `vp check` (format/lint/type check) / `vp test` / `vp build`
   - 設定は `vite.config.ts` に集約（`vitest.config.ts`は原則作成しない）
-- react-i18next / i18next / i18next-browser-languagedetector (ja/en対応、デフォルトja、選択はlocalStorage保存)
+- react-i18next / i18next (ja/en対応、デフォルトja、選択はlocalStorage保存)
 
 ### Desktop Runtime
 
