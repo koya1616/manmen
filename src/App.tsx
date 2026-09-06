@@ -1,137 +1,178 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Sidebar } from "./components/layout/Sidebar";
-import { CommandDetailView } from "./components/command/CommandDetailView";
-import { ExecutionResult } from "./components/result/ExecutionResult";
-import { useCommands } from "./hooks/useCommands";
-import { useCommandExecution } from "./hooks/useCommandExecution";
-import { tauriService } from "./services/tauri";
-import type { HistoryEntry } from "./types";
+import { invoke } from "@tauri-apps/api/core";
 
-type View = "home" | "command" | "history";
+interface DisablesleepState {
+  enabled: boolean | null;
+}
+
+interface DisablesleepResult {
+  success: boolean;
+  exit_code: number;
+  stdout: string;
+  stderr: string;
+  command: string;
+}
 
 function App() {
-  const { t } = useTranslation();
-  const { commands, loading: commandsLoading } = useCommands();
-  const {
-    command,
-    args,
-    validation,
-    preview,
-    result,
-    executing,
-    error,
-    loadCommand,
-    updateArg,
-    validate,
-    build,
-    execute,
-  } = useCommandExecution();
+  const { t, i18n } = useTranslation();
+  const [enabled, setEnabled] = useState(true);
+  const [current, setCurrent] = useState<boolean | null>(null);
+  const [remember, setRemember] = useState(true);
+  const [executing, setExecuting] = useState(false);
+  const [result, setResult] = useState<DisablesleepResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const [view, setView] = useState<View>("home");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [historyLoading, setHistoryLoading] = useState(false);
+  const preview = `sudo pmset -a disablesleep ${enabled ? 1 : 0}`;
 
   useEffect(() => {
-    if (view === "history") {
-      loadHistory();
-    }
-  }, [view]);
-
-  async function loadHistory() {
-    try {
-      setHistoryLoading(true);
-      const data = await tauriService.getExecutionHistory(50);
-      setHistory(data);
-    } catch (err) {
-      console.error("Failed to load history:", err);
-    } finally {
-      setHistoryLoading(false);
-    }
-  }
-
-  async function handleSelectCommand(id: string) {
-    await loadCommand(id);
-    setView("command");
-  }
+    invoke<DisablesleepState>("get_disablesleep")
+      .then((state) => {
+        if (state.enabled !== null) {
+          setCurrent(state.enabled);
+          setEnabled(state.enabled);
+        }
+      })
+      .catch(() => {
+        // pmset -g が読めない環境では不明のままにする
+      });
+  }, []);
 
   async function handleExecute() {
-    await validate();
-    const v = validation;
-    if (v && !v.valid) return;
+    setExecuting(true);
+    setResult(null);
+    setError(null);
+    try {
+      const res = await invoke<DisablesleepResult>("set_disablesleep", {
+        enabled,
+      });
+      setResult(res);
+      if (res.success) setCurrent(enabled);
+    } catch (e) {
+      setError(String(e));
+    } finally {
+      setExecuting(false);
+    }
+  }
 
-    await execute();
+  function toggleLang() {
+    const next = i18n.language === "ja" ? "en" : "ja";
+    i18n.changeLanguage(next);
+    localStorage.setItem("manmen-lang", next);
+  }
+
+  async function handleRememberChange(next: boolean) {
+    setRemember(next);
+    await invoke("set_remember", { enabled: next });
   }
 
   return (
-    <div className="app">
-      <Sidebar
-        commands={commands}
-        selectedId={command?.id || null}
-        onSelect={handleSelectCommand}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        loading={commandsLoading}
-      />
+    <main className="container">
+      <header className="header">
+        <div>
+          <h1>{t("app.title")}</h1>
+          <p className="subtitle">{t("app.description")}</p>
+        </div>
+        <button className="btn-secondary" onClick={toggleLang}>
+          {t("app.language")}
+        </button>
+      </header>
 
-      <main className="main-content">
-        {view === "home" && (
-          <div className="home-view">
-            <h2>{t("home.welcome")}</h2>
-            <p>{t("home.description")}</p>
-            <div className="quick-actions">
-              <button onClick={() => setView("history")}>
-                {t("home.viewHistory")}
-              </button>
-            </div>
+      <section className="card">
+        <div className="row">
+          <div>
+            <h2>{t("sleep.title")}</h2>
+            <p className="muted">
+              {t("sleep.current")}:{" "}
+              {current === null ? t("sleep.unknown") : current ? "ON (1)" : "OFF (0)"}
+            </p>
           </div>
-        )}
+          <button
+            className={`switch ${enabled ? "on" : "off"}`}
+            onClick={() => setEnabled((v) => !v)}
+            aria-pressed={enabled}
+          >
+            {enabled ? "ON" : "OFF"}
+          </button>
+        </div>
 
-        {view === "command" && command && (
-          <>
-            <CommandDetailView
-              command={command}
-              args={args}
-              validation={validation}
-              preview={preview}
-              executing={executing}
-              error={error}
-              onArgChange={updateArg}
-              onValidate={validate}
-              onBuild={build}
-              onExecute={handleExecute}
-            />
-            {result && <ExecutionResult result={result} />}
-          </>
-        )}
+        <div className="preview">
+          <span className="preview-label">{t("sleep.preview")}</span>
+          <code>{preview}</code>
+        </div>
 
-        {view === "history" && (
-          <div className="history-view">
-            <h2>{t("history.title")}</h2>
-            {historyLoading ? (
-              <p>{t("history.loading")}</p>
-            ) : history.length === 0 ? (
-              <p>{t("history.noHistory")}</p>
-            ) : (
-              <ul className="history-list">
-                {history.map((entry) => (
-                  <li key={entry.id} className="history-item">
-                    <span className={`status ${entry.success ? "success" : "failure"}`}>
-                      {entry.success ? "✓" : "✕"}
-                    </span>
-                    <code>{entry.generated_command}</code>
-                    <span className="time">
-                      {new Date(entry.started_at).toLocaleString()}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+        <p className="muted">{t("sleep.adminNote")}</p>
+
+        <label className="check-row">
+          <input
+            type="checkbox"
+            checked={remember}
+            onChange={(e) => handleRememberChange(e.target.checked)}
+          />
+          <span>{t("sleep.remember")}</span>
+        </label>
+        <p className="muted">{t("sleep.rememberNote")}</p>
+
+        <button
+          className="btn-primary"
+          onClick={handleExecute}
+          disabled={executing}
+        >
+          {executing ? t("sleep.executing") : t("sleep.execute")}
+        </button>
+      </section>
+
+      {error && (
+        <section className="card error">
+          <h3>{t("result.failed")}</h3>
+          <pre>{error}</pre>
+        </section>
+      )}
+      {result && (
+        <section className={`card ${result.success ? "success" : "error"}`}>
+          <h3>{result.success ? t("result.completed") : t("result.failed")}</h3>
+          <p className="muted">
+            {t("result.exitCode")}: {result.exit_code}
+          </p>
+          <div className="output-block">
+            <h4>{t("result.output")}</h4>
+            <pre>{result.stdout || t("result.noOutput")}</pre>
           </div>
-        )}
-      </main>
-    </div>
+          <div className="output-block">
+            <h4>{t("result.error")}</h4>
+            <pre>{result.stderr || t("result.noOutput")}</pre>
+          </div>
+        </section>
+      )}
+
+      <section className="card">
+        <h2>{t("about.title")}</h2>
+        <h3>{t("about.pmsetTitle")}</h3>
+        <p className="muted">{t("about.pmset")}</p>
+        <h3>{t("about.argsTitle")}</h3>
+        <dl className="glossary">
+          <dt>
+            <code>sudo</code>
+          </dt>
+          <dd>{t("about.sudo")}</dd>
+          <dt>
+            <code>-a</code>
+          </dt>
+          <dd>{t("about.a")}</dd>
+          <dt>
+            <code>disablesleep</code>
+          </dt>
+          <dd>{t("about.disablesleep")}</dd>
+        </dl>
+        <h3>{t("about.onoffTitle")}</h3>
+        <dl className="glossary">
+          <dt>ON (1)</dt>
+          <dd>{t("about.on")}</dd>
+          <dt>OFF (0)</dt>
+          <dd>{t("about.off")}</dd>
+        </dl>
+      </section>
+    </main>
   );
 }
 

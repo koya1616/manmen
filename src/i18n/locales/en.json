@@ -1,160 +1,38 @@
 {
   "app": {
-    "name": "Manmen",
-    "subtitle": "macOS CLI GUI Manager"
+    "title": "Prevent Sleep",
+    "description": "Toggle pmset disablesleep ON / OFF",
+    "language": "日本語"
   },
-  "home": {
-    "welcome": "Welcome to Manmen",
-    "description": "macOS CLI GUI Manager",
-    "viewHistory": "View Execution History"
-  },
-  "sidebar": {
-    "searchPlaceholder": "Search commands...",
-    "loading": "Loading commands...",
-    "noCommands": "No commands found"
-  },
-  "command": {
-    "arguments": "Arguments",
-    "noArguments": "This command has no configurable arguments.",
-    "generatedCommand": "Generated Command",
-    "configureAbove": "Configure arguments above",
-    "validate": "Validate",
-    "preview": "Preview",
+  "sleep": {
+    "title": "Prevent Sleep (disablesleep)",
+    "current": "Current state",
+    "unknown": "Unknown",
+    "preview": "Command",
+    "adminNote": "macOS shows an administrator authentication dialog on execute. Your password is never stored by the app.",
+    "remember": "Skip password prompts (while the app is running)",
+    "rememberNote": "Enter your password only once; subsequent runs need no password while the app is open. The password is never stored. After quitting, the credential expires with the normal timeout (about 5 minutes).",
     "execute": "Execute",
-    "executing": "Executing...",
-    "adminRequired": "Admin Required",
-    "adminWarning": "This command requires administrator privileges. macOS will ask you to authenticate when you execute it. Since settings changes affect the system, please operate with caution.",
-    "dangerous": "Dangerous"
+    "executing": "Executing..."
+  },
+  "about": {
+    "title": "About this command",
+    "pmsetTitle": "What is pmset",
+    "pmset": "The standard macOS command for manipulating power management settings (man pmset: manipulate power management settings). It manages idle sleep timing, wake on network access, automatic restart on power loss, and more. Administrator (root) privileges are required to change settings.",
+    "argsTitle": "Command breakdown",
+    "sudo": "sudo — run with administrator privileges. Required because changing pmset settings must be done as root.",
+    "a": "-a — apply the setting to all power sources (battery, charger, UPS). The \"all\" counterpart to -b (battery only), -c (charger only), and -u (UPS only).",
+    "disablesleep": "disablesleep — enable / disable system sleep (0 / 1). Shown as SleepDisabled in `pmset -g` output.",
+    "onoffTitle": "What ON / OFF means",
+    "on": "ON (1) — the system no longer sleeps automatically. Use for long tasks or presentations. Power usage and heat increase, so switch back OFF when done.",
+    "off": "OFF (0) — return to normal sleep behavior. The system then sleeps according to timer settings such as sleep."
   },
   "result": {
     "completed": "Command completed",
     "failed": "Command failed",
-    "exitCode": "Exit Code",
-    "duration": "Duration",
+    "exitCode": "Exit code",
     "output": "Output",
     "error": "Error",
     "noOutput": "No output"
-  },
-  "history": {
-    "title": "Execution History",
-    "loading": "Loading history...",
-    "noHistory": "No execution history yet."
-  },
-  "categories": {
-    "power": "Power",
-    "network": "Network",
-    "disk": "Disk",
-    "system": "System"
-  },
-  "commands": {
-    "macos.pmset": {
-      "name": "Power Management (pmset)",
-      "description": "Manipulate power management settings such as idle sleep timing, wake on administrative access, automatic restart on power loss, etc. Settings are saved in /Library/Preferences/com.apple.PowerManagement.plist.",
-      "arguments": {
-        "target": {
-          "name": "Target",
-          "description": "Power source to apply settings to. -a (all), -b (battery), -c (charger), -u (UPS). Defaults to -a (all) if not specified."
-        },
-        "sleep": {
-          "name": "System Sleep",
-          "description": "System sleep timer in minutes. 0 disables sleep. Sets how long the system waits before automatically sleeping on battery or AC power."
-        },
-        "displaysleep": {
-          "name": "Display Sleep",
-          "description": "Display sleep timer in minutes. 0 disables display sleep. Sets how long before the display dims and eventually turns off."
-        },
-        "disksleep": {
-          "name": "Disk Sleep",
-          "description": "Disk spindown timer in minutes. 0 disables disk sleep. Turns off disk heads on HDDs; has no effect on SSDs."
-        },
-        "womp": {
-          "name": "Wake on Magic Packet",
-          "description": "Enable/disable wake on ethernet magic packet. Same as 'Wake for network access' in System Settings. Allows the Mac to be woken remotely over the network."
-        },
-        "ring": {
-          "name": "Modem Ring Wake",
-          "description": "Enable/disable wake on modem ring. Not used on modern Macs."
-        },
-        "powernap": {
-          "name": "Power Nap",
-          "description": "Enable/disable Power Nap on supported machines. While sleeping, the Mac can receive email, update calendars, sync Photo Stream, download Mac App Store updates, and more in the background. May increase battery consumption."
-        },
-        "proximitywake": {
-          "name": "Proximity Wake",
-          "description": "Control system wake based on proximity of devices using the same iCloud ID. Wakes the Mac when an iPhone is nearby."
-        },
-        "autorestart": {
-          "name": "Automatic Restart on Power Loss",
-          "description": "Automatically restart the system when power is restored. Mac turns on automatically after a power outage."
-        },
-        "lidwake": {
-          "name": "Lid Wake",
-          "description": "Wake the system when the laptop lid (clamshell) is opened. Set to 0 to disable."
-        },
-        "acwake": {
-          "name": "Wake on Power Source Change",
-          "description": "Wake the system when the power source changes (AC/battery). Wakes the Mac when switching from battery to AC power."
-        },
-        "lessbright": {
-          "name": "Auto Brightness Adjustment",
-          "description": "Slightly turn down display brightness when switching to a different power source. Reduces brightness on battery to extend battery life."
-        },
-        "halfdim": {
-          "name": "Half Dim",
-          "description": "Use an intermediate half-brightness state between full brightness and fully off during display sleep. Warns the user that sleep is impending."
-        },
-        "sms": {
-          "name": "Sudden Motion Sensor",
-          "description": "Use the Sudden Motion Sensor to park disk heads during sudden G-force changes. Protects data on Macs with HDDs."
-        },
-        "hibernatemode": {
-          "name": "Hibernate Mode",
-          "description": "Change hibernation mode. 0=battery only, 3=default (battery+sleep), 25=AC only. Caution: affects system behavior; change carefully."
-        },
-        "ttyskeepawake": {
-          "name": "TTY Keep Awake",
-          "description": "Prevent idle system sleep when any tty (e.g. remote login session) is active. A tty is considered inactive only when its idle time exceeds the system sleep timer."
-        }
-      }
-    },
-    "macos.caffeinate": {
-      "name": "Caffeinate (caffeinate)",
-      "description": "Prevent the system from sleeping. Creates assertions to alter system sleep behavior. If no assertion flags are specified, creates an assertion to prevent idle sleep. If a utility is specified, assertions persist for the duration of the utility's execution.",
-      "arguments": {
-        "display": {
-          "name": "Prevent Display Sleep",
-          "description": "Create an assertion to prevent the display from sleeping (-d flag). Prevents the display from turning off during video playback or presentations."
-        },
-        "idle": {
-          "name": "Prevent Idle Sleep",
-          "description": "Create an assertion to prevent the system from idle sleeping (-i flag). Enabled by default. Prevents the system from sleeping during long computations or downloads."
-        },
-        "disk": {
-          "name": "Prevent Disk Sleep",
-          "description": "Create an assertion to prevent the disk from idle sleeping (-m flag). Prevents HDD spindown."
-        },
-        "system": {
-          "name": "Prevent System Sleep (AC Only)",
-          "description": "Create an assertion to prevent the system from sleeping (-s flag). This assertion is only valid when the system is running on AC power. Sleep is allowed on battery."
-        },
-        "useractive": {
-          "name": "Declare User Active",
-          "description": "Create an assertion to declare that the user is active (-u flag). If the display is off, turns the display on and prevents idle sleep. Default timeout is 5 seconds if not specified with -t."
-        },
-        "duration": {
-          "name": "Timeout (seconds)",
-          "description": "Duration in seconds for which the assertion should be valid (-t flag). Assertion is dropped after the specified timeout. Ignored when a utility is specified."
-        }
-      }
-    }
-  },
-  "units": {
-    "minutes": "minutes",
-    "seconds": "seconds"
-  },
-  "settings": {
-    "language": "Language",
-    "japanese": "Japanese",
-    "english": "English"
   }
 }

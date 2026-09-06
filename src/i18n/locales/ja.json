@@ -1,160 +1,38 @@
 {
   "app": {
-    "name": "Manmen",
-    "subtitle": "macOS CLI GUIマネージャー"
+    "title": "スリープ抑止",
+    "description": "pmset disablesleep の ON / OFF を切り替えます",
+    "language": "English"
   },
-  "home": {
-    "welcome": "Manmenへようこそ",
-    "description": "macOS CLI GUIマネージャー",
-    "viewHistory": "実行履歴を表示"
-  },
-  "sidebar": {
-    "searchPlaceholder": "コマンドを検索...",
-    "loading": "コマンドを読み込み中...",
-    "noCommands": "コマンドが見つかりません"
-  },
-  "command": {
-    "arguments": "引数",
-    "noArguments": "このコマンドには設定可能な引数がありません。",
-    "generatedCommand": "生成されたコマンド",
-    "configureAbove": "上記で引数を設定してください",
-    "validate": "検証",
-    "preview": "プレビュー",
+  "sleep": {
+    "title": "スリープ抑止 (disablesleep)",
+    "current": "現在の状態",
+    "unknown": "不明",
+    "preview": "実行コマンド",
+    "adminNote": "実行時にmacOSの管理者認証ダイアログが表示されます。パスワードはアプリに保存されません。",
+    "remember": "パスワード入力を省略する（アプリ起動中のみ）",
+    "rememberNote": "初回のみパスワードを入力し、以降は起動中パスワードなしで実行できます。パスワードの保存はしません。アプリ終了後は通常の有効期限（約5分）で失効します。",
     "execute": "実行",
-    "executing": "実行中...",
-    "adminRequired": "管理者権限が必要",
-    "adminWarning": "このコマンドの実行時にmacOSの管理者認証が表示されます。設定変更がシステムに影響するため、注意して操作してください。",
-    "dangerous": "危険"
+    "executing": "実行中..."
+  },
+  "about": {
+    "title": "このコマンドについて",
+    "pmsetTitle": "pmset とは",
+    "pmset": "電源管理設定を操作するmacOS標準コマンド（man pmset: manipulate power management settings）。アイドルスリープ時間、ネットワークアクセスによるウェイク、電源喪失時の自動再起動などを管理する。設定の変更には管理者権限（root）が必須。",
+    "argsTitle": "コマンドの内訳",
+    "sudo": "sudo — 管理者権限で実行する。pmset の設定変更は root 権限が必須のため必要。",
+    "a": "-a — すべての電源ソース（バッテリー・充電器・UPS）に設定を適用する。-b（バッテリーのみ）・-c（充電器のみ）・-u（UPSのみ）に対する「すべて」。",
+    "disablesleep": "disablesleep — システムスリープの有効 / 無効（0 / 1）。pmset -g では SleepDisabled として表示される。",
+    "onoffTitle": "ON / OFF の意味",
+    "on": "ON（1）— システムは自動でスリープしなくなる。長時間の処理やプレゼン時などに使う。消費電力・発熱が増えるため、用が済んだら OFF に戻すこと。",
+    "off": "OFF（0）— 通常のスリープ動作に戻る。以後は sleep などのタイマー設定に従ってスリープする。"
   },
   "result": {
     "completed": "コマンドが完了しました",
     "failed": "コマンドが失敗しました",
     "exitCode": "終了コード",
-    "duration": "所要時間",
     "output": "出力",
     "error": "エラー",
     "noOutput": "出力なし"
-  },
-  "history": {
-    "title": "実行履歴",
-    "loading": "履歴を読み込み中...",
-    "noHistory": "まだ実行履歴がありません。"
-  },
-  "categories": {
-    "power": "電源",
-    "network": "ネットワーク",
-    "disk": "ディスク",
-    "system": "システム"
-  },
-  "commands": {
-    "macos.pmset": {
-      "name": "電源管理（pmset）",
-      "description": "macOSの電源管理設定を変更します。アイドルスリープタイミング、ネットワークによるウェイク、電源喪失時の自動再起動などを制御します。設定は /Library/Preferences/com.apple.PowerManagement.plist に保存されます。",
-      "arguments": {
-        "target": {
-          "name": "適用対象",
-          "description": "設定を適用する電源ソース。-a（すべて）、-b（バッテリー）、-c（電源接続）、-u（UPS）から選択。未指定の場合は -a（すべて）が使用されます。"
-        },
-        "sleep": {
-          "name": "システムスリープ",
-          "description": "システムスリープのタイムアウト（分）。0でスリープ無効。バッテリーや電源接続時にシステムが自動的にスリープするまでの待機時間を設定します。"
-        },
-        "displaysleep": {
-          "name": "ディスプレイスリープ",
-          "description": "ディスプレイのスリープタイムアウト（分）。0でディスプレイスリープ無効。ディスプレイの明るさが低下し、最終的にオフになるまでの時間を設定します。"
-        },
-        "disksleep": {
-          "name": "ディスクスリープ",
-          "description": "ディスクのスピンダウンタイムアウト（分）。0でディスクスリープ無効。HDDのディスクヘッドをオフにし、SSDでは基本的に効果がありません。"
-        },
-        "womp": {
-          "name": "Wake on Magic Packet",
-          "description": "イーサネットのMagic Packetによるウェイクを有効/無効にします。System Settingsの「ネットワークアクセス時のウェイク」と同じです。外部からネットワーク経由でMacを起動できるようにします。"
-        },
-        "ring": {
-          "name": "モデムリンガウェイク",
-          "description": "モデム着信によるシステムウェイクを有効/無効にします。現在のMacでは基本的には使用されません。"
-        },
-        "powernap": {
-          "name": "Power Nap",
-          "description": "Power Nap機能の有効/無効。対応するMacで、スリープ中でもメール受信、カレンダー更新、Photo Streamの同期、Mac App Storeのアップデートなどをバックグラウンドで実行します。バッテリー消費が増加する可能性があります。"
-        },
-        "proximitywake": {
-          "name": "proximitywake",
-          "description": "同じiCloud IDを使用するデバイスの近接に基づくシステムウェイクを制御します。iPhoneがMacの近くにある場合に自動的にウェイクする機能です。"
-        },
-        "autorestart": {
-          "name": "電源喪失時自動再起動",
-          "description": "電源が復帰した際にシステムを自動的に再起動します。停電などの電源喪失後に、Macが自動的にオンになります。"
-        },
-        "lidwake": {
-          "name": "蓋開きウェイク",
-          "description": "ノートPCの蓋（クランシェル）を開いた時にシステムをウェイクします。0で無効化できます。"
-        },
-        "acwake": {
-          "name": "電源ソース変更ウェイク",
-          "description": "電源ソース（AC/バッテリー）が変更された時にシステムをウェイクします。バッテリーからAC電源に切り替えた際に起こす機能です。"
-        },
-        "lessbright": {
-          "name": "明るさ自動調整",
-          "description": "電源ソースを切り替えた時にディスプレイの明るさを少し下げます。バッテリー駆動時に明るさを抑えることで、バッテリー持続時間を延ばします。"
-        },
-        "halfdim": {
-          "name": "ハーフディム",
-          "description": "ディスプレイスリープ時に、フル明るさとオフの中間段階として半分の明るさの状態を使用します。ユーザーにスリープ impending を警告する効果があります。"
-        },
-        "sms": {
-          "name": "Sudden Motion Sensor",
-          "description": "Sudden Motion Sensorを使用して、急激なGフォースの変化時にディスクヘッドをパーキングします。HDD搭載モデルでデータ保護に効果的です。"
-        },
-        "hibernatemode": {
-          "name": "ハイバネーションモード",
-          "description": "ハイバネーションモードを変更します。0=バッテリーのみ、3=デフォルト（バッテリー+スリープ）、25=電源のみ。注意: システム動作に影響するため、変更は慎重に行ってください。"
-        },
-        "ttyskeepawake": {
-          "name": "TTYスリープ防止",
-          "description": "tty（例: リモートログインセッション）がアクティブな場合、アイドルシステムスリープを防止します。ttyがアイドル状態でシステムスリープタイマーを超えた場合のみ「非アクティブ」と見なされます。"
-        }
-      }
-    },
-    "macos.caffeinate": {
-      "name": "スリープ防止（caffeinate）",
-      "description": "システムのスリープを防止します。caffeinateはアサーションを作成し、システムのスリープ動作を変更します。アサーションフラグを指定しない場合、アイドルスリープを防止するアサーションを作成します。ユーティリティを指定した場合、そのユーティリティの実行期間中アサーションが有効になります。",
-      "arguments": {
-        "display": {
-          "name": "ディスプレイスリープ防止",
-          "description": "ディスプレイのスリープを防止するアサーションを作成します（-dフラグ）。ビデオ再生やプレゼンテーション中にディスプレイがオフになるのを防ぎます。"
-        },
-        "idle": {
-          "name": "アイドルスリープ防止",
-          "description": "システムのアイドルスリープを防止するアサーションを作成します（-iフラグ）。デフォルトで有効です。長時間の計算やダウンロード中にシステムがスリープするのを防ぎます。"
-        },
-        "disk": {
-          "name": "ディスクスリープ防止",
-          "description": "ディスクのアイドルスリープを防止するアサーションを作成します（-mフラグ）。HDDのスピンダウンを防ぎます。"
-        },
-        "system": {
-          "name": "システムスリープ防止（AC電源時のみ）",
-          "description": "システムのスリープを防止するアサーションを作成します（-sフラグ）。このアサーションはAC電源接続時にのみ有効です。バッテリー駆動時はスリープが許可されます。"
-        },
-        "useractive": {
-          "name": "ユーザーアクティブ宣言",
-          "description": "ユーザーがアクティブであることを宣言するアサーションを作成します（-uフラグ）。ディスプレイがオフの場合、このオプションはディスプレイをオンにし、アイドルスリープを防止します。タイムアウトを指定しない場合は5秒のデフォルトタイムアウトが適用されます。"
-        },
-        "duration": {
-          "name": "タイムアウト（秒）",
-          "description": "アサーションが有効な期間を秒単位で指定します（-tフラグ）。指定した時間経過後にアサーションが解除されます。ユーティリティを指定した場合はこのオプションが無視されます。"
-        }
-      }
-    }
-  },
-  "units": {
-    "minutes": "分",
-    "seconds": "秒"
-  },
-  "settings": {
-    "language": "言語",
-    "japanese": "日本語",
-    "english": "英語"
   }
 }
