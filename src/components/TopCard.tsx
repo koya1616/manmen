@@ -36,7 +36,7 @@ export function TopCard() {
           >
             {TOP_SORT_KEYS.map((key) => (
               <option key={key} value={key}>
-                {key} — {t(`topSort.${key}`)}
+                {t(`topSort.${key}`)} (-o {key})
               </option>
             ))}
           </select>
