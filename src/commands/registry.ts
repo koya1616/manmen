@@ -3,6 +3,8 @@ import { DisablesleepAbout } from "../components/DisablesleepAbout";
 import { DisablesleepCard } from "../components/DisablesleepCard";
 import { ManpageAbout } from "../components/ManpageAbout";
 import { ManpageCard } from "../components/ManpageCard";
+import { TopAbout } from "../components/TopAbout";
+import { TopCard } from "../components/TopCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (useDisablesleep.ts 等を参照)
@@ -26,5 +28,11 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.man.name",
     control: ManpageCard,
     about: ManpageAbout,
+  },
+  {
+    id: "top.process",
+    nameKey: "commands.top.name",
+    control: TopCard,
+    about: TopAbout,
   },
 ];

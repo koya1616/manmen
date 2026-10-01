@@ -141,9 +141,51 @@
     "usageTitle": "Usage",
     "usage": "Pick a command from the list above (e.g. pmset, caffeinate, launchctl) and press Show. Names not in the list (options, etc.) are rejected."
   },
+  "top": {
+    "title": "Process monitor (top)",
+    "description": "Take a CPU / memory usage snapshot. No administrator privileges needed.",
+    "sort": "Sort by",
+    "count": "Count",
+    "preview": "Command",
+    "execute": "Snapshot",
+    "executing": "Loading...",
+    "note": "Interactive mode is not supported, so this takes a one-shot snapshot in logging mode (-l 1). Treat %CPU in the first sample as approximate."
+  },
+  "topSort": {
+    "cpu": "CPU usage",
+    "mem": "memory",
+    "time": "execution time",
+    "pid": "process ID",
+    "command": "command name"
+  },
+  "topAbout": {
+    "title": "About this command",
+    "top": "The standard macOS command for displaying sorted process information (man top: display sorted information about processes). The default sort key is pid, switchable with -o (cpu, mem, etc.).",
+    "usageTitle": "Usage",
+    "usage": "Pick a sort key and process count, then press Snapshot. Only `top -l 1 -o <key> -n <count>` is executed; interactive mode and other options are not accepted."
+  },
+  "topResult": {
+    "cpu": "CPU",
+    "cpuDetail": "user {{user}}% / sys {{sys}}% / idle {{idle}}%",
+    "loadAvg": "Load average",
+    "processes": "Processes",
+    "running": "{{n}} running",
+    "physmem": "Physical memory",
+    "pid": "PID",
+    "command": "Command",
+    "cpuCol": "%CPU",
+    "time": "Time",
+    "threads": "Threads",
+    "mem": "Mem",
+    "state": "State",
+    "user": "User",
+    "noData": "No process information available",
+    "raw": "Command details"
+  },
   "commands": {
     "pmset": { "name": "pmset (prevent sleep)" },
-    "man": { "name": "man (manual)" }
+    "man": { "name": "man (manual)" },
+    "top": { "name": "top (processes)" }
   },
   "about": {
     "title": "About this command",
