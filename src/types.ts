@@ -1,4 +1,4 @@
-// Rust の types.rs / pmset.rs / top.rs とフィールドを一致させること。
+// Rust の types.rs / pmset.rs / manpage.rs / top.rs とフィールドを一致させること。
 
 export interface CommandResult {
   success: boolean;
@@ -6,6 +6,31 @@ export interface CommandResult {
   stdout: string;
   stderr: string;
   command: string;
+}
+
+export interface ManInline {
+  kind: string;
+  text: string;
+  children: ManInline[];
+}
+
+export interface ManBlock {
+  kind: string;
+  inlines: ManInline[];
+}
+
+export interface ManSection {
+  title: string;
+  blocks: ManBlock[];
+}
+
+export interface ManpageDocument {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  title: string;
+  sections: ManSection[];
+  stderr: string;
 }
 
 export interface TopSummary {
@@ -44,6 +69,14 @@ export interface TopSnapshot {
   stderr: string;
 }
 
-export interface DisablesleepState {
-  enabled: boolean | null;
+export interface PmsetValue {
+  name: string;
+  value: string;
+}
+
+export interface PmsetState {
+  battery: PmsetValue[];
+  ac: PmsetValue[];
+  ups: PmsetValue[];
+  sleep_disabled: string | null;
 }

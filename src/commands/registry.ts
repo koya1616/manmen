@@ -1,13 +1,13 @@
 import type { ComponentType } from "react";
-import { DisablesleepAbout } from "../components/DisablesleepAbout";
-import { DisablesleepCard } from "../components/DisablesleepCard";
+import { PmsetAbout } from "../components/PmsetAbout";
+import { PmsetCard } from "../components/PmsetCard";
 import { ManpageAbout } from "../components/ManpageAbout";
 import { ManpageCard } from "../components/ManpageCard";
 import { TopAbout } from "../components/TopAbout";
 import { TopCard } from "../components/TopCard";
 
 // 新しいコマンドの追加手順:
-// 1. hooks/ と components/ に対応UIを追加する (useDisablesleep.ts 等を参照)
+// 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
 // 2. ここにエントリを1行追加する
 export interface CommandEntry {
   id: string;
@@ -18,10 +18,10 @@ export interface CommandEntry {
 
 export const commandRegistry: CommandEntry[] = [
   {
-    id: "pmset.disablesleep",
+    id: "pmset.apply",
     nameKey: "commands.pmset.name",
-    control: DisablesleepCard,
-    about: DisablesleepAbout,
+    control: PmsetCard,
+    about: PmsetAbout,
   },
   {
     id: "man.manpage",

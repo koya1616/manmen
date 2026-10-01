@@ -210,6 +210,58 @@
   font-size: 13px;
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.field select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+}
+
+.choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.choice-row button {
+  padding: 8px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 999px;
+  background: white;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.choice-row button.selected {
+  background: #007aff;
+  border-color: #007aff;
+  color: white;
+}
+
+.value-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.value-input {
+  width: 120px;
+}
+
 .switch {
   min-width: 96px;
   padding: 10px 20px;
@@ -426,4 +478,64 @@
 
 .raw-details summary {
   cursor: pointer;
+}
+
+.man-title {
+  font-size: 13px;
+  color: #444;
+}
+
+.man-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.man-toc button {
+  font-size: 12px;
+  color: #007aff;
+  background: #f0f7ff;
+  border: none;
+  padding: 2px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.man-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.man-section {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.man-section summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.man-block,
+.man-quote {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.man-quote {
+  padding-left: 12px;
+  border-left: 3px solid #ddd;
+  color: #333;
+}
+
+.man-section code {
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  background: #f3f3f3;
+  padding: 0 4px;
+  border-radius: 4px;
 }

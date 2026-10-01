@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { api } from "../api";
-import type { CommandResult } from "../types";
+import type { ManpageDocument } from "../types";
 import { DEFAULT_MAN_TOPIC } from "../commands/manTopics";
 
 export function useManpage() {
   const [topic, setTopic] = useState(DEFAULT_MAN_TOPIC);
   const [executing, setExecuting] = useState(false);
-  const [result, setResult] = useState<CommandResult | null>(null);
+  const [result, setResult] = useState<ManpageDocument | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const preview = `man ${topic.trim() || "..."}`;

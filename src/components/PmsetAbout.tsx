@@ -11,7 +11,7 @@ function GlossaryItem({ term, text }: { term: string; text: string }) {
   );
 }
 
-export function DisablesleepAbout() {
+export function PmsetAbout() {
   const { t } = useTranslation();
 
   return (
@@ -22,7 +22,8 @@ export function DisablesleepAbout() {
       <h3>{t("about.argsTitle")}</h3>
       <dl className="glossary">
         <GlossaryItem term="sudo" text={t("about.sudo")} />
-        <GlossaryItem term="-a" text={t("about.a")} />
+        <GlossaryItem term="-a / -b / -c / -u" text={t("about.scopes")} />
+        <GlossaryItem term="setting value" text={t("about.value")} />
         <GlossaryItem term="disablesleep" text={t("about.disablesleep")} />
       </dl>
       <h3>{t("about.onoffTitle")}</h3>

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { MAN_TOPIC_GROUPS } from "../commands/manTopics";
 import { useManpage } from "../hooks/useManpage";
-import { CommandResultView } from "./CommandResultView";
+import { ManpageResultView } from "./ManpageResultView";
 
 const VALID_TOPICS = new Set(
   MAN_TOPIC_GROUPS.flatMap((group) => group.topics),
@@ -94,7 +94,7 @@ export function ManpageCard() {
         </div>
       </section>
 
-      <CommandResultView result={result} error={error} />
+      <ManpageResultView result={result} error={error} />
     </>
   );
 }

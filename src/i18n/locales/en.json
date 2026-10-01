@@ -1,19 +1,61 @@
 {
   "app": {
     "title": "Prevent Sleep",
-    "description": "Toggle pmset disablesleep ON / OFF",
+    "description": "Power settings, manuals, and processes from a GUI",
     "language": "日本語"
   },
-  "sleep": {
-    "title": "Prevent Sleep (disablesleep)",
-    "current": "Current state",
+  "pmset": {
+    "title": "Power settings (pmset)",
+    "description": "Choose a power source, a setting, and a value. Administrator privileges are required.",
+    "scope": "Power source",
+    "setting": "Setting",
+    "value": "Value",
+    "current": "Current value",
     "unknown": "Unknown",
+    "minutesUnit": "min",
+    "minutesHint": "0–1440 minutes. 0 disables the timer.",
     "preview": "Command",
     "adminNote": "macOS shows an administrator authentication dialog on execute. Your password is never stored by the app.",
     "remember": "Skip password prompts (while the app is running)",
     "rememberNote": "Enter your password only once; subsequent runs need no password while the app is open. The password is never stored. After quitting, the credential expires with the normal timeout (about 5 minutes).",
     "execute": "Execute",
     "executing": "Executing..."
+  },
+  "pmsetScope": {
+    "a": "All (-a)",
+    "b": "Battery (-b)",
+    "c": "Adapter (-c)",
+    "u": "UPS (-u)"
+  },
+  "pmsetScopeShort": {
+    "b": "Battery",
+    "c": "AC",
+    "u": "UPS"
+  },
+  "pmsetSettings": {
+    "disablesleep": "prevent system sleep",
+    "displaysleep": "display sleep timer",
+    "disksleep": "disk sleep timer",
+    "sleep": "system sleep timer",
+    "womp": "wake on network access",
+    "ring": "wake on modem ring",
+    "powernap": "Power Nap",
+    "proximitywake": "wake when a nearby device is close",
+    "autorestart": "restart after power loss",
+    "autorestartatconnect": "restart when power is connected",
+    "lidwake": "wake when the lid opens",
+    "acwake": "wake when the power source changes",
+    "lessbright": "dim slightly on battery",
+    "halfdim": "half-dim before display sleep",
+    "sms": "park disks on sudden motion",
+    "ttyskeepawake": "stay awake during login sessions",
+    "destroyfvkeyonstandby": "destroy the FileVault key on standby",
+    "hibernatemode": "hibernation mode"
+  },
+  "pmsetHibernate": {
+    "0": "memory only",
+    "3": "memory and disk",
+    "25": "disk only"
   },
   "man": {
     "title": "Manual pages (man)",
@@ -141,6 +183,10 @@
     "usageTitle": "Usage",
     "usage": "Pick a command from the list above (e.g. pmset, caffeinate, launchctl) and press Show. Names not in the list (options, etc.) are rejected."
   },
+  "manResult": {
+    "noContent": "Nothing to display",
+    "raw": "Command details"
+  },
   "top": {
     "title": "Process monitor (top)",
     "description": "Take a CPU / memory usage snapshot. No administrator privileges needed.",
@@ -183,7 +229,7 @@
     "raw": "Command details"
   },
   "commands": {
-    "pmset": { "name": "pmset (prevent sleep)" },
+    "pmset": { "name": "pmset (power)" },
     "man": { "name": "man (manual)" },
     "top": { "name": "top (processes)" }
   },
@@ -193,7 +239,8 @@
     "pmset": "The standard macOS command for manipulating power management settings (man pmset: manipulate power management settings). It manages idle sleep timing, wake on network access, automatic restart on power loss, and more. Administrator (root) privileges are required to change settings.",
     "argsTitle": "Command breakdown",
     "sudo": "sudo — run with administrator privileges. Required because changing pmset settings must be done as root.",
-    "a": "-a — apply the setting to all power sources (battery, charger, UPS). The \"all\" counterpart to -b (battery only), -c (charger only), and -u (UPS only).",
+    "scopes": "-a applies to every power source. -b is battery only, -c is the power adapter only, and -u is UPS only.",
+    "value": "setting and value — the chosen option and its value. Only 0/1, minutes (0–1440), or hibernatemode (0 / 3 / 25) are accepted. Immediate actions such as schedule or sleepnow are not available.",
     "disablesleep": "disablesleep — enable / disable system sleep (0 / 1). Shown as SleepDisabled in `pmset -g` output.",
     "onoffTitle": "What ON / OFF means",
     "on": "ON (1) — the system no longer sleeps automatically. Use for long tasks or presentations. Power usage and heat increase, so switch back OFF when done.",
