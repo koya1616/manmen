@@ -141,9 +141,51 @@
     "usageTitle": "使い方",
     "usage": "上の一覧からコマンド（例: pmset、caffeinate、launchctl）を選んで「表示」を押す。一覧にない名前やオプション等は受け付けない。"
   },
+  "top": {
+    "title": "プロセス監視 (top)",
+    "description": "CPU・メモリ使用量のスナップショットを取得します。管理者権限は不要です。",
+    "sort": "ソート",
+    "count": "件数",
+    "preview": "実行コマンド",
+    "execute": "取得",
+    "executing": "取得中...",
+    "note": "対話操作はできないため、ロギングモード（-l 1）の1回分のスナップショットを取得します。1回目のサンプルのため %CPU は目安として参照してください。"
+  },
+  "topSort": {
+    "cpu": "CPU使用率",
+    "mem": "メモリ",
+    "time": "実行時間",
+    "pid": "プロセスID",
+    "command": "コマンド名"
+  },
+  "topAbout": {
+    "title": "このコマンドについて",
+    "top": "ソート済みのプロセス情報を表示するmacOS標準コマンド（man top: display sorted information about processes）。既定のソートキーは pid だが、-o で cpu / mem 等に切り替えられる。",
+    "usageTitle": "使い方",
+    "usage": "ソートキーと表示件数を選んで「取得」を押す。実行されるのは top -l 1 -o <キー> -n <件数> のみで、対話モードや他のオプションは受け付けない。"
+  },
+  "topResult": {
+    "cpu": "CPU",
+    "cpuDetail": "user {{user}}% / sys {{sys}}% / idle {{idle}}%",
+    "loadAvg": "ロードアベレージ",
+    "processes": "プロセス",
+    "running": "実行中 {{n}}",
+    "physmem": "物理メモリ",
+    "pid": "PID",
+    "command": "コマンド",
+    "cpuCol": "%CPU",
+    "time": "実行時間",
+    "threads": "スレッド",
+    "mem": "メモリ",
+    "state": "状態",
+    "user": "ユーザ",
+    "noData": "プロセス情報が取得できませんでした",
+    "raw": "実行コマンドの詳細"
+  },
   "commands": {
     "pmset": { "name": "pmset（スリープ抑止）" },
-    "man": { "name": "man（マニュアル）" }
+    "man": { "name": "man（マニュアル）" },
+    "top": { "name": "top（プロセス監視）" }
   },
   "about": {
     "title": "このコマンドについて",

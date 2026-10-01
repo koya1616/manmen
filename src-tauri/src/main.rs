@@ -4,6 +4,7 @@ fn main() {
             manmen_lib::commands::get_disablesleep,
             manmen_lib::commands::set_disablesleep,
             manmen_lib::commands::get_manpage,
+            manmen_lib::commands::get_top,
             manmen_lib::commands::set_remember,
         ])
         .run(tauri::generate_context!())
