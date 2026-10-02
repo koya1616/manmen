@@ -210,10 +210,86 @@
   font-size: 13px;
 }
 
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px 24px;
+}
+
+.field-grid .field input,
+.field-grid .field select {
+  width: 100%;
+}
+
+.field-hint {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.choice-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.flag-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  max-height: 480px;
+  overflow: auto;
+  margin-top: 12px;
+  padding: 2px;
+}
+
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.option-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.option-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.option-item input {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.extra-lines {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  color: #444;
+}
+
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   align-items: flex-start;
 }
 
@@ -222,7 +298,8 @@
   font-weight: 600;
 }
 
-.field select {
+.field select,
+.field input {
   width: 100%;
   padding: 8px 12px;
   border: 1px solid #d0d0d0;

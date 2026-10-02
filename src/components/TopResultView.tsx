@@ -5,6 +5,17 @@ function fmt(value: number | null, digits = 2): string {
   return value === null ? "—" : value.toFixed(digits);
 }
 
+function CpuCell({ value }: { value: string }) {
+  const cpu = Number(value);
+  if (!Number.isFinite(cpu)) return value;
+  return (
+    <div className="cpu-cell">
+      <div className="cpu-bar" style={{ width: `${Math.min(100, cpu)}%` }} />
+      <span>{cpu.toFixed(1)}</span>
+    </div>
+  );
+}
+
 // top のスナップショット表示。生テキストではなくサマリーカード + プロセス表で見せる。
 export function TopResultView({
   result,
@@ -67,42 +78,45 @@ export function TopResultView({
         </div>
       </div>
 
-      {result.processes.length === 0 ? (
+      {s.extra.length > 0 ? (
+        <ul className="extra-lines">
+          {s.extra.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+      ) : null}
+
+      {result.rows.length === 0 ? (
         <p className="muted">{t("topResult.noData")}</p>
       ) : (
         <div className="table-wrap">
           <table className="top-table">
             <thead>
               <tr>
-                <th>{t("topResult.pid")}</th>
-                <th>{t("topResult.command")}</th>
-                <th className="num">{t("topResult.cpuCol")}</th>
-                <th>{t("topResult.time")}</th>
-                <th className="num">{t("topResult.threads")}</th>
-                <th>{t("topResult.mem")}</th>
-                <th>{t("topResult.state")}</th>
-                <th>{t("topResult.user")}</th>
+                {result.columns.map((column) => (
+                  <th key={column} className={column === "%CPU" ? "num" : undefined}>
+                    {column}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {result.processes.map((p) => (
-                <tr key={p.pid}>
-                  <td className="mono">{p.pid}</td>
-                  <td className="mono">{p.command}</td>
-                  <td className="num">
-                    <div className="cpu-cell">
-                      <div
-                        className="cpu-bar"
-                        style={{ width: `${Math.min(100, p.cpu)}%` }}
-                      />
-                      <span className="mono">{p.cpu.toFixed(1)}</span>
-                    </div>
-                  </td>
-                  <td className="mono">{p.time}</td>
-                  <td className="num mono">{p.threads}</td>
-                  <td className="mono">{p.mem}</td>
-                  <td>{p.state}</td>
-                  <td>{p.user}</td>
+              {result.rows.map((row, index) => (
+                <tr key={`${row[0] ?? "row"}-${index}`}>
+                  {row.map((cell, cellIndex) => (
+                    <td
+                      key={`${result.columns[cellIndex] ?? cellIndex}-${cell}`}
+                      className={
+                        result.columns[cellIndex] === "%CPU" ? "num mono" : "mono"
+                      }
+                    >
+                      {result.columns[cellIndex] === "%CPU" ? (
+                        <CpuCell value={cell} />
+                      ) : (
+                        cell
+                      )}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>

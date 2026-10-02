@@ -114,7 +114,7 @@ export const MAN_TOPIC_GROUPS: ManTopicGroup[] = [
   },
   {
     labelKey: "manGroups.dev",
-    topics: ["git", "make", "clang", "xcode-select", "xcrun", "python3"],
+    topics: ["git", "make", "clang", "xcode-select", "xcrun", "python3", "docker"],
   },
   {
     labelKey: "manGroups.misc",

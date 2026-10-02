@@ -5,6 +5,8 @@ import { ManpageAbout } from "../components/ManpageAbout";
 import { ManpageCard } from "../components/ManpageCard";
 import { TopAbout } from "../components/TopAbout";
 import { TopCard } from "../components/TopCard";
+import { DockerAbout } from "../components/DockerAbout";
+import { DockerCard } from "../components/DockerCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -34,5 +36,11 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.top.name",
     control: TopCard,
     about: TopAbout,
+  },
+  {
+    id: "docker.builderPrune",
+    nameKey: "commands.docker.name",
+    control: DockerCard,
+    about: DockerAbout,
   },
 ];

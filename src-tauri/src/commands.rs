@@ -22,8 +22,33 @@ pub fn get_manpage(topic: String) -> Result<ManpageDocument, String> {
 }
 
 #[tauri::command]
-pub fn get_top(sort_key: String, count: u32) -> Result<TopSnapshot, String> {
-    crate::top::get_snapshot(sort_key, count)
+pub fn get_top(query: crate::top::TopQuery) -> Result<TopSnapshot, String> {
+    crate::top::get_snapshot(query)
+}
+
+#[tauri::command]
+pub fn prune_docker_builder(force: bool, all: bool) -> Result<CommandResult, String> {
+    crate::docker::prune_builder(force, all)
+}
+
+#[tauri::command]
+pub fn docker_builder_du() -> Result<crate::docker::DuSnapshot, String> {
+    crate::docker::disk_usage()
+}
+
+#[tauri::command]
+pub fn docker_builder_ls() -> Result<crate::docker::LsSnapshot, String> {
+    crate::docker::list_builders()
+}
+
+#[tauri::command]
+pub fn docker_builder_inspect(name: String) -> Result<crate::docker::InspectSnapshot, String> {
+    crate::docker::inspect_builder(name)
+}
+
+#[tauri::command]
+pub fn docker_builder_version() -> Result<crate::docker::VersionSnapshot, String> {
+    crate::docker::builder_version()
 }
 
 #[tauri::command]
