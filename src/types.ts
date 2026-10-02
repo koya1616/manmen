@@ -165,3 +165,108 @@ export interface InspectSnapshot {
   nodes: InspectNode[];
   stderr: string;
 }
+
+// Rust の docker_read.rs とフィールドを一致させること.
+
+export interface DockerContainerEntry {
+  id: string;
+  names: string;
+  image: string;
+  command: string;
+  created: string;
+  status: string;
+  state: string;
+  ports: string;
+}
+
+export interface ContainerSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  containers: DockerContainerEntry[];
+  stderr: string;
+}
+
+export interface DockerImageEntry {
+  repository: string;
+  tag: string;
+  id: string;
+  created_since: string;
+  size: string;
+  containers: string;
+}
+
+export interface ImageSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  images: DockerImageEntry[];
+  stderr: string;
+}
+
+export interface DockerNetworkEntry {
+  id: string;
+  name: string;
+  driver: string;
+  scope: string;
+}
+
+export interface NetworkSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  networks: DockerNetworkEntry[];
+  stderr: string;
+}
+
+export interface DockerVolumeEntry {
+  driver: string;
+  name: string;
+  scope: string;
+}
+
+export interface VolumeSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  volumes: DockerVolumeEntry[];
+  stderr: string;
+}
+
+export interface SystemDfEntry {
+  dtype: string;
+  total: string;
+  active: string;
+  size: string;
+  reclaimable: string;
+}
+
+export interface SystemDfSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  entries: SystemDfEntry[];
+  stderr: string;
+}
+
+export interface SystemInfoData {
+  containers: number;
+  containers_running: number;
+  containers_stopped: number;
+  images: number;
+  driver: string;
+  server_version: string;
+  operating_system: string;
+  architecture: string;
+  ncpu: number;
+  mem_total: number;
+  kernel_version: string;
+}
+
+export interface SystemInfoSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  info: SystemInfoData;
+  stderr: string;
+}

@@ -355,8 +355,8 @@
     "raw": "実行コマンドの詳細"
   },
   "docker": {
-    "title": "ビルド管理 (docker builder)",
-    "description": "Docker のビルドキャッシュ参照・削除をします。管理者権限は不要です。",
+    "title": "Docker管理 (docker)",
+    "description": "コンテナ・イメージ・ネットワーク・ボリューム・使用量・ビルドキャッシュを参照・削除します。管理者権限は不要です。全て --format json をパースして表で表示します。",
     "readTitle": "参照（変更なし）",
     "pruneTitle": "ビルドキャッシュ削除",
     "pruneSummary": "使うときだけ開く（削除は取り消せません）",
@@ -436,9 +436,9 @@
   },
   "dockerAbout": {
     "title": "このコマンドについて",
-    "docker": "Docker のビルド状態を参照・削除するコマンド群（docker builder du / ls / inspect / version / prune）。参照系は変更を加えない。prune の -f で確認を省略し、--all で未使用の全キャッシュを対象にする。",
+    "docker": "Docker の状態参照とビルドキャッシュ削除 (container ls -a / image ls / network ls / volume ls / system df / info / builder du・ls・inspect・version・prune)。参照系は --format json をパースして表で表示し、変更を加えない。prune のみ削除系 (-f / --all)。",
     "usageTitle": "使い方",
-    "usage": "状態確認は参照ボタン、削除は -f を ON のまま「削除」を押す。容量を大きく空けたいときだけ --all を ON にする。"
+    "usage": "状態確認はサブコマンドを選んで「実行」。削除は -f を ON のまま「削除」を押す。容量を大きく空けたいときだけ --all を ON にする。"
   },
   "commands": {
     "pmset": {
@@ -454,8 +454,8 @@
       "label": "プロセス監視"
     },
     "docker": {
-      "name": "docker（ビルド管理）",
-      "label": "ビルド管理"
+      "name": "docker（コンテナ管理）",
+      "label": "Docker"
     }
   },
   "about": {
@@ -506,13 +506,71 @@
     "ls": "一覧",
     "inspect": "詳細",
     "version": "バージョン",
-    "prune": "キャッシュ削除"
+    "prune": "キャッシュ削除",
+    "containers": "コンテナ",
+    "images": "イメージ",
+    "networks": "ネットワーク",
+    "volumes": "ボリューム",
+    "sysdf": "使用量集計",
+    "sysinfo": "システム情報"
   },
   "dockerSubHelp": {
     "du": "ビルドキャッシュのディスク使用量を表示します（変更なし）。",
     "ls": "builder の一覧を表示します（変更なし）。",
     "inspect": "builder の詳細を表示します（変更なし）。",
     "version": "buildx のバージョンを表示します（変更なし）。",
-    "prune": "ビルドキャッシュを削除します。取り消せません。"
+    "prune": "ビルドキャッシュを削除します。取り消せません。",
+    "containers": "コンテナ一覧を表示します (docker container ls -a)。停止中も含みます（変更なし）。",
+    "images": "イメージ一覧を表示します (docker image ls)（変更なし）。",
+    "networks": "ネットワーク一覧を表示します (docker network ls)（変更なし）。",
+    "volumes": "ボリューム一覧を表示します (docker volume ls)（変更なし）。",
+    "sysdf": "種別ごとの使用量を表示します (docker system df)（変更なし）。",
+    "sysinfo": "全体情報の抜粋を表示します (docker info)（変更なし）。"
+  },
+  "dockerContainers": {
+    "name": "名前",
+    "image": "イメージ",
+    "status": "状態",
+    "ports": "ポート",
+    "noData": "コンテナがありません"
+  },
+  "dockerImages": {
+    "repo": "リポジトリ",
+    "tag": "タグ",
+    "size": "サイズ",
+    "created": "作成",
+    "noData": "イメージがありません"
+  },
+  "dockerNetworks": {
+    "name": "名前",
+    "driver": "ドライバ",
+    "scope": "スコープ",
+    "noData": "ネットワークがありません"
+  },
+  "dockerVolumes": {
+    "name": "名前",
+    "driver": "ドライバ",
+    "scope": "スコープ",
+    "noData": "ボリュームがありません"
+  },
+  "dockerSystemDf": {
+    "type": "種別",
+    "total": "合計",
+    "active": "使用中",
+    "size": "サイズ",
+    "reclaimable": "回収可能",
+    "noData": "使用量が取得できませんでした"
+  },
+  "dockerSystemInfo": {
+    "containers": "コンテナ",
+    "running": "稼働中",
+    "images": "イメージ",
+    "version": "バージョン",
+    "os": "OS",
+    "arch": "アーキ",
+    "cpus": "CPU数",
+    "memory": "メモリ",
+    "driver": "ドライバ",
+    "kernel": "カーネル"
   }
 }

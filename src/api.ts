@@ -8,6 +8,12 @@ import type {
   ManpageDocument,
   TopSnapshot,
   VersionSnapshot,
+  ContainerSnapshot,
+  ImageSnapshot,
+  NetworkSnapshot,
+  VolumeSnapshot,
+  SystemDfSnapshot,
+  SystemInfoSnapshot,
 } from "./types";
 
 // IPC コマンド名はここに集約する。Rust の commands.rs と一致させること。
@@ -39,6 +45,12 @@ export const api = {
     invoke<InspectSnapshot>("docker_builder_inspect", { name }),
   dockerBuilderVersion: () =>
     invoke<VersionSnapshot>("docker_builder_version"),
+  dockerContainers: () => invoke<ContainerSnapshot>("docker_containers"),
+  dockerImages: () => invoke<ImageSnapshot>("docker_images"),
+  dockerNetworks: () => invoke<NetworkSnapshot>("docker_networks"),
+  dockerVolumes: () => invoke<VolumeSnapshot>("docker_volumes"),
+  dockerSystemDf: () => invoke<SystemDfSnapshot>("docker_system_df"),
+  dockerSystemInfo: () => invoke<SystemInfoSnapshot>("docker_system_info"),
   setRemember: (enabled: boolean) =>
     invoke<void>("set_remember", { enabled }),
 };

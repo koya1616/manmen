@@ -355,8 +355,8 @@
     "raw": "Command details"
   },
   "docker": {
-    "title": "Build management (docker builder)",
-    "description": "Inspect and prune Docker build cache. No administrator privileges needed.",
+    "title": "Docker management (docker)",
+    "description": "Inspect containers, images, networks, volumes, disk usage, and build cache. No administrator privileges needed. All parsed from --format json into tables.",
     "readTitle": "Inspect (read-only)",
     "pruneTitle": "Prune build cache",
     "pruneSummary": "Open only when needed (pruning cannot be undone)",
@@ -436,9 +436,9 @@
   },
   "dockerAbout": {
     "title": "About this command",
-    "docker": "Inspects and prunes Docker builders (docker builder du / ls / inspect / version / prune). Inspect commands change nothing. prune -f skips confirmation, --all targets all unused cache.",
+    "docker": "Inspects Docker state and prunes build cache (container ls -a / image ls / network ls / volume ls / system df / info / builder du, ls, inspect, version, prune). Reads parse --format json into tables and change nothing. Only prune deletes (-f / --all).",
     "usageTitle": "Usage",
-    "usage": "Use the inspect buttons to check state, keep -f on and press Prune to delete. Turn --all on only when you need to free a lot of space."
+    "usage": "Pick a subcommand and press Run to inspect. Keep -f on and press Prune to delete. Turn --all on only to free a lot of space."
   },
   "commands": {
     "pmset": {
@@ -454,8 +454,8 @@
       "label": "Processes"
     },
     "docker": {
-      "name": "docker (builders)",
-      "label": "Builders"
+      "name": "docker (containers)",
+      "label": "Docker"
     }
   },
   "about": {
@@ -506,13 +506,71 @@
     "ls": "List",
     "inspect": "Inspect",
     "version": "Version",
-    "prune": "Prune cache"
+    "prune": "Prune cache",
+    "containers": "Containers",
+    "images": "Images",
+    "networks": "Networks",
+    "volumes": "Volumes",
+    "sysdf": "Disk usage",
+    "sysinfo": "System info"
   },
   "dockerSubHelp": {
     "du": "Show build cache disk usage (read-only).",
     "ls": "List builders (read-only).",
     "inspect": "Show builder details (read-only).",
     "version": "Show buildx version (read-only).",
-    "prune": "Delete build cache. Cannot be undone."
+    "prune": "Delete build cache. Cannot be undone.",
+    "containers": "List containers (docker container ls -a), including stopped (read-only).",
+    "images": "List images (docker image ls) (read-only).",
+    "networks": "List networks (docker network ls) (read-only).",
+    "volumes": "List volumes (docker volume ls) (read-only).",
+    "sysdf": "Show per-type disk usage (docker system df) (read-only).",
+    "sysinfo": "Show system info excerpt (docker info) (read-only)."
+  },
+  "dockerContainers": {
+    "name": "Name",
+    "image": "Image",
+    "status": "Status",
+    "ports": "Ports",
+    "noData": "No containers"
+  },
+  "dockerImages": {
+    "repo": "Repository",
+    "tag": "Tag",
+    "size": "Size",
+    "created": "Created",
+    "noData": "No images"
+  },
+  "dockerNetworks": {
+    "name": "Name",
+    "driver": "Driver",
+    "scope": "Scope",
+    "noData": "No networks"
+  },
+  "dockerVolumes": {
+    "name": "Name",
+    "driver": "Driver",
+    "scope": "Scope",
+    "noData": "No volumes"
+  },
+  "dockerSystemDf": {
+    "type": "Type",
+    "total": "Total",
+    "active": "Active",
+    "size": "Size",
+    "reclaimable": "Reclaimable",
+    "noData": "No disk usage data"
+  },
+  "dockerSystemInfo": {
+    "containers": "Containers",
+    "running": "Running",
+    "images": "Images",
+    "version": "Version",
+    "os": "OS",
+    "arch": "Arch",
+    "cpus": "CPUs",
+    "memory": "Memory",
+    "driver": "Driver",
+    "kernel": "Kernel"
   }
 }

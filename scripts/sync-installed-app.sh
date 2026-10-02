@@ -18,7 +18,7 @@ BUILD_DIR="$HOME/Library/Caches/manmen/src"
 mkdir -p "$SUPPORT"
 
 log() {
-  print -r -- "[$(date '+%Y-%m-%d %H:%M:%S')] $*"
+  printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
 }
 
 notify() {

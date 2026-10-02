@@ -52,6 +52,36 @@ pub fn docker_builder_version() -> Result<crate::docker::VersionSnapshot, String
 }
 
 #[tauri::command]
+pub fn docker_containers() -> Result<crate::docker_read::ContainerSnapshot, String> {
+    crate::docker_read::list_containers()
+}
+
+#[tauri::command]
+pub fn docker_images() -> Result<crate::docker_read::ImageSnapshot, String> {
+    crate::docker_read::list_images()
+}
+
+#[tauri::command]
+pub fn docker_networks() -> Result<crate::docker_read::NetworkSnapshot, String> {
+    crate::docker_read::list_networks()
+}
+
+#[tauri::command]
+pub fn docker_volumes() -> Result<crate::docker_read::VolumeSnapshot, String> {
+    crate::docker_read::list_volumes()
+}
+
+#[tauri::command]
+pub fn docker_system_df() -> Result<crate::docker_read::SystemDfSnapshot, String> {
+    crate::docker_read::system_df()
+}
+
+#[tauri::command]
+pub fn docker_system_info() -> Result<crate::docker_read::SystemInfoSnapshot, String> {
+    crate::docker_read::system_info()
+}
+
+#[tauri::command]
 pub fn set_remember(enabled: bool) {
     crate::privileged::set_remember(enabled);
 }

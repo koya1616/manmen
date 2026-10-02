@@ -3,6 +3,12 @@ import { useTranslation } from "react-i18next";
 import { DOCKER_SUBS, useDocker } from "../hooks/useDocker";
 import { CommandResultView } from "./CommandResultView";
 import { DockerDuResultView } from "./DockerDuResultView";
+import { DockerContainersResultView } from "./DockerContainersResultView";
+import { DockerImagesResultView } from "./DockerImagesResultView";
+import { DockerNetworksResultView } from "./DockerNetworksResultView";
+import { DockerVolumesResultView } from "./DockerVolumesResultView";
+import { DockerSystemDfResultView } from "./DockerSystemDfResultView";
+import { DockerSystemInfoResultView } from "./DockerSystemInfoResultView";
 import { DockerInspectResultView } from "./DockerInspectResultView";
 import { DockerLsResultView } from "./DockerLsResultView";
 import { DockerVersionResultView } from "./DockerVersionResultView";
@@ -112,6 +118,12 @@ export function DockerCard({ active, about }: { active: boolean; about: ReactNod
           emptyHint={t("docker.empty")}
         >
           {out?.kind === "du" ? <DockerDuResultView result={out.result} /> : null}
+          {out?.kind === "containers" ? <DockerContainersResultView result={out.result} /> : null}
+          {out?.kind === "images" ? <DockerImagesResultView result={out.result} /> : null}
+          {out?.kind === "networks" ? <DockerNetworksResultView result={out.result} /> : null}
+          {out?.kind === "volumes" ? <DockerVolumesResultView result={out.result} /> : null}
+          {out?.kind === "sysdf" ? <DockerSystemDfResultView result={out.result} /> : null}
+          {out?.kind === "sysinfo" ? <DockerSystemInfoResultView result={out.result} /> : null}
           {out?.kind === "ls" ? <DockerLsResultView result={out.result} /> : null}
           {out?.kind === "version" ? <DockerVersionResultView result={out.result} /> : null}
           {out?.kind === "inspect" ? <DockerInspectResultView result={out.result} /> : null}

@@ -1,5 +1,6 @@
 pub mod commands;
 pub mod docker;
+pub mod docker_read;
 pub mod manpage;
 pub mod pmset;
 pub mod privileged;

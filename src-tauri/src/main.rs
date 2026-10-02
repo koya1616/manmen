@@ -10,6 +10,12 @@ fn main() {
             manmen_lib::commands::docker_builder_ls,
             manmen_lib::commands::docker_builder_inspect,
             manmen_lib::commands::docker_builder_version,
+            manmen_lib::commands::docker_containers,
+            manmen_lib::commands::docker_images,
+            manmen_lib::commands::docker_networks,
+            manmen_lib::commands::docker_volumes,
+            manmen_lib::commands::docker_system_df,
+            manmen_lib::commands::docker_system_info,
             manmen_lib::commands::set_remember,
         ])
         .run(tauri::generate_context!())
