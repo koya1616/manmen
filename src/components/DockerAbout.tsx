@@ -4,7 +4,7 @@ export function DockerAbout() {
   const { t } = useTranslation();
 
   return (
-    <section className="card">
+    <section className="about-body">
       <h2>{t("dockerAbout.title")}</h2>
       <p className="muted">{t("dockerAbout.docker")}</p>
       <h3>{t("dockerAbout.usageTitle")}</h3>

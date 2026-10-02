@@ -17,34 +17,14 @@ function CpuCell({ value }: { value: string }) {
 }
 
 // top のスナップショット表示。生テキストではなくサマリーカード + プロセス表で見せる。
-export function TopResultView({
-  result,
-  error,
-}: {
-  result: TopSnapshot | null;
-  error: string | null;
-}) {
+// 状態・終了コード・stderr は OutputPane 側で出す。
+export function TopResultView({ result }: { result: TopSnapshot }) {
   const { t } = useTranslation();
-
-  if (error) {
-    return (
-      <section className="card error">
-        <h3>{t("result.failed")}</h3>
-        <pre>{error}</pre>
-      </section>
-    );
-  }
-
-  if (!result) return null;
-
   const s = result.summary;
 
   return (
-    <section className={`card ${result.success ? "success" : "error"}`}>
-      <h3>
-        {result.success ? t("result.completed") : t("result.failed")}
-        {s.timestamp ? <span className="muted"> — {s.timestamp}</span> : null}
-      </h3>
+    <>
+      {s.timestamp ? <p className="muted">{s.timestamp}</p> : null}
 
       <div className="stat-grid">
         <div className="stat">
@@ -123,23 +103,6 @@ export function TopResultView({
           </table>
         </div>
       )}
-
-      {result.stderr ? (
-        <div className="output-block">
-          <h4>{t("result.error")}</h4>
-          <pre>{result.stderr}</pre>
-        </div>
-      ) : null}
-
-      <details className="raw-details">
-        <summary>{t("topResult.raw")}</summary>
-        <p className="muted">
-          {t("result.exitCode")}: {result.exit_code}
-        </p>
-        <p className="muted">
-          <code>{result.command}</code>
-        </p>
-      </details>
-    </section>
+    </>
   );
 }

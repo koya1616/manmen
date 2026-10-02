@@ -1,100 +1,182 @@
-import { useMemo } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { MAN_TOPIC_GROUPS } from "../commands/manTopics";
 import { useManpage } from "../hooks/useManpage";
 import { ManpageResultView } from "./ManpageResultView";
+import { OutputPane } from "./ui/OutputPane";
+import { useLink, Workbench } from "./ui/Workbench";
 
-const VALID_TOPICS = new Set(
-  MAN_TOPIC_GROUPS.flatMap((group) => group.topics),
-);
+const VALID_TOPICS = new Set(MAN_TOPIC_GROUPS.flatMap((group) => group.topics));
 
-export function ManpageCard() {
+// トピック一覧。クリック / Enter でそのまま表示する。↑↓ で候補を移動できる。
+function TopicList({
+  topic,
+  current,
+  onPick,
+}: {
+  topic: string;
+  current: string | null;
+  onPick: (name: string) => void;
+}) {
   const { t } = useTranslation();
-  const { topic, setTopic, executing, result, error, preview, execute } =
-    useManpage();
+  const { linked, flash, setLinked } = useLink();
+  const [query, setQuery] = useState("");
+  const [group, setGroup] = useState<string | null>(null);
+  const [cursor, setCursor] = useState(0);
 
-  const filteredGroups = useMemo(() => {
-    const q = topic.trim().toLowerCase();
-    if (!q) return MAN_TOPIC_GROUPS;
-    return MAN_TOPIC_GROUPS.map((group) => ({
-      ...group,
-      topics: group.topics.filter(
-        (name) =>
-          name.toLowerCase().includes(q) ||
-          t(`manTopics.${name}`).toLowerCase().includes(q),
-      ),
-    })).filter((group) => group.topics.length > 0);
-  }, [topic, t]);
+  const groups = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return MAN_TOPIC_GROUPS.filter((g) => !group || g.labelKey === group)
+      .map((g) => ({
+        ...g,
+        topics: g.topics.filter(
+          (name) =>
+            !q ||
+            name.toLowerCase().includes(q) ||
+            t(`manTopics.${name}`).toLowerCase().includes(q),
+        ),
+      }))
+      .filter((g) => g.topics.length > 0);
+  }, [query, group, t]);
+  const flat = groups.flatMap((g) => g.topics);
 
-  const flatMatches = filteredGroups.flatMap((group) => group.topics);
-  const isValid = VALID_TOPICS.has(topic.trim());
-  // 完全一致1件だけなら選び直す必要がないので候補を隠す
-  const showSuggest =
-    flatMatches.length > 0 &&
-    !(flatMatches.length === 1 && flatMatches[0] === topic.trim());
-
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === "Enter" && isValid && !executing) {
-      execute();
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setCursor((c) => Math.min(flat.length - 1, c + 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setCursor((c) => Math.max(0, c - 1));
+    } else if (e.key === "Enter" && !e.metaKey && flat[cursor]) {
+      e.preventDefault();
+      onPick(flat[cursor]);
     }
   }
 
   return (
-    <>
-      <section className="card">
-        <h2>{t("man.title")}</h2>
-        <p className="muted">{t("man.description")}</p>
-
-        <input
-          type="text"
-          className="search-input"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={t("man.searchPlaceholder")}
-          aria-label={t("man.topic")}
-        />
-
-        {showSuggest && (
-          <ul className="suggest-list">
-            {filteredGroups.map((group) => (
-              <li key={group.labelKey}>
-                <span className="suggest-group">{t(group.labelKey)}</span>
-                <ul>
-                  {group.topics.map((name) => (
-                    <li key={name}>
-                      <button onClick={() => setTopic(name)}>
-                        <code>{name}</code>
-                        <span>{t(`manTopics.${name}`)}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        )}
-        {topic.trim() !== "" && flatMatches.length === 0 && (
-          <p className="muted">{t("man.noMatch")}</p>
-        )}
-
-        <div className="topic-row">
+    <section
+      data-opt="topic"
+      className={`opt opt-topics ${linked === "topic" ? "is-linked" : ""} ${flash === "topic" ? "is-flash" : ""}`}
+      onMouseEnter={() => setLinked("topic")}
+      onMouseLeave={() => setLinked(null)}
+    >
+      <div className="opt-head">
+        <span className="opt-label">{t("man.topic")}</span>
+        <code className="opt-flag">{topic || "…"}</code>
+      </div>
+      <input
+        className="keypicker-search"
+        type="search"
+        value={query}
+        placeholder={t("man.searchPlaceholder")}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setCursor(0);
+        }}
+        onKeyDown={onKeyDown}
+      />
+      <div className="presets">
+        <button
+          type="button"
+          className={group === null ? "is-selected" : ""}
+          onClick={() => setGroup(null)}
+        >
+          {t("ui.all")}
+        </button>
+        {MAN_TOPIC_GROUPS.map((g) => (
           <button
-            className="btn-primary"
-            onClick={execute}
-            disabled={executing || !isValid}
+            key={g.labelKey}
+            type="button"
+            className={group === g.labelKey ? "is-selected" : ""}
+            onClick={() => {
+              setGroup(group === g.labelKey ? null : g.labelKey);
+              setCursor(0);
+            }}
           >
-            {executing ? t("man.executing") : t("man.execute")}
+            {t(g.labelKey)}
           </button>
-        </div>
+        ))}
+      </div>
+      <div className="topic-list">
+        {groups.map((g) => (
+          <div key={g.labelKey}>
+            <div className="topic-group">{t(g.labelKey)}</div>
+            {g.topics.map((name) => {
+              const index = flat.indexOf(name);
+              return (
+                <button
+                  key={name}
+                  type="button"
+                  className={[
+                    "topic-item",
+                    name === current ? "is-selected" : "",
+                    index === cursor ? "is-cursor" : "",
+                  ].join(" ")}
+                  onClick={() => onPick(name)}
+                  onMouseEnter={() => setCursor(index)}
+                >
+                  <code>{name}</code>
+                  <span>{t(`manTopics.${name}`)}</span>
+                </button>
+              );
+            })}
+          </div>
+        ))}
+        {flat.length === 0 ? <p className="muted">{t("man.noMatch")}</p> : null}
+      </div>
+    </section>
+  );
+}
 
-        <div className="preview">
-          <span className="preview-label">{t("man.preview")}</span>
-          <code>{preview}</code>
-        </div>
-      </section>
+export function ManpageCard({ active, about }: { active: boolean; about: ReactNode }) {
+  const { t } = useTranslation();
+  const { topic, runner, tokens, preview, execute } = useManpage();
+  const isValid = VALID_TOPICS.has(topic.trim());
+  const shown = runner.ranCommand?.replace(/^man /, "") ?? null;
 
-      <ManpageResultView result={result} error={error} />
-    </>
+  return (
+    <Workbench
+      active={active}
+      title={t("man.title")}
+      description={t("man.description")}
+      tokens={tokens}
+      onRun={() => execute()}
+      canRun={isValid}
+      running={runner.running}
+      runLabel={t("man.execute")}
+      runningLabel={t("man.executing")}
+      about={about}
+      options={
+        <TopicList
+          topic={topic}
+          current={shown}
+          onPick={(name) => {
+            if (!runner.running) execute(name);
+          }}
+        />
+      }
+      output={
+        <OutputPane
+          running={runner.running}
+          error={runner.error}
+          meta={
+            runner.result
+              ? {
+                  success: runner.result.success,
+                  exitCode: runner.result.exit_code,
+                  stderr: runner.result.sections.length > 0 ? runner.result.stderr : "",
+                }
+              : null
+          }
+          ranAt={runner.ranAt}
+          durationMs={runner.durationMs}
+          ranCommand={runner.ranCommand}
+          stale={runner.ranCommand !== null && runner.ranCommand !== preview}
+          emptyHint={t("man.empty")}
+        >
+          {runner.result ? <ManpageResultView key={runner.ranCommand} result={runner.result} /> : null}
+        </OutputPane>
+      }
+    />
   );
 }

@@ -26,31 +26,13 @@ function renderInlines(spans: ManInline[]): ReactNode[] {
 }
 
 // man のセクション表示。生テキストではなく見出しごとの折りたたみで見せる。
-export function ManpageResultView({
-  result,
-  error,
-}: {
-  result: ManpageDocument | null;
-  error: string | null;
-}) {
+// 状態・終了コードは OutputPane 側で出す。
+export function ManpageResultView({ result }: { result: ManpageDocument }) {
   const { t } = useTranslation();
-
-  if (error) {
-    return (
-      <section className="card error">
-        <h3>{t("result.failed")}</h3>
-        <pre>{error}</pre>
-      </section>
-    );
-  }
-
-  if (!result) return null;
-
   const empty = result.sections.length === 0;
 
   return (
-    <section className={result.success ? "card" : "card error"}>
-      <h3>{result.success ? t("result.completed") : t("result.failed")}</h3>
+    <>
       {result.title ? <p className="man-title">{result.title}</p> : null}
 
       {empty ? (
@@ -90,23 +72,6 @@ export function ManpageResultView({
           </div>
         </>
       )}
-
-      {result.stderr && !empty ? (
-        <div className="output-block">
-          <h4>{t("result.error")}</h4>
-          <pre>{result.stderr}</pre>
-        </div>
-      ) : null}
-
-      <details className="raw-details">
-        <summary>{t("manResult.raw")}</summary>
-        <p className="muted">
-          {t("result.exitCode")}: {result.exit_code}
-        </p>
-        <p className="muted">
-          <code>{result.command}</code>
-        </p>
-      </details>
-    </section>
+    </>
   );
 }

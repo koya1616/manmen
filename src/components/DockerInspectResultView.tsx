@@ -45,30 +45,11 @@ function GcPolicyTable({ policy }: { policy: GcPolicy }) {
 }
 
 // `docker builder inspect` の構造化表示。先頭部 + ノードごとの詳細で見せる。
-export function DockerInspectResultView({
-  result,
-  error,
-}: {
-  result: InspectSnapshot | null;
-  error: string | null;
-}) {
+export function DockerInspectResultView({ result }: { result: InspectSnapshot }) {
   const { t } = useTranslation();
 
-  if (error) {
-    return (
-      <section className="card error">
-        <h3>{t("result.failed")}</h3>
-        <pre>{error}</pre>
-      </section>
-    );
-  }
-
-  if (!result) return null;
-
   return (
-    <section className={`card ${result.success ? "success" : "error"}`}>
-      <h3>{result.success ? t("result.completed") : t("result.failed")}</h3>
-
+    <>
       <div className="stat-grid">
         <div className="stat">
           <span className="stat-label">{t("dockerInspect.name")}</span>
@@ -144,23 +125,6 @@ export function DockerInspectResultView({
           </div>
         ))
       )}
-
-      {result.stderr ? (
-        <div className="output-block">
-          <h4>{t("result.error")}</h4>
-          <pre>{result.stderr}</pre>
-        </div>
-      ) : null}
-
-      <details className="raw-details">
-        <summary>{t("dockerInspect.raw")}</summary>
-        <p className="muted">
-          {t("result.exitCode")}: {result.exit_code}
-        </p>
-        <p className="muted">
-          <code>{result.command}</code>
-        </p>
-      </details>
-    </section>
+    </>
   );
 }

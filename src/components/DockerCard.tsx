@@ -1,140 +1,123 @@
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useDocker, type DockerReadKind } from "../hooks/useDocker";
+import { DOCKER_SUBS, useDocker } from "../hooks/useDocker";
 import { CommandResultView } from "./CommandResultView";
 import { DockerDuResultView } from "./DockerDuResultView";
 import { DockerInspectResultView } from "./DockerInspectResultView";
 import { DockerLsResultView } from "./DockerLsResultView";
 import { DockerVersionResultView } from "./DockerVersionResultView";
+import { OutputPane } from "./ui/OutputPane";
+import { Workbench } from "./ui/Workbench";
+import { FlagRow, OptionRow, Segmented, TextField } from "./ui/controls";
 
-const READ_KINDS: DockerReadKind[] = ["du", "ls", "inspect", "version"];
-
-export function DockerCard() {
+export function DockerCard({ active, about }: { active: boolean; about: ReactNode }) {
   const { t } = useTranslation();
-  const {
-    force,
-    setForce,
-    all,
-    setAll,
-    name,
-    setName,
-    nameOk,
-    executing,
-    dockerResult,
-    error,
-    preview,
-    inspectPreview,
-    execute,
-    executeRead,
-  } = useDocker();
+  const form = useDocker();
+  const { runner } = form;
+  const danger = form.sub === "prune";
+  const out = runner.result;
 
   return (
-    <>
-      <section className="card">
-        <h2>{t("docker.title")}</h2>
-        <p className="muted">{t("docker.description")}</p>
+    <Workbench
+      active={active}
+      title={t("docker.title")}
+      description={t("docker.description")}
+      tokens={form.tokens}
+      onRun={form.execute}
+      canRun={form.valid}
+      running={runner.running}
+      runLabel={danger ? t("docker.execute") : t("docker.run")}
+      runningLabel={danger ? t("docker.executing") : t("docker.readExecuting")}
+      danger={danger}
+      blocker={form.valid ? null : t("docker.nameInvalid")}
+      notice={danger ? <span>⚠️ {t("docker.note")}</span> : null}
+      about={about}
+      options={
+        <>
+          <OptionRow id="sub" label={t("docker.sub")} flag={form.sub} on>
+            <Segmented
+              value={form.sub}
+              onChange={form.setSub}
+              wrap
+              options={DOCKER_SUBS.map((sub) => ({
+                value: sub,
+                label: t(`dockerSub.${sub}`),
+                sub,
+              }))}
+            />
+            <p className="opt-hint">{t(`dockerSubHelp.${form.sub}`)}</p>
+          </OptionRow>
 
-        <h3>{t("docker.readTitle")}</h3>
-        <div className="choice-row">
-          {READ_KINDS.filter((kind) => kind !== "inspect").map((kind) => (
-            <button
-              key={kind}
-              type="button"
-              className="btn-secondary"
-              onClick={() => executeRead(kind)}
-              disabled={executing}
+          {form.sub === "inspect" ? (
+            <OptionRow
+              id="name"
+              label={t("docker.name")}
+              on={form.name.trim() !== ""}
+              hint={t("docker.hintName")}
+              error={form.nameOk ? null : t("docker.nameInvalid")}
             >
-              {t(`dockerRead.${kind}`)}
-            </button>
-          ))}
-        </div>
-
-        <label className="field">
-          <span className="field-label">{t("docker.name")}</span>
-          <input
-            type="text"
-            value={name}
-            placeholder={t("docker.namePlaceholder")}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <span className="field-hint">{t("docker.hintName")}</span>
-        </label>
-        {!nameOk ? <p className="muted">{t("docker.nameInvalid")}</p> : null}
-
-        <div className="topic-row">
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => executeRead("inspect")}
-            disabled={executing || !nameOk}
-          >
-            {executing ? t("docker.readExecuting") : t("dockerRead.inspect")}
-          </button>
-        </div>
-
-        <div className="preview">
-          <span className="preview-label">{t("docker.preview")}</span>
-          <code>{inspectPreview}</code>
-        </div>
-      </section>
-
-      <details className="card">
-        <summary>{t("docker.pruneTitle")}</summary>
-        <p className="muted">{t("docker.pruneSummary")}</p>
-        <div className="choice-stack">
-          <div className="flag-item">
-            <label className="check-row">
-              <input
-                type="checkbox"
-                checked={force}
-                onChange={(e) => setForce(e.target.checked)}
+              <TextField
+                value={form.name}
+                onChange={form.setName}
+                placeholder={t("docker.namePlaceholder")}
+                invalid={!form.nameOk}
+                onClear={() => form.setName("")}
               />
-              <span>{t("dockerFlags.force")}</span>
-            </label>
-            <span className="field-hint">{t("docker.hintForce")}</span>
-          </div>
-          <div className="flag-item">
-            <label className="check-row">
-              <input
-                type="checkbox"
-                checked={all}
-                onChange={(e) => setAll(e.target.checked)}
+            </OptionRow>
+          ) : null}
+
+          {form.sub === "prune" ? (
+            <>
+              <FlagRow
+                id="force"
+                label={t("dockerFlags.force")}
+                flag="-f"
+                hint={t("docker.hintForce")}
+                checked={form.force}
+                onChange={form.setForce}
               />
-              <span>{t("dockerFlags.all")}</span>
-            </label>
-            <span className="field-hint">{t("docker.hintAll")}</span>
-          </div>
-        </div>
+              <FlagRow
+                id="all"
+                label={t("dockerFlags.all")}
+                flag="--all"
+                hint={t("docker.hintAll")}
+                checked={form.all}
+                onChange={form.setAll}
+              />
+            </>
+          ) : null}
 
-        <button className="btn-primary" onClick={execute} disabled={executing}>
-          {executing ? t("docker.executing") : t("docker.execute")}
-        </button>
-
-        <div className="preview">
-          <span className="preview-label">{t("docker.preview")}</span>
-          <code>{preview}</code>
-        </div>
-
-        <p className="muted">{t("docker.note")}</p>
-      </details>
-
-      {dockerResult?.kind === "du" ? (
-        <DockerDuResultView result={dockerResult.result} error={error} />
-      ) : null}
-      {dockerResult?.kind === "ls" ? (
-        <DockerLsResultView result={dockerResult.result} error={error} />
-      ) : null}
-      {dockerResult?.kind === "version" ? (
-        <DockerVersionResultView result={dockerResult.result} error={error} />
-      ) : null}
-      {dockerResult?.kind === "inspect" ? (
-        <DockerInspectResultView result={dockerResult.result} error={error} />
-      ) : null}
-      {dockerResult?.kind === "prune" ? (
-        <CommandResultView result={dockerResult.result} error={error} />
-      ) : null}
-      {!dockerResult && error ? (
-        <CommandResultView result={null} error={error} />
-      ) : null}
-    </>
+          {form.sub !== "inspect" && form.sub !== "prune" ? (
+            <p className="note">{t("docker.noOptions")}</p>
+          ) : null}
+        </>
+      }
+      output={
+        <OutputPane
+          running={runner.running}
+          error={runner.error}
+          meta={
+            out
+              ? {
+                  success: out.result.success,
+                  exitCode: out.result.exit_code,
+                  stderr: out.result.stderr,
+                }
+              : null
+          }
+          ranAt={runner.ranAt}
+          durationMs={runner.durationMs}
+          ranCommand={runner.ranCommand}
+          stale={runner.ranCommand !== null && runner.ranCommand !== form.preview}
+          emptyHint={t("docker.empty")}
+        >
+          {out?.kind === "du" ? <DockerDuResultView result={out.result} /> : null}
+          {out?.kind === "ls" ? <DockerLsResultView result={out.result} /> : null}
+          {out?.kind === "version" ? <DockerVersionResultView result={out.result} /> : null}
+          {out?.kind === "inspect" ? <DockerInspectResultView result={out.result} /> : null}
+          {out?.kind === "prune" ? <CommandResultView result={out.result} /> : null}
+        </OutputPane>
+      }
+    />
   );
 }

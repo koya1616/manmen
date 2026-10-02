@@ -19,7 +19,9 @@
     "remember": "Skip password prompts (while the app is running)",
     "rememberNote": "Enter your password only once; subsequent runs need no password while the app is open. The password is never stored. After quitting, the credential expires with the normal timeout (about 5 minutes).",
     "execute": "Execute",
-    "executing": "Executing..."
+    "executing": "Executing...",
+    "empty": "Pick a setting and value, then run to see the result here.",
+    "never": "Never"
   },
   "pmsetScope": {
     "a": "All (-a)",
@@ -30,7 +32,8 @@
   "pmsetScopeShort": {
     "b": "Battery",
     "c": "AC",
-    "u": "UPS"
+    "u": "UPS",
+    "a": "All"
   },
   "pmsetSettings": {
     "disablesleep": "prevent system sleep",
@@ -65,7 +68,8 @@
     "noMatch": "No matching commands",
     "preview": "Command",
     "execute": "Show",
-    "executing": "Loading..."
+    "executing": "Loading...",
+    "empty": "Click a command in the list to show its manual here."
   },
   "manGroups": {
     "power": "Power & Sleep",
@@ -220,7 +224,12 @@
     "hintNcols": "Width of the log output. Too narrow drops columns from the table. Blank keeps top's default.",
     "hintFrameworks": "Leaves shared-library (framework) statistics out of the summary.",
     "hintMemoryMap": "Inspects each process's memory so sizes such as resident memory are numbers instead of N/A.",
-    "hintSwap": "Adds swap, purgeable memory, and disk and network totals to the summary."
+    "hintSwap": "Adds swap, purgeable memory, and disk and network totals to the summary.",
+    "groupSort": "Sorting",
+    "groupFilter": "Count & filters",
+    "groupDisplay": "Display & stats",
+    "countInvalid": "Count must be 1–100",
+    "empty": "Pick options and run to see the process list here."
   },
   "topOrder": {
     "default": "Descending (default)",
@@ -361,7 +370,11 @@
     "executing": "Pruning...",
     "note": "Pruning cannot be undone. Without --all only dangling cache is removed.",
     "hintForce": "Remove without confirmation (-f). Turning it off may fail on the confirmation prompt.",
-    "hintAll": "Remove all unused cache (--all). Off means dangling cache only."
+    "hintAll": "Remove all unused cache (--all). Off means dangling cache only.",
+    "sub": "Subcommand",
+    "run": "Run",
+    "noOptions": "This subcommand takes no options. Just run it.",
+    "empty": "Pick a subcommand and run to see the result here."
   },
   "dockerRead": {
     "du": "Disk usage (du)",
@@ -428,10 +441,22 @@
     "usage": "Use the inspect buttons to check state, keep -f on and press Prune to delete. Turn --all on only when you need to free a lot of space."
   },
   "commands": {
-    "pmset": { "name": "pmset (power)" },
-    "man": { "name": "man (manual)" },
-    "top": { "name": "top (processes)" },
-    "docker": { "name": "docker (builders)" }
+    "pmset": {
+      "name": "pmset (power)",
+      "label": "Power"
+    },
+    "man": {
+      "name": "man (manual)",
+      "label": "Manual"
+    },
+    "top": {
+      "name": "top (processes)",
+      "label": "Processes"
+    },
+    "docker": {
+      "name": "docker (builders)",
+      "label": "Builders"
+    }
   },
   "about": {
     "title": "About this command",
@@ -453,5 +478,41 @@
     "output": "Output",
     "error": "Error",
     "noOutput": "No output"
+  },
+  "ui": {
+    "copy": "Copy",
+    "copied": "Copied",
+    "options": "Options",
+    "about": "About this command",
+    "output": "Output",
+    "status": {
+      "idle": "Not run",
+      "running": "Running",
+      "ok": "Success",
+      "failed": "Failed"
+    },
+    "stale": "Options changed — run again to refresh",
+    "shortcutRun": "to run",
+    "searchKeys": "Search keys...",
+    "noMatch": "No match",
+    "showAll": "All ({{n}})",
+    "showLess": "Common only",
+    "reset": "Reset",
+    "default": "Default",
+    "all": "All"
+  },
+  "dockerSub": {
+    "du": "Disk usage",
+    "ls": "List",
+    "inspect": "Inspect",
+    "version": "Version",
+    "prune": "Prune cache"
+  },
+  "dockerSubHelp": {
+    "du": "Show build cache disk usage (read-only).",
+    "ls": "List builders (read-only).",
+    "inspect": "Show builder details (read-only).",
+    "version": "Show buildx version (read-only).",
+    "prune": "Delete build cache. Cannot be undone."
   }
 }

@@ -15,7 +15,7 @@ export function PmsetAbout() {
   const { t } = useTranslation();
 
   return (
-    <section className="card">
+    <section className="about-body">
       <h2>{t("about.title")}</h2>
       <h3>{t("about.pmsetTitle")}</h3>
       <p className="muted">{t("about.pmset")}</p>

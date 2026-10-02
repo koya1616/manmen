@@ -1,44 +1,35 @@
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 import { commandRegistry } from "./commands/registry";
 import { Sidebar } from "./components/Sidebar";
 
 function App() {
-  const { t, i18n } = useTranslation();
   const [selectedId, setSelectedId] = useState(commandRegistry[0].id);
 
-  const selected =
-    commandRegistry.find((entry) => entry.id === selectedId) ??
-    commandRegistry[0];
-  const Control = selected.control;
-  const About = selected.about;
+  // ⌘1〜⌘9 でコマンドを切り替える
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (!e.metaKey || e.shiftKey || e.altKey) return;
+      const index = Number(e.key) - 1;
+      const entry = commandRegistry[index];
+      if (entry) {
+        e.preventDefault();
+        setSelectedId(entry.id);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
-  function toggleLang() {
-    const next = i18n.language === "ja" ? "en" : "ja";
-    i18n.changeLanguage(next);
-    localStorage.setItem("manmen-lang", next);
-  }
-
+  // 切り替えても入力と出力が残るよう、全コマンドをマウントしたまま表示だけ切り替える
   return (
     <div className="app">
-      <Sidebar
-        entries={commandRegistry}
-        selectedId={selected.id}
-        onSelect={setSelectedId}
-      />
-      <main className="container">
-        <header className="header">
-          <div>
-            <h1>{t("app.title")}</h1>
-            <p className="subtitle">{t("app.description")}</p>
-          </div>
-          <button className="btn-secondary" onClick={toggleLang}>
-            {t("app.language")}
-          </button>
-        </header>
-
-        <Control />
-        <About />
+      <Sidebar entries={commandRegistry} selectedId={selectedId} onSelect={setSelectedId} />
+      <main className="main">
+        {commandRegistry.map((entry) => {
+          const Control = entry.control;
+          const About = entry.about;
+          return <Control key={entry.id} active={entry.id === selectedId} about={<About />} />;
+        })}
       </main>
     </div>
   );

@@ -8,7 +8,9 @@ import {
   pmsetSetting,
   type PmsetScope,
 } from "../commands/pmsetSettings";
+import { tok, tokensToString } from "../commands/tokens";
 import type { CommandResult, PmsetState, PmsetValue } from "../types";
+import { useRunner } from "./useRunner";
 
 function findValue(values: PmsetValue[], name: string): string | null {
   return values.find((item) => item.name === name)?.value ?? null;
@@ -55,16 +57,21 @@ export function usePmset() {
   const [value, setValue] = useState("0");
   const [state, setState] = useState<PmsetState | null>(null);
   const [remember, setRemember] = useState(true);
-  const [executing, setExecuting] = useState(false);
-  const [result, setResult] = useState<CommandResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const runner = useRunner<CommandResult>();
   const edited = useRef(false);
 
   const kind = pmsetSetting(setting).kind;
   const valid = isValidPmsetValue(kind, value);
   const previewValue =
     kind === "minutes" && valid ? String(Number(value)) : value;
-  const preview = `sudo pmset -${scope} ${setting} ${valid ? previewValue : "..."}`;
+  const tokens = [
+    tok("sudo", "sudo"),
+    tok("pmset", "cmd"),
+    tok(`-${scope}`, "flag", "scope"),
+    tok(setting, "sub", "setting"),
+    valid ? tok(previewValue, "value", "value") : tok("…", "placeholder", "value"),
+  ];
+  const preview = tokensToString(tokens);
 
   async function refresh() {
     const next = await api.getPmset();
@@ -102,19 +109,9 @@ export function usePmset() {
 
   async function execute() {
     if (!valid) return;
-    setExecuting(true);
-    setResult(null);
-    setError(null);
-    try {
-      const res = await api.setPmset(scope, setting, previewValue);
-      setResult(res);
-      if (res.success) {
-        await refresh().catch(() => undefined);
-      }
-    } catch (e) {
-      setError(String(e));
-    } finally {
-      setExecuting(false);
+    const res = await runner.run(() => api.setPmset(scope, setting, previewValue), preview);
+    if (res?.success) {
+      await refresh().catch(() => undefined);
     }
   }
 
@@ -130,10 +127,9 @@ export function usePmset() {
     kind,
     state,
     remember,
-    executing,
-    result,
-    error,
+    runner,
     valid,
+    tokens,
     preview,
     chooseScope,
     chooseSetting,

@@ -12,13 +12,15 @@ import {
   type TopKey,
   type TopSortOrder,
 } from "../commands/topOptions";
+import { tok, tokensToString, type CmdToken } from "../commands/tokens";
 import type { TopSnapshot } from "../types";
+import { useRunner } from "./useRunner";
 
 export function useTop() {
   const [sortKey, setSortKey] = useState<TopKey>(TOP_DEFAULT_SORT);
   const [sortOrder, setSortOrder] = useState<TopSortOrder>("");
   const [secondaryKey, setSecondaryKey] = useState("");
-  const [count, setCount] = useState(TOP_DEFAULT_COUNT);
+  const [count, setCount] = useState(String(TOP_DEFAULT_COUNT));
   const [countMode, setCountMode] = useState<TopCountMode>("n");
   const [noFrameworks, setNoFrameworks] = useState(false);
   const [memoryMap, setMemoryMap] = useState(false);
@@ -27,23 +29,22 @@ export function useTop() {
   const [pids, setPids] = useState("");
   const [stats, setStats] = useState<string[]>([]);
   const [ncols, setNcols] = useState("");
-  const [executing, setExecuting] = useState(false);
-  const [result, setResult] = useState<TopSnapshot | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const runner = useRunner<TopSnapshot>();
 
+  const countNum = Number(count);
   const isValidCount =
-    Number.isInteger(count) && count >= 1 && count <= TOP_MAX_COUNT;
+    /^\d+$/.test(count) && countNum >= 1 && countNum <= TOP_MAX_COUNT;
   const userOk = isValidUser(user);
   const pidList = parsePidList(pids);
   const ncolsOk = isValidNcols(ncols);
   const statsOk = stats.length <= TOP_MAX_STATS;
   const valid = isValidCount && userOk && pidList !== null && ncolsOk && statsOk;
 
-  const preview = buildPreview({
+  const tokens = buildTokens({
     sortKey,
     sortOrder,
     secondaryKey,
-    count,
+    count: isValidCount ? String(countNum) : "",
     countMode,
     noFrameworks,
     memoryMap,
@@ -53,6 +54,7 @@ export function useTop() {
     stats,
     ncols: ncols.trim(),
   });
+  const preview = tokensToString(tokens);
 
   function toggleStat(key: string) {
     setStats((current) =>
@@ -66,30 +68,28 @@ export function useTop() {
 
   async function execute() {
     if (!valid || pidList === null) return;
-    setExecuting(true);
-    setResult(null);
-    setError(null);
-    try {
-      const res = await api.getTop({
-        sortKey,
-        sortOrder,
-        secondaryKey,
-        count,
-        countMode,
-        noFrameworks,
-        memoryMap,
-        swap,
-        user: user.trim(),
-        pids: pidList.join(","),
-        stats,
-        ncols: ncols.trim() === "" ? null : Number(ncols),
-      });
-      setResult(res);
-    } catch (e) {
-      setError(String(e));
-    } finally {
-      setExecuting(false);
-    }
+    await runner.run(
+      () =>
+        api.getTop({
+          sortKey,
+          sortOrder,
+          secondaryKey,
+          count: countNum,
+          countMode,
+          noFrameworks,
+          memoryMap,
+          swap,
+          user: user.trim(),
+          pids: pidList.join(","),
+          stats,
+          ncols: ncols.trim() === "" ? null : Number(ncols),
+        }),
+      preview,
+    );
+  }
+
+  function clearStats() {
+    setStats([]);
   }
 
   return {
@@ -115,13 +115,14 @@ export function useTop() {
     setPids,
     stats,
     toggleStat,
+    clearStats,
     ncols,
     setNcols,
-    executing,
-    result,
-    error,
+    runner,
+    tokens,
     preview,
     valid,
+    isValidCount,
     userOk,
     pidList,
     ncolsOk,
@@ -129,11 +130,11 @@ export function useTop() {
   };
 }
 
-function buildPreview(input: {
+function buildTokens(input: {
   sortKey: string;
   sortOrder: string;
   secondaryKey: string;
-  count: number;
+  count: string;
   countMode: string;
   noFrameworks: boolean;
   memoryMap: boolean;
@@ -142,17 +143,24 @@ function buildPreview(input: {
   pids: string[];
   stats: string[];
   ncols: string;
-}): string {
-  const args = ["-l", "1", "-o", `${input.sortOrder}${input.sortKey}`];
-  if (input.secondaryKey) args.push("-O", input.secondaryKey);
-  args.push("-n", String(input.count));
-  if (input.countMode !== "n") args.push("-c", input.countMode);
-  if (input.noFrameworks) args.push("-F");
-  if (input.memoryMap) args.push("-r");
-  if (input.swap) args.push("-S");
-  if (input.user) args.push("-user", input.user);
-  for (const pid of input.pids) args.push("-pid", pid);
-  if (input.stats.length > 0) args.push("-stats", input.stats.join(","));
-  if (input.ncols) args.push("-ncols", input.ncols);
-  return `top ${args.join(" ")}`;
+}): CmdToken[] {
+  const out: CmdToken[] = [tok("top", "cmd"), tok("-l", "fixed"), tok("1", "fixed")];
+  out.push(tok("-o", "flag", "sort"), tok(`${input.sortOrder}${input.sortKey}`, "value", "sort"));
+  if (input.secondaryKey) {
+    out.push(tok("-O", "flag", "secondary"), tok(input.secondaryKey, "value", "secondary"));
+  }
+  out.push(tok("-n", "flag", "count"), tok(input.count || "…", input.count ? "value" : "placeholder", "count"));
+  if (input.countMode !== "n") {
+    out.push(tok("-c", "flag", "mode"), tok(input.countMode, "value", "mode"));
+  }
+  if (input.noFrameworks) out.push(tok("-F", "flag", "frameworks"));
+  if (input.memoryMap) out.push(tok("-r", "flag", "memoryMap"));
+  if (input.swap) out.push(tok("-S", "flag", "swap"));
+  if (input.user) out.push(tok("-user", "flag", "user"), tok(input.user, "value", "user"));
+  for (const pid of input.pids) out.push(tok("-pid", "flag", "pids"), tok(pid, "value", "pids"));
+  if (input.stats.length > 0) {
+    out.push(tok("-stats", "flag", "stats"), tok(input.stats.join(","), "value", "stats"));
+  }
+  if (input.ncols) out.push(tok("-ncols", "flag", "ncols"), tok(input.ncols, "value", "ncols"));
+  return out;
 }

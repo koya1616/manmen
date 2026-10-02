@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {
   HIBERNATE_VALUES,
@@ -10,6 +11,9 @@ import {
 import { currentValue, usePmset } from "../hooks/usePmset";
 import type { PmsetState } from "../types";
 import { CommandResultView } from "./CommandResultView";
+import { OutputPane } from "./ui/OutputPane";
+import { useLink, Workbench } from "./ui/Workbench";
+import { OptionRow, Segmented, Stepper, Toggle } from "./ui/controls";
 
 function formatScalar(
   kind: PmsetValueKind,
@@ -49,7 +53,57 @@ function currentLabel(
   return parts.length > 0 ? parts.join(" / ") : t("pmset.unknown");
 }
 
-export function PmsetCard() {
+const MINUTE_PRESETS = ["0", "1", "5", "10", "15", "30", "60", "180"];
+
+// 設定項目の一覧。各行に現在値を出し、選ぶと値の欄がその種類に合わせて切り替わる。
+function SettingList({
+  setting,
+  scope,
+  state,
+  onPick,
+}: {
+  setting: string;
+  scope: PmsetScope;
+  state: PmsetState | null;
+  onPick: (name: string) => void;
+}) {
+  const { t } = useTranslation();
+  const { linked, flash, setLinked } = useLink();
+
+  return (
+    <section
+      data-opt="setting"
+      className={`opt is-on ${linked === "setting" ? "is-linked" : ""} ${flash === "setting" ? "is-flash" : ""}`}
+      onMouseEnter={() => setLinked("setting")}
+      onMouseLeave={() => setLinked(null)}
+    >
+      <div className="opt-head">
+        <span className="opt-label">{t("pmset.setting")}</span>
+        <code className="opt-flag">{setting}</code>
+      </div>
+      <div className="setting-list">
+        {PMSET_SETTINGS.map((item) => (
+          <button
+            key={item.name}
+            type="button"
+            className={`setting-item ${item.name === setting ? "is-selected" : ""}`}
+            onClick={() => onPick(item.name)}
+          >
+            <span className="setting-copy">
+              <span className="setting-label">{t(`pmsetSettings.${item.name}`)}</span>
+              <code>{item.name}</code>
+            </span>
+            <span className="setting-current">
+              {currentLabel(state, item.name, scope, item.kind, t)}
+            </span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function PmsetCard({ active, about }: { active: boolean; about: ReactNode }) {
   const { t } = useTranslation();
   const {
     scope,
@@ -58,10 +112,9 @@ export function PmsetCard() {
     kind,
     state,
     remember,
-    executing,
-    result,
-    error,
+    runner,
     valid,
+    tokens,
     preview,
     chooseScope,
     chooseSetting,
@@ -70,112 +123,118 @@ export function PmsetCard() {
     updateRemember,
   } = usePmset();
 
+  const current = currentLabel(state, setting, scope, kind, t);
+  const next = valid ? formatScalar(kind, kind === "minutes" ? String(Number(value)) : value, t) : "…";
+
   return (
-    <>
-      <section className="card">
-        <h2>{t("pmset.title")}</h2>
-        <p className="muted">{t("pmset.description")}</p>
+    <Workbench
+      active={active}
+      title={t("pmset.title")}
+      description={t("pmset.description")}
+      tokens={tokens}
+      onRun={execute}
+      canRun={valid}
+      running={runner.running}
+      runLabel={t("pmset.execute")}
+      runningLabel={t("pmset.executing")}
+      blocker={valid ? null : t("pmset.minutesHint")}
+      notice={
+        <span>
+          🔒 {t("pmset.adminNote")}
+        </span>
+      }
+      about={about}
+      options={
+        <>
+          <OptionRow id="scope" label={t("pmset.scope")} flag={`-${scope}`} on>
+            <Segmented
+              value={scope}
+              onChange={chooseScope}
+              wrap
+              options={PMSET_SCOPES.map((item) => ({
+                value: item,
+                label: t(`pmsetScopeShort.${item}`),
+                sub: `-${item}`,
+              }))}
+            />
+          </OptionRow>
 
-        <div className="field">
-          <span className="field-label">{t("pmset.scope")}</span>
-          <div className="choice-row">
-            {PMSET_SCOPES.map((item) => (
-              <button
-                key={item}
-                type="button"
-                className={scope === item ? "selected" : ""}
-                onClick={() => chooseScope(item)}
-              >
-                {t(`pmsetScope.${item}`)}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <label className="field">
-          <span className="field-label">{t("pmset.setting")}</span>
-          <select value={setting} onChange={(e) => chooseSetting(e.target.value)}>
-            {PMSET_SETTINGS.map((item) => (
-              <option key={item.name} value={item.name}>
-                {item.name} — {t(`pmsetSettings.${item.name}`)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <p className="muted">
-          {t("pmset.current")}: {currentLabel(state, setting, scope, kind, t)}
-        </p>
-
-        <div className="field">
-          <span className="field-label">{t("pmset.value")}</span>
-          {kind === "bool" ? (
-            <button
-              type="button"
-              className={`switch ${value === "1" ? "on" : "off"}`}
-              onClick={() => chooseValue(value === "1" ? "0" : "1")}
-              aria-pressed={value === "1"}
-            >
-              {value === "1" ? "ON" : "OFF"}
-            </button>
-          ) : null}
-          {kind === "minutes" ? (
-            <div className="value-row">
-              <input
-                type="number"
+          <OptionRow
+            id="value"
+            label={t("pmset.value")}
+            flag={valid ? value : "…"}
+            on
+            hint={
+              <span className="diff">
+                <span>{t("pmset.current")}: {current}</span>
+                <span aria-hidden>→</span>
+                <strong>{next}</strong>
+              </span>
+            }
+          >
+            {kind === "bool" ? (
+              <Toggle
+                checked={value === "1"}
+                onChange={(on) => chooseValue(on ? "1" : "0")}
+                onLabel="ON (1)"
+                offLabel="OFF (0)"
+              />
+            ) : null}
+            {kind === "minutes" ? (
+              <Stepper
+                value={value}
+                onChange={chooseValue}
                 min={0}
                 max={MAX_PMSET_MINUTES}
-                className="search-input value-input"
-                value={value}
-                onChange={(e) => chooseValue(e.target.value)}
-                aria-label={t("pmset.value")}
+                unit={t("pmset.minutesUnit")}
+                presets={MINUTE_PRESETS.map((v) => ({
+                  value: v,
+                  label: v === "0" ? t("pmset.never") : `${v}${t("pmset.minutesUnit")}`,
+                }))}
               />
-              <span className="muted">{t("pmset.minutesHint")}</span>
-            </div>
-          ) : null}
-          {kind === "hibernate" ? (
-            <div className="choice-row">
-              {HIBERNATE_VALUES.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  className={value === item ? "selected" : ""}
-                  onClick={() => chooseValue(item)}
-                >
-                  {item} — {t(`pmsetHibernate.${item}`)}
-                </button>
-              ))}
-            </div>
-          ) : null}
-        </div>
+            ) : null}
+            {kind === "hibernate" ? (
+              <Segmented
+                value={value}
+                onChange={chooseValue}
+                options={HIBERNATE_VALUES.map((item) => ({
+                  value: item,
+                  label: t(`pmsetHibernate.${item}`),
+                  sub: item,
+                }))}
+              />
+            ) : null}
+          </OptionRow>
 
-        <div className="preview">
-          <span className="preview-label">{t("pmset.preview")}</span>
-          <code>{preview}</code>
-        </div>
+          <SettingList setting={setting} scope={scope} state={state} onPick={chooseSetting} />
 
-        <p className="muted">{t("pmset.adminNote")}</p>
-
-        <label className="check-row">
-          <input
-            type="checkbox"
-            checked={remember}
-            onChange={(e) => updateRemember(e.target.checked)}
-          />
-          <span>{t("pmset.remember")}</span>
-        </label>
-        <p className="muted">{t("pmset.rememberNote")}</p>
-
-        <button
-          className="btn-primary"
-          onClick={execute}
-          disabled={executing || !valid}
+          <OptionRow id="remember" label={t("pmset.remember")} hint={t("pmset.rememberNote")}>
+            <Toggle checked={remember} onChange={updateRemember} />
+          </OptionRow>
+        </>
+      }
+      output={
+        <OutputPane
+          running={runner.running}
+          error={runner.error}
+          meta={
+            runner.result
+              ? {
+                  success: runner.result.success,
+                  exitCode: runner.result.exit_code,
+                  stderr: runner.result.stderr,
+                }
+              : null
+          }
+          ranAt={runner.ranAt}
+          durationMs={runner.durationMs}
+          ranCommand={runner.ranCommand}
+          stale={runner.ranCommand !== null && runner.ranCommand !== preview}
+          emptyHint={t("pmset.empty")}
         >
-          {executing ? t("pmset.executing") : t("pmset.execute")}
-        </button>
-      </section>
-
-      <CommandResultView result={result} error={error} />
-    </>
+          {runner.result ? <CommandResultView result={runner.result} /> : null}
+        </OutputPane>
+      }
+    />
   );
 }

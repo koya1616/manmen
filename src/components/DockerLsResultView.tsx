@@ -2,30 +2,11 @@ import { useTranslation } from "react-i18next";
 import type { LsSnapshot } from "../types";
 
 // `docker builder ls` の階層表示。builder ごとに見出し + ノード表で見せる。
-export function DockerLsResultView({
-  result,
-  error,
-}: {
-  result: LsSnapshot | null;
-  error: string | null;
-}) {
+export function DockerLsResultView({ result }: { result: LsSnapshot }) {
   const { t } = useTranslation();
 
-  if (error) {
-    return (
-      <section className="card error">
-        <h3>{t("result.failed")}</h3>
-        <pre>{error}</pre>
-      </section>
-    );
-  }
-
-  if (!result) return null;
-
   return (
-    <section className={`card ${result.success ? "success" : "error"}`}>
-      <h3>{result.success ? t("result.completed") : t("result.failed")}</h3>
-
+    <>
       {result.builders.length === 0 ? (
         <p className="muted">{t("dockerLs.noData")}</p>
       ) : (
@@ -67,23 +48,6 @@ export function DockerLsResultView({
           </div>
         ))
       )}
-
-      {result.stderr ? (
-        <div className="output-block">
-          <h4>{t("result.error")}</h4>
-          <pre>{result.stderr}</pre>
-        </div>
-      ) : null}
-
-      <details className="raw-details">
-        <summary>{t("dockerLs.raw")}</summary>
-        <p className="muted">
-          {t("result.exitCode")}: {result.exit_code}
-        </p>
-        <p className="muted">
-          <code>{result.command}</code>
-        </p>
-      </details>
-    </section>
+    </>
   );
 }
