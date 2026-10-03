@@ -472,6 +472,10 @@
     "lsof": {
       "name": "lsof (files)",
       "label": "Files"
+    },
+    "whoami": {
+      "name": "whoami (username)",
+      "label": "Username"
     }
   },
   "about": {
@@ -932,5 +936,19 @@
   "lsofResult": {
     "entries": "Entries",
     "noData": "No matching results"
+  },
+  "whoami": {
+    "title": "Username (whoami)",
+    "description": "Show the current username. No administrator privileges needed.",
+    "execute": "Show",
+    "executing": "Loading...",
+    "noOptions": "This command takes no options. Just run it.",
+    "empty": "Run to see the current username here."
+  },
+  "whoamiAbout": {
+    "heading": "What is whoami",
+    "body": "The standard macOS command that shows the current effective username (man whoami: display effective user id). Runs with no options.",
+    "usageTitle": "Usage",
+    "usage": "Just press Show. Options and arguments are not accepted."
   }
 }

@@ -97,6 +97,7 @@ export const api = {
     stats: string[];
     ncols: number | null;
   }) => invoke<TopSnapshot>("get_top", { query }),
+  getWhoami: () => invoke<CommandResult>("get_whoami"),
   pruneDockerBuilder: (force: boolean, all: boolean) =>
     invoke<CommandResult>("prune_docker_builder", { force, all }),
   dockerBuilderDu: () => invoke<DuSnapshot>("docker_builder_du"),

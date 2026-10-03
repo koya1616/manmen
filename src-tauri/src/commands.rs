@@ -126,6 +126,11 @@ pub fn docker_system_info() -> Result<crate::docker_read::SystemInfoSnapshot, St
 }
 
 #[tauri::command]
+pub fn get_whoami() -> Result<CommandResult, String> {
+    crate::whoami::current()
+}
+
+#[tauri::command]
 pub fn set_remember(enabled: bool) {
     crate::privileged::set_remember(enabled);
 }

@@ -15,6 +15,8 @@ import { LsofAbout } from "../components/LsofAbout";
 import { LsofCard } from "../components/LsofCard";
 import { DockerAbout } from "../components/DockerAbout";
 import { DockerCard } from "../components/DockerCard";
+import { WhoamiAbout } from "../components/WhoamiAbout";
+import { WhoamiCard } from "../components/WhoamiCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -84,5 +86,12 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.docker.label",
     control: DockerCard,
     about: DockerAbout,
+  },
+  {
+    id: "whoami.user",
+    cmd: "whoami",
+    nameKey: "commands.whoami.label",
+    control: WhoamiCard,
+    about: WhoamiAbout,
   },
 ];

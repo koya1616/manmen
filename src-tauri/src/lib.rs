@@ -11,3 +11,4 @@ pub mod spec;
 pub mod ssh;
 pub mod top;
 pub mod types;
+pub mod whoami;

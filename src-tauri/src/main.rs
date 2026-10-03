@@ -13,6 +13,7 @@ fn main() {
             manmen_lib::commands::get_ps,
             manmen_lib::commands::get_lsof,
             manmen_lib::commands::get_top,
+            manmen_lib::commands::get_whoami,
             manmen_lib::commands::prune_docker_builder,
             manmen_lib::commands::docker_builder_du,
             manmen_lib::commands::docker_builder_ls,

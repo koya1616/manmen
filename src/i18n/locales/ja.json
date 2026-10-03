@@ -472,6 +472,10 @@
     "lsof": {
       "name": "lsof（ファイル・通信）",
       "label": "ファイル・通信"
+    },
+    "whoami": {
+      "name": "whoami（ユーザ名表示）",
+      "label": "ユーザ名表示"
     }
   },
   "about": {
@@ -932,5 +936,19 @@
   "lsofResult": {
     "entries": "件数",
     "noData": "条件に合う結果がありませんでした"
+  },
+  "whoami": {
+    "title": "ユーザ名表示 (whoami)",
+    "description": "現在のユーザ名を表示します。管理者権限は不要です。",
+    "execute": "表示",
+    "executing": "取得中...",
+    "noOptions": "このコマンドに指定できるオプションはありません。そのまま実行できます。",
+    "empty": "実行すると、現在のユーザ名がここに表示されます。"
+  },
+  "whoamiAbout": {
+    "heading": "whoami とは",
+    "body": "現在の実効ユーザ名を表示するmacOS標準コマンド（man whoami: display effective user id）。オプションなしで実行します。",
+    "usageTitle": "使い方",
+    "usage": "「表示」を押すだけです。オプションや引数は受け付けません。"
   }
 }
