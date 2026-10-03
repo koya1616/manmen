@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useLink } from "./Workbench";
 
@@ -228,13 +228,17 @@ export function TextField({
   placeholder,
   invalid = false,
   onClear,
+  suggestions,
 }: {
   value: string;
   onChange: (next: string) => void;
   placeholder?: string;
   invalid?: boolean;
   onClear?: () => void;
+  suggestions?: string[];
 }) {
+  const listId = useId();
+  const hasSuggestions = (suggestions?.length ?? 0) > 0;
   return (
     <div className={`textfield ${invalid ? "is-invalid" : ""}`}>
       <input
@@ -244,8 +248,16 @@ export function TextField({
         spellCheck={false}
         autoCorrect="off"
         autoCapitalize="off"
+        list={hasSuggestions ? listId : undefined}
         onChange={(e) => onChange(e.target.value)}
       />
+      {hasSuggestions ? (
+        <datalist id={listId}>
+          {suggestions!.map((item) => (
+            <option key={item} value={item} />
+          ))}
+        </datalist>
+      ) : null}
       {value && onClear ? (
         <button type="button" className="textfield-clear" onClick={onClear} aria-label="clear">
           ×

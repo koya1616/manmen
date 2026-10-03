@@ -456,6 +456,22 @@
     "docker": {
       "name": "docker (containers)",
       "label": "Docker"
+    },
+    "dig": {
+      "name": "dig (DNS lookup)",
+      "label": "DNS"
+    },
+    "ssh": {
+      "name": "ssh (SSH)",
+      "label": "SSH"
+    },
+    "ps": {
+      "name": "ps (processes)",
+      "label": "Processes list"
+    },
+    "lsof": {
+      "name": "lsof (files)",
+      "label": "Files"
     }
   },
   "about": {
@@ -572,5 +588,349 @@
     "memory": "Memory",
     "driver": "Driver",
     "kernel": "Kernel"
+  },
+  "dig": {
+    "title": "DNS lookup (dig)",
+    "description": "Look up IP addresses, mail servers, and more from domain names. No administrator privileges needed.",
+    "name": "Name",
+    "namePlaceholder": "e.g. example.com",
+    "nameInvalid": "Enter a hostname using letters, digits, and . _ -",
+    "ip": "IP address",
+    "ipPlaceholder": "e.g. 8.8.8.8",
+    "qtype": "Type",
+    "qclass": "Class",
+    "server": "Server (@server)",
+    "serverPlaceholder": "blank = default (e.g. 8.8.8.8)",
+    "serverInvalid": "Enter an IP address or hostname for the server",
+    "traceConflict": "+trace cannot be combined with a server",
+    "transport": "Transport (-4 / -6)",
+    "groupQuery": "Query",
+    "groupDisplay": "Display & method",
+    "hintName": "The domain name to look up. A trailing dot is allowed.",
+    "hintIp": "The IP address for reverse lookup, queried with -x.",
+    "hintType": "The record type. A is IPv4, AAAA is IPv6, MX is mail servers.",
+    "hintClass": "Leave as IN in most cases.",
+    "hintServer": "The DNS server to ask. Blank uses the macOS default. @ is added automatically.",
+    "hintShort": "Show only the answers, one per line (+short).",
+    "hintTcp": "Query over TCP (+tcp), useful when UDP is unreliable.",
+    "hintDnssec": "Also request DNSSEC records (+dnssec).",
+    "hintTrace": "Trace delegation from the root (+trace). Cannot be combined with a server.",
+    "hintNoRecurse": "Disable recursion (+norecurse), for checking authoritative answers.",
+    "hintReverse": "Look up the name for an IP (-x). Type and class are ignored while on.",
+    "hintTransport": "Whether to query over IPv4 or IPv6. Default is automatic.",
+    "execute": "Lookup",
+    "executing": "Looking up...",
+    "note": "File input (-f), keys (-y / -k), and source address (-b) are not accepted. One lookup at a time.",
+    "empty": "Enter a name and run to see DNS answers here."
+  },
+  "digAbout": {
+    "title": "About this command",
+    "dig": "The standard macOS command for querying DNS servers (man dig: DNS lookup utility). Find IPv4/IPv6 addresses (A / AAAA), mail servers (MX), name servers (NS), and more. Queries look like dig @server name type.",
+    "usageTitle": "Usage",
+    "usage": "Enter a name, pick a type (A / MX, ...), and press Lookup. Fill in Server only to ask a specific server. Keep +short on to see just the answers."
+  },
+  "digResult": {
+    "queryTime": "Query time",
+    "server": "Server",
+    "when": "When",
+    "msgSize": "Message size",
+    "name": "Name",
+    "ttl": "TTL",
+    "class": "Class",
+    "type": "Type",
+    "value": "Value",
+    "noData": "No answers returned",
+    "raw": "Full output"
+  },
+  "digFlags": {
+    "short": "Short answers only (+short)",
+    "tcp": "Query over TCP (+tcp)",
+    "dnssec": "Request DNSSEC (+dnssec)",
+    "trace": "Trace delegation (+trace)",
+    "noRecurse": "No recursion (+norecurse)",
+    "reverse": "Reverse lookup (-x)"
+  },
+  "digTransport": {
+    "auto": "Auto",
+    "4": "IPv4 (-4)",
+    "6": "IPv6 (-6)"
+  },
+  "ssh": {
+    "title": "SSH connection (ssh)",
+    "description": "Inspect the effective config without connecting, or check connectivity only. No administrator privileges needed.",
+    "destination": "Destination",
+    "hostPlaceholder": "e.g. example.com",
+    "userPlaceholder": "User (blank = default)",
+    "hostInvalid": "Enter a hostname or IP using letters, digits, and . _ - :",
+    "userInvalid": "User names may contain only letters, digits, and . _ -",
+    "port": "Port (-p)",
+    "portPlaceholder": "blank = 22",
+    "portInvalid": "Port must be 1–65535",
+    "mode": "Mode",
+    "timeout": "Connect timeout",
+    "timeoutInvalid": "Timeout must be 5–30 seconds",
+    "secondsUnit": "s",
+    "strict": "Host key checking",
+    "transport": "Transport (-4 / -6)",
+    "groupDestination": "Destination",
+    "groupMode": "Action",
+    "groupDisplay": "Display & transport",
+    "hintDestination": "A hostname, IP, or ~/.ssh/config alias. Aliases keep their IdentityFile and other settings. Do not use user@host form; put the user in its own field.",
+    "hintPort": "Blank means 22. Passed with -p.",
+    "hintMode": "Config inspection uses -G without connecting. Connectivity check runs only exit with BatchMode (no password prompts).",
+    "hintTimeout": "Give up if there is no response within these seconds, from 5 to 30.",
+    "hintStrict": "How to treat unknown hosts. no (disable verification) is not available.",
+    "hintVerbose": "Show detailed connection logs with -v. Useful for diagnosing failures.",
+    "hintTransport": "Whether to connect over IPv4 or IPv6. Default is automatic.",
+    "execute": "Run",
+    "executing": "Running...",
+    "note": "Interactive login, arbitrary remote commands, key files (-i), ProxyJump (-J), and forwarding (-L/-R/-D) are not accepted. Default keys and ssh-agent settings are used.",
+    "empty": "Enter a destination and run to see the result here.",
+    "purpose": "Purpose",
+    "groupPurpose": "Purpose",
+    "hintPurpose": "Whether to inspect config, check connectivity, or open a tunnel.",
+    "knownHostDetail": "Resolved from config: {{detail}}"
+  },
+  "sshAbout": {
+    "title": "About this command",
+    "ssh": "The standard macOS command for securely connecting to remote hosts (man ssh: OpenSSH remote login client). -G shows the effective config without connecting; BatchMode=yes with exit checks connectivity without password prompts; -N opens a forwarding-only tunnel. The host field also accepts ~/.ssh/config aliases.",
+    "usageTitle": "Usage",
+    "usage": "Pick a purpose (inspect, connectivity, tunnel). Enter the destination by alias or free text, then press Run (Start tunnel for tunnels). Interactive login is not available."
+  },
+  "sshResult": {
+    "key": "Key",
+    "value": "Value",
+    "testOk": "Connected successfully (exit completed)",
+    "testNg": "Could not connect",
+    "noData": "Nothing to display",
+    "raw": "Full output"
+  },
+  "sshFlags": {
+    "verbose": "Verbose logging (-v)"
+  },
+  "sshMode": {
+    "config": "Inspect config",
+    "test": "Check connectivity"
+  },
+  "sshStrict": {
+    "ask": "Ask (ask)",
+    "accept-new": "Accept new (accept-new)",
+    "yes": "Strict (yes)"
+  },
+  "sshTransport": {
+    "auto": "Auto",
+    "4": "IPv4 (-4)",
+    "6": "IPv6 (-6)"
+  },
+  "sshTunnel": {
+    "title": "SSH tunnel (ssh -N)",
+    "description": "Start and stop forwarding-only SSH connections. No remote command is executed.",
+    "direction": "Direction",
+    "bind": "Bind address",
+    "bindPlaceholder": "blank = 127.0.0.1",
+    "bindInvalid": "Bind must be blank / 127.0.0.1 / localhost",
+    "localPort": "Local port",
+    "localPortPlaceholder": "e.g. 8080",
+    "localPortInvalid": "Local port must be 1–65535",
+    "remoteHost": "Remote host",
+    "remoteHostPlaceholder": "e.g. internal.example.com",
+    "remoteHostInvalid": "Invalid remote host",
+    "remotePort": "Remote port",
+    "remotePortPlaceholder": "e.g. 80",
+    "remotePortInvalid": "Remote port must be 1–65535",
+    "destination": "Jump host (SSH destination)",
+    "hostPlaceholder": "e.g. gateway.example.com",
+    "userPlaceholder": "User (blank = default)",
+    "hostInvalid": "Enter a hostname or IP using letters, digits, and . _ - :",
+    "userInvalid": "User names may contain only letters, digits, and . _ -",
+    "port": "SSH port (-p)",
+    "portPlaceholder": "blank = 22",
+    "portInvalid": "Port must be 1–65535",
+    "transport": "Transport (-4 / -6)",
+    "groupDirection": "Direction",
+    "groupForward": "Forwarding",
+    "groupDestination": "Jump host",
+    "groupDisplay": "Display & transport",
+    "hintDirection": "-L forwards local to remote, -R forwards remote to local, -D is a SOCKS proxy.",
+    "hintBind": "The address to listen on. LAN exposure (0.0.0.0, etc.) is rejected. Blank means 127.0.0.1.",
+    "hintLocalPort": "The local port to open. Starting fails if it is already in use.",
+    "hintRemoteHost": "Forward target host for -L/-R. For -L it is resolved from the jump host.",
+    "hintRemotePort": "Forward target port for -L/-R.",
+    "hintDestination": "The SSH server to go through. ~/.ssh/config aliases are selectable. Do not use user@host form; put the user in its own field.",
+    "hintPort": "SSH port of the jump host. Blank means 22.",
+    "hintKeepalive": "Send keepalive probes to hold idle connections (ServerAlive).",
+    "hintTransport": "Whether to connect over IPv4 or IPv6. Default is automatic.",
+    "start": "Start tunnel",
+    "starting": "Starting...",
+    "stop": "Stop",
+    "note": "No password prompts appear (BatchMode). Key authentication must be ready. Remote commands and other options are not accepted.",
+    "noteClose": "Closing the app (window) stops all running tunnels. Nothing is left behind.",
+    "empty": "Start a tunnel to see the running list here."
+  },
+  "sshTunnelAbout": {
+    "title": "About this command",
+    "tunnel": "ssh -N opens forwarding without executing a remote command (man ssh -N: Do not execute a remote command). Supports -L (local to remote), -R (remote to local), and -D (SOCKS).",
+    "usageTitle": "Usage",
+    "usage": "Enter direction, ports, and jump host, then press Start tunnel. Press Stop in the list to close one. Closing the app stops every tunnel."
+  },
+  "sshTunnelResult": {
+    "summary": "Summary",
+    "command": "Command",
+    "action": "Action"
+  },
+  "sshTunnelFlags": {
+    "keepalive": "Keep connection alive (ServerAlive)"
+  },
+  "sshTunnelMode": {
+    "local": "Local to remote (-L)",
+    "remote": "Remote to local (-R)",
+    "dynamic": "SOCKS (-D)"
+  },
+  "sshPurpose": {
+    "config": "Inspect config",
+    "test": "Check connectivity",
+    "tunnel": "Tunnel"
+  },
+  "ps": {
+    "title": "Process list (ps)",
+    "description": "Take a snapshot of running processes. No administrator privileges needed.",
+    "columns": "Columns (-o)",
+    "columnsHint": "Pick at least one column. Up to 16 columns.",
+    "columnsInvalid": "Pick 1–16 columns",
+    "sort": "Sort",
+    "hintSort": "CPU order adds -r, memory order adds -m. None keeps ps default order.",
+    "user": "User (-U)",
+    "userPlaceholder": "blank = everyone",
+    "userInvalid": "User names may contain only letters, digits, and . _ -",
+    "pids": "Process IDs (-p)",
+    "pidsPlaceholder": "e.g. 1, 501",
+    "pidsInvalid": "Enter up to 16 process IDs as integers separated by commas",
+    "hintUser": "Shows only processes owned by this user. Blank means everyone.",
+    "hintPids": "Shows only these processes. Separate several IDs with commas.",
+    "groupDisplay": "Display & sort",
+    "groupFilter": "Filters",
+    "execute": "Snapshot",
+    "executing": "Loading...",
+    "note": "Always targets all processes (-A). The command column may contain spaces, so it stays last.",
+    "empty": "Pick options and run to see the process list here."
+  },
+  "psSort": {
+    "none": "None (default order)",
+    "cpu": "CPU order (-r)",
+    "mem": "Memory order (-m)"
+  },
+  "psColumns": {
+    "pid": "process ID",
+    "ppid": "parent process ID",
+    "pgid": "process group",
+    "user": "username",
+    "%cpu": "CPU usage",
+    "%mem": "memory usage",
+    "rss": "resident memory",
+    "vsz": "virtual memory",
+    "time": "execution time",
+    "etime": "elapsed time",
+    "state": "state",
+    "tty": "terminal",
+    "nice": "nice value",
+    "comm": "command name",
+    "command": "command line",
+    "start": "start time"
+  },
+  "psHelp": {
+    "pid": "The number that identifies the process.",
+    "ppid": "The process ID of the parent that started it.",
+    "pgid": "The process group this process belongs to.",
+    "user": "Username of the owner.",
+    "%cpu": "How much of the CPU the process is using.",
+    "%mem": "Share of physical memory in use.",
+    "rss": "Physical memory the process is using.",
+    "vsz": "Total virtual memory assigned to the process.",
+    "time": "Total CPU time used so far.",
+    "etime": "Time elapsed since the process started.",
+    "state": "Current state, such as running or sleeping.",
+    "tty": "Name of the controlling terminal.",
+    "nice": "Scheduling priority adjustment.",
+    "comm": "The running program name, without arguments.",
+    "command": "The full command line including arguments.",
+    "start": "Time the process started."
+  },
+  "psAbout": {
+    "title": "About this command",
+    "ps": "The standard macOS command for showing process status (man ps: process status). Columns use -o, CPU order uses -r, memory order uses -m, and filters use -U and -p.",
+    "usageTitle": "Usage",
+    "usage": "Choose columns, sort, and filters, then press Snapshot. Unlike top this is a static one-shot list; treat %CPU as a lifetime average."
+  },
+  "psResult": {
+    "processes": "Processes",
+    "noData": "No process information available"
+  },
+  "lsof": {
+    "title": "Open files (lsof)",
+    "description": "Inspect files and connections held by processes. No administrator privileges needed.",
+    "pids": "Process IDs (-p)",
+    "pidsPlaceholder": "e.g. 1, 501",
+    "pidsInvalid": "Enter up to 16 process IDs as integers separated by commas",
+    "user": "User (-u)",
+    "userPlaceholder": "blank = everyone",
+    "userInvalid": "User names may contain only letters, digits, and . _ -",
+    "comm": "Command name (-c)",
+    "commPlaceholder": "e.g. ssh (prefix match)",
+    "commInvalid": "Command names may contain only letters, digits, and . _ -",
+    "protocol": "Protocol (-i)",
+    "port": "Port (-i)",
+    "portPlaceholder": "e.g. 80, ranges like 80-443",
+    "portInvalid": "Ports must be 1–65535, ranges as a-b",
+    "host": "Host (-i)",
+    "hostPlaceholder": "e.g. 127.0.0.1",
+    "hostInvalid": "Enter an IP address or hostname",
+    "state": "TCP state (-s)",
+    "stateConflict": "State filtering is only available with TCP",
+    "stateLocked": "State filtering is unavailable with UDP.",
+    "hintPids": "Shows only these processes. Separate several IDs with commas.",
+    "hintUser": "Shows only processes owned by this user. Blank means everyone.",
+    "hintComm": "Filters by command-name prefix (e.g. ssh).",
+    "hintProtocol": "Protocol scope for the network filter.",
+    "hintPort": "A single port or an a-b range. Blank means no restriction.",
+    "hintHost": "An IP address or hostname. Blank means no restriction.",
+    "hintState": "Filters by TCP connection state. Used together with -i.",
+    "groupProcess": "Process filters",
+    "groupNetwork": "Network filters",
+    "selectorRequired": "Pick at least one filter",
+    "execute": "Snapshot",
+    "executing": "Loading...",
+    "note": "Always runs with AND conditions (-a), no name resolution (-P -n), and full command names (+c 0). Large scans may take a while.",
+    "empty": "Pick filters and run to see the result here."
+  },
+  "lsofProtocol": {
+    "any": "Any",
+    "TCP": "TCP",
+    "UDP": "UDP"
+  },
+  "lsofState": {
+    "any": "Any",
+    "LISTEN": "LISTEN",
+    "ESTABLISHED": "ESTABLISHED"
+  },
+  "lsofColumns": {
+    "command": "Command",
+    "pid": "PID",
+    "user": "User",
+    "fd": "FD",
+    "type": "Type",
+    "device": "Device",
+    "size": "Size",
+    "node": "Node",
+    "name": "Name"
+  },
+  "lsofAbout": {
+    "title": "About this command",
+    "lsof": "The standard macOS command for listing open files and sockets (man lsof: list open files). Process filters use -p, -u, and -c; network filters use -i and -sTCP.",
+    "usageTitle": "Usage",
+    "usage": "Pick at least one process or network filter, then press Snapshot. Protocol TCP with state LISTEN is the classic way to find listening ports."
+  },
+  "lsofResult": {
+    "entries": "Entries",
+    "noData": "No matching results"
   }
 }

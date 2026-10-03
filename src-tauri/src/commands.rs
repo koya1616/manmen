@@ -1,8 +1,12 @@
 //! Tauri IPC エンドポイント。薄く保つこと。
 //! 実処理は各コマンドモジュール (`pmset.rs`・`manpage.rs` 等) と共通基盤 (`privileged.rs`) に置く。
 
+use crate::dig::DigSnapshot;
+use crate::lsof::LsofSnapshot;
 use crate::manpage::ManpageDocument;
 use crate::pmset::PmsetState;
+use crate::ps::PsSnapshot;
+use crate::ssh::SshSnapshot;
 use crate::top::TopSnapshot;
 use crate::types::CommandResult;
 
@@ -19,6 +23,46 @@ pub fn set_pmset(scope: String, setting: String, value: String) -> Result<Comman
 #[tauri::command]
 pub fn get_manpage(topic: String) -> Result<ManpageDocument, String> {
     crate::manpage::Manpage::new(&topic).and_then(|cmd| cmd.run())
+}
+
+#[tauri::command]
+pub fn get_dig(query: crate::dig::DigQuery) -> Result<DigSnapshot, String> {
+    crate::dig::get_snapshot(query)
+}
+
+#[tauri::command]
+pub fn get_ssh(query: crate::ssh::SshQuery) -> Result<SshSnapshot, String> {
+    crate::ssh::get_snapshot(query)
+}
+
+#[tauri::command]
+pub fn start_ssh_tunnel(query: crate::ssh::TunnelQuery) -> Result<crate::ssh::TunnelStarted, String> {
+    crate::ssh::start_tunnel(query)
+}
+
+#[tauri::command]
+pub fn stop_ssh_tunnel(id: String) -> Result<(), String> {
+    crate::ssh::stop_tunnel(&id)
+}
+
+#[tauri::command]
+pub fn list_ssh_tunnels() -> Vec<crate::ssh::TunnelInfo> {
+    crate::ssh::list_tunnels()
+}
+
+#[tauri::command]
+pub fn list_ssh_hosts() -> Result<Vec<crate::ssh::SshKnownHost>, String> {
+    crate::ssh::list_known_hosts()
+}
+
+#[tauri::command]
+pub fn get_ps(query: crate::ps::PsQuery) -> Result<PsSnapshot, String> {
+    crate::ps::get_snapshot(query)
+}
+
+#[tauri::command]
+pub fn get_lsof(query: crate::lsof::LsofQuery) -> Result<LsofSnapshot, String> {
+    crate::lsof::get_snapshot(query)
 }
 
 #[tauri::command]

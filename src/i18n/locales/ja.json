@@ -456,6 +456,22 @@
     "docker": {
       "name": "docker（コンテナ管理）",
       "label": "Docker"
+    },
+    "dig": {
+      "name": "dig（DNS問い合わせ）",
+      "label": "DNS問い合わせ"
+    },
+    "ssh": {
+      "name": "ssh（SSH接続）",
+      "label": "SSH接続"
+    },
+    "ps": {
+      "name": "ps（プロセス一覧）",
+      "label": "プロセス一覧"
+    },
+    "lsof": {
+      "name": "lsof（ファイル・通信）",
+      "label": "ファイル・通信"
     }
   },
   "about": {
@@ -572,5 +588,349 @@
     "memory": "メモリ",
     "driver": "ドライバ",
     "kernel": "カーネル"
+  },
+  "dig": {
+    "title": "DNS問い合わせ (dig)",
+    "description": "ドメイン名からIPアドレスやメールサーバなどを調べます。管理者権限は不要です。",
+    "name": "名前",
+    "namePlaceholder": "例: example.com",
+    "nameInvalid": "英数字と . _ - のホスト名で入力してください",
+    "ip": "IPアドレス",
+    "ipPlaceholder": "例: 8.8.8.8",
+    "qtype": "タイプ",
+    "qclass": "クラス",
+    "server": "サーバ (@server)",
+    "serverPlaceholder": "空欄は既定（例: 8.8.8.8）",
+    "serverInvalid": "サーバはIPまたはホスト名で入力してください",
+    "traceConflict": "+trace はサーバ指定と同時に使えません",
+    "transport": "通信 (-4 / -6)",
+    "groupQuery": "問い合わせ",
+    "groupDisplay": "表示・問い合わせ方法",
+    "hintName": "調べたいドメイン名です。末尾ドット付きも使えます。",
+    "hintIp": "逆引きするIPアドレスです。-x で問い合わせます。",
+    "hintType": "調べたいレコードの種類です。A はIPv4、AAAA はIPv6、MX はメールサーバです。",
+    "hintClass": "通常は IN のままにします。",
+    "hintServer": "問い合わせ先のDNSサーバです。空欄なら macOS の既定を使います。@ は自動で付きます。",
+    "hintShort": "答えだけを1行ずつ表示します（+short）。表の値列にそのまま載ります。",
+    "hintTcp": "TCP で問い合わせます（+tcp）。UDP が不安定なときに使います。",
+    "hintDnssec": "DNSSEC の検証用レコードも要求します（+dnssec）。",
+    "hintTrace": "ルートから委任をたどって調べます（+trace）。サーバ指定とは同時に使えません。",
+    "hintNoRecurse": "再帰問い合わせを止めます（+norecurse）。権威サーバの応答確認用です。",
+    "hintReverse": "IPから名前を逆引きします（-x）。ON のときタイプとクラスは使いません。",
+    "hintTransport": "IPv4 / IPv6 のどちらで問い合わせるかです。既定は自動です。",
+    "execute": "問い合わせ",
+    "executing": "問い合わせ中...",
+    "note": "ファイル入力（-f）や鍵（-y / -k）、送信元指定（-b）は受け付けません。1件ずつの問い合わせのみです。",
+    "empty": "名前を入力して実行すると、DNSの答えがここに表示されます。"
+  },
+  "digAbout": {
+    "title": "このコマンドについて",
+    "dig": "DNSサーバに問い合わせるmacOS標準コマンド（man dig: DNS lookup utility）。名前からIPアドレス（A / AAAA）やメールサーバ（MX）、ネームサーバ（NS）などを調べられる。問い合わせは dig @server name type の形になる。",
+    "usageTitle": "使い方",
+    "usage": "名前を入力し、タイプ（A / MX など）を選んで「問い合わせ」を押す。特定のサーバに聞きたいときだけサーバ欄に入れる。答えだけ見たいときは +short を ON のままにする。"
+  },
+  "digResult": {
+    "queryTime": "問い合わせ時間",
+    "server": "サーバ",
+    "when": "日時",
+    "msgSize": "メッセージ長",
+    "name": "名前",
+    "ttl": "TTL",
+    "class": "クラス",
+    "type": "タイプ",
+    "value": "値",
+    "noData": "答えがありませんでした",
+    "raw": "実行結果の全文"
+  },
+  "digFlags": {
+    "short": "答えだけ表示 (+short)",
+    "tcp": "TCPで問い合わせ (+tcp)",
+    "dnssec": "DNSSECも要求 (+dnssec)",
+    "trace": "委任をたどる (+trace)",
+    "noRecurse": "再帰しない (+norecurse)",
+    "reverse": "逆引きする (-x)"
+  },
+  "digTransport": {
+    "auto": "自動",
+    "4": "IPv4 (-4)",
+    "6": "IPv6 (-6)"
+  },
+  "ssh": {
+    "title": "SSH接続 (ssh)",
+    "description": "接続せずに設定を確認するか、疎通だけを確かめます。管理者権限は不要です。",
+    "destination": "接続先",
+    "hostPlaceholder": "例: example.com",
+    "userPlaceholder": "ユーザ（空欄は既定）",
+    "hostInvalid": "ホストは英数字と . _ - : のホスト名またはIPで入力してください",
+    "userInvalid": "ユーザ名は英数字と ._ - だけです",
+    "port": "ポート (-p)",
+    "portPlaceholder": "空欄は 22",
+    "portInvalid": "ポートは 1〜65535 です",
+    "mode": "モード",
+    "timeout": "接続タイムアウト",
+    "timeoutInvalid": "タイムアウトは 5〜30 秒です",
+    "secondsUnit": "秒",
+    "strict": "ホスト鍵の確認",
+    "transport": "通信 (-4 / -6)",
+    "groupDestination": "接続先",
+    "groupMode": "動作",
+    "groupDisplay": "表示・通信",
+    "hintDestination": "ホスト名・IP・~/.ssh/config の別名のどれでも使えます。別名なら IdentityFile 等の設定もそのまま効きます。user@host 形式では入力せず、ユーザ欄に分けてください。",
+    "hintPort": "空欄なら 22 を使います。-p で指定します。",
+    "hintMode": "設定確認は接続せず -G で調べます。疎通確認は BatchMode（パスワード入力なし）で exit だけを実行します。",
+    "hintTimeout": "接続がこの秒数で応答しないと打ち切ります。5〜30 秒。",
+    "hintStrict": "初めてのホストをどう扱うかです。no（検証無効）は選べません。",
+    "hintVerbose": "詳細な接続ログを -v で出します。失敗原因の切り分けに使います。",
+    "hintTransport": "IPv4 / IPv6 のどちらで接続するかです。既定は自動です。",
+    "execute": "実行",
+    "executing": "実行中...",
+    "note": "対話ログイン・任意のリモートコマンド・鍵ファイル指定（-i）・ProxyJump（-J）・転送（-L/-R/-D）は受け付けません。既定の鍵と ssh-agent の設定が使われます。",
+    "empty": "接続先を入力して実行すると、結果がここに表示されます。",
+    "purpose": "目的",
+    "groupPurpose": "目的",
+    "hintPurpose": "設定確認・疎通確認・トンネルのどれを行うかです。",
+    "knownHostDetail": "設定ファイルの解決先: {{detail}}"
+  },
+  "sshAbout": {
+    "title": "このコマンドについて",
+    "ssh": "リモートホストに安全に接続するmacOS標準コマンド（man ssh: OpenSSH remote login client）。-G は接続せず有効な設定を表示し、BatchMode=yes + exit はパスワード入力なしで疎通だけを確かめられる。-N は転送だけのトンネルを張る。ホスト欄は ~/.ssh/config の別名も選べる。",
+    "usageTitle": "使い方",
+    "usage": "目的（設定確認・疎通確認・トンネル）を選ぶ。接続先は別名の選択か自由記入で指定し、「実行」（トンネルは「トンネル開始」）を押す。対話的なログインはできない。"
+  },
+  "sshResult": {
+    "key": "キー",
+    "value": "値",
+    "testOk": "接続できました（exit が正常終了）",
+    "testNg": "接続できませんでした",
+    "noData": "表示できる内容がありません",
+    "raw": "実行結果の全文"
+  },
+  "sshFlags": {
+    "verbose": "詳細ログを出す (-v)"
+  },
+  "sshMode": {
+    "config": "設定確認",
+    "test": "疎通確認"
+  },
+  "sshStrict": {
+    "ask": "確認する (ask)",
+    "accept-new": "新規のみ記録 (accept-new)",
+    "yes": "厳密 (yes)"
+  },
+  "sshTransport": {
+    "auto": "自動",
+    "4": "IPv4 (-4)",
+    "6": "IPv6 (-6)"
+  },
+  "sshTunnel": {
+    "title": "SSHトンネル (ssh -N)",
+    "description": "転送だけのSSH接続を起動・停止します。リモートコマンドは実行しません。",
+    "direction": "方向",
+    "bind": "待受アドレス",
+    "bindPlaceholder": "空欄は 127.0.0.1",
+    "bindInvalid": "待受は空欄 / 127.0.0.1 / localhost のみです",
+    "localPort": "手元ポート",
+    "localPortPlaceholder": "例: 8080",
+    "localPortInvalid": "手元ポートは 1〜65535 です",
+    "remoteHost": "転送先ホスト",
+    "remoteHostPlaceholder": "例: internal.example.com",
+    "remoteHostInvalid": "転送先ホストが不正です",
+    "remotePort": "転送先ポート",
+    "remotePortPlaceholder": "例: 80",
+    "remotePortInvalid": "転送先ポートは 1〜65535 です",
+    "destination": "踏み台（SSH接続先）",
+    "hostPlaceholder": "例: gateway.example.com",
+    "userPlaceholder": "ユーザ（空欄は既定）",
+    "hostInvalid": "ホストは英数字と . _ - : のホスト名またはIPで入力してください",
+    "userInvalid": "ユーザ名は英数字と ._ - だけです",
+    "port": "SSHポート (-p)",
+    "portPlaceholder": "空欄は 22",
+    "portInvalid": "ポートは 1〜65535 です",
+    "transport": "通信 (-4 / -6)",
+    "groupDirection": "方向",
+    "groupForward": "転送設定",
+    "groupDestination": "踏み台",
+    "groupDisplay": "表示・通信",
+    "hintDirection": "-L は手元→向こう側、-R は向こう側→手元、-D はSOCKSプロキシです。",
+    "hintBind": "待ち受けるアドレスです。LAN公開（0.0.0.0 等）は選べません。空欄は 127.0.0.1 です。",
+    "hintLocalPort": "手元で開くポート番号です。使用中だと起動に失敗します。",
+    "hintRemoteHost": "-L/-R の転送先ホストです。-L では踏み台から見た名前解決になります。",
+    "hintRemotePort": "-L/-R の転送先ポート番号です。",
+    "hintDestination": "経由するSSHサーバです。~/.ssh/config の別名も選べます。user@host 形式では入力せず、ユーザ欄に分けてください。",
+    "hintPort": "踏み台のSSHポートです。空欄なら 22 を使います。",
+    "hintKeepalive": "無通信でも接続を維持する応答確認を送ります（ServerAlive）。",
+    "hintTransport": "IPv4 / IPv6 のどちらで接続するかです。既定は自動です。",
+    "start": "トンネル開始",
+    "starting": "開始中...",
+    "stop": "停止",
+    "note": "パスワード入力は出ません（BatchMode）。鍵認証の準備が必要です。リモートコマンド実行・転送以外のオプションは受け付けません。",
+    "noteClose": "アプリ（ウィンドウ）を閉じると起動中のトンネルはすべて切れます。閉じ残しは作りません。",
+    "empty": "トンネルを開始すると、起動中の一覧がここに表示されます。"
+  },
+  "sshTunnelAbout": {
+    "title": "このコマンドについて",
+    "tunnel": "ssh -N はリモートコマンドを実行せず転送だけを張る使い方（man ssh の -N: Do not execute a remote command）。-L（手元→向こう側）・-R（向こう側→手元）・-D（SOCKS）の3方向に対応する。",
+    "usageTitle": "使い方",
+    "usage": "方向・ポート・踏み台を入力して「トンネル開始」を押す。止めるときは一覧の「停止」を押す。アプリを閉じると全トンネルが切れる。"
+  },
+  "sshTunnelResult": {
+    "summary": "概要",
+    "command": "コマンド",
+    "action": "操作"
+  },
+  "sshTunnelFlags": {
+    "keepalive": "接続を維持する (ServerAlive)"
+  },
+  "sshTunnelMode": {
+    "local": "手元→向こう (-L)",
+    "remote": "向こう→手元 (-R)",
+    "dynamic": "SOCKS (-D)"
+  },
+  "sshPurpose": {
+    "config": "設定確認",
+    "test": "疎通確認",
+    "tunnel": "トンネル"
+  },
+  "ps": {
+    "title": "プロセス一覧 (ps)",
+    "description": "今動いているプロセスの一覧を取得します。管理者権限は不要です。",
+    "columns": "表示列 (-o)",
+    "columnsHint": "未選択の列はありません。1つ以上選んでください。最大16列です。",
+    "columnsInvalid": "表示列は 1〜16 個です",
+    "sort": "並び替え",
+    "hintSort": "CPU順は -r、メモリ順は -m を付けます。なしは ps の既定順です。",
+    "user": "ユーザ (-U)",
+    "userPlaceholder": "空欄は全員",
+    "userInvalid": "ユーザ名は英数字と ._ - だけです",
+    "pids": "プロセスID (-p)",
+    "pidsPlaceholder": "例: 1, 501",
+    "pidsInvalid": "プロセスIDは 0 以上の整数をカンマ区切りで、16件までです",
+    "hintUser": "このユーザが所有するプロセスだけに絞ります。空欄なら全員です。",
+    "hintPids": "指定したプロセスだけを表示します。カンマ区切りで複数指定できます。",
+    "groupDisplay": "表示・並び替え",
+    "groupFilter": "絞り込み",
+    "execute": "取得",
+    "executing": "取得中...",
+    "note": "常に全プロセス (-A) を対象にします。command 列は空白を含むため末尾に固定されます。",
+    "empty": "オプションを選んで実行すると、プロセス一覧がここに表示されます。"
+  },
+  "psSort": {
+    "none": "なし（既定順）",
+    "cpu": "CPU順 (-r)",
+    "mem": "メモリ順 (-m)"
+  },
+  "psColumns": {
+    "pid": "プロセスID",
+    "ppid": "親プロセスID",
+    "pgid": "プロセスグループ",
+    "user": "ユーザ名",
+    "%cpu": "CPU使用率",
+    "%mem": "メモリ使用率",
+    "rss": "常駐メモリ",
+    "vsz": "仮想メモリ",
+    "time": "実行時間",
+    "etime": "経過時間",
+    "state": "状態",
+    "tty": "端末",
+    "nice": "nice値",
+    "comm": "コマンド名",
+    "command": "コマンド行",
+    "start": "開始時刻"
+  },
+  "psHelp": {
+    "pid": "プロセスを識別する番号です。",
+    "ppid": "このプロセスを起動した親のプロセスIDです。",
+    "pgid": "同じグループとしてまとまるプロセスの番号です。",
+    "user": "所有者のユーザ名です。",
+    "%cpu": "CPU をどれだけ使っているかの割合です。",
+    "%mem": "物理メモリの使用割合です。",
+    "rss": "プロセスが使っている物理メモリの量です。",
+    "vsz": "割り当てられた仮想メモリ全体の大きさです。",
+    "time": "これまでに CPU を使った累積時間です。",
+    "etime": "プロセス開始からの経過時間です。",
+    "state": "running や sleeping など、今の状態です。",
+    "tty": "接続している端末の名前です。",
+    "nice": "スケジューリングの優先度調整値です。",
+    "comm": "実行中のプログラム名（引数なし）です。",
+    "command": "引数を含む実行コマンド行です。",
+    "start": "プロセスを開始した時刻です。"
+  },
+  "psAbout": {
+    "title": "このコマンドについて",
+    "ps": "実行中のプロセス一覧を表示するmacOS標準コマンド（man ps: process status）。表示列は -o、CPU順は -r、メモリ順は -m、絞り込みは -U と -p です。",
+    "usageTitle": "使い方",
+    "usage": "表示列・並び替え・絞り込みを選んで「取得」を押す。top と違い1回きりの静的な一覧で、%CPU は起動からの平均として参照してください。"
+  },
+  "psResult": {
+    "processes": "プロセス数",
+    "noData": "プロセス情報が取得できませんでした"
+  },
+  "lsof": {
+    "title": "オープンファイル (lsof)",
+    "description": "プロセスが開いているファイルや通信を確認します。管理者権限は不要です。",
+    "pids": "プロセスID (-p)",
+    "pidsPlaceholder": "例: 1, 501",
+    "pidsInvalid": "プロセスIDは 0 以上の整数をカンマ区切りで、16件までです",
+    "user": "ユーザ (-u)",
+    "userPlaceholder": "空欄は全員",
+    "userInvalid": "ユーザ名は英数字と ._ - だけです",
+    "comm": "コマンド名 (-c)",
+    "commPlaceholder": "例: ssh（前方一致）",
+    "commInvalid": "コマンド名は英数字と ._ - だけです",
+    "protocol": "プロトコル (-i)",
+    "port": "ポート (-i)",
+    "portPlaceholder": "例: 80、範囲は 80-443",
+    "portInvalid": "ポートは 1〜65535、範囲は a-b 形式です",
+    "host": "ホスト (-i)",
+    "hostPlaceholder": "例: 127.0.0.1",
+    "hostInvalid": "ホストはIPまたはホスト名で入力してください",
+    "state": "TCP状態 (-s)",
+    "stateConflict": "状態の絞り込みは TCP のときのみ指定できます",
+    "stateLocked": "UDP では状態の絞り込みは使えません。",
+    "hintPids": "指定したプロセスだけを表示します。カンマ区切りで複数指定できます。",
+    "hintUser": "このユーザが所有するプロセスだけに絞ります。空欄なら全員です。",
+    "hintComm": "コマンド名の前方一致で絞ります（例: ssh）。",
+    "hintProtocol": "ネットワーク絞り込みの対象プロトコルです。",
+    "hintPort": "単一ポートまたは a-b の範囲です。空欄なら指定なしです。",
+    "hintHost": "IPまたはホスト名です。空欄なら指定なしです。",
+    "hintState": "TCP の接続状態で絞ります。-i と合わせて使います。",
+    "groupProcess": "プロセスの絞り込み",
+    "groupNetwork": "ネットワークの絞り込み",
+    "selectorRequired": "絞り込みを1つ以上指定してください",
+    "execute": "取得",
+    "executing": "取得中...",
+    "note": "常にAND条件（-a）・名前解決なし（-P -n）・コマンド名の切り詰めなし（+c 0）で実行します。対象が多いと時間がかかることがあります。",
+    "empty": "絞り込みを指定して実行すると、結果がここに表示されます。"
+  },
+  "lsofProtocol": {
+    "any": "指定なし",
+    "TCP": "TCP",
+    "UDP": "UDP"
+  },
+  "lsofState": {
+    "any": "指定なし",
+    "LISTEN": "LISTEN（待ち受け）",
+    "ESTABLISHED": "ESTABLISHED（接続中）"
+  },
+  "lsofColumns": {
+    "command": "コマンド",
+    "pid": "PID",
+    "user": "ユーザ",
+    "fd": "FD",
+    "type": "種別",
+    "device": "デバイス",
+    "size": "サイズ",
+    "node": "ノード",
+    "name": "名前"
+  },
+  "lsofAbout": {
+    "title": "このコマンドについて",
+    "lsof": "開いているファイルやソケットを一覧するmacOS標準コマンド（man lsof: list open files）。プロセスの絞り込みは -p・-u・-c、ネットワークは -i と -sTCP です。",
+    "usageTitle": "使い方",
+    "usage": "プロセスかネットワークの絞り込みを1つ以上指定して「取得」を押す。待ち受けポート調べはプロトコルTCP・状態LISTENが定番です。"
+  },
+  "lsofResult": {
+    "entries": "件数",
+    "noData": "条件に合う結果がありませんでした"
   }
 }

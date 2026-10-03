@@ -3,8 +3,16 @@ import { PmsetAbout } from "../components/PmsetAbout";
 import { PmsetCard } from "../components/PmsetCard";
 import { ManpageAbout } from "../components/ManpageAbout";
 import { ManpageCard } from "../components/ManpageCard";
+import { DigAbout } from "../components/DigAbout";
+import { DigCard } from "../components/DigCard";
+import { SshAbout } from "../components/SshAbout";
+import { SshCard } from "../components/SshCard";
 import { TopAbout } from "../components/TopAbout";
 import { TopCard } from "../components/TopCard";
+import { PsAbout } from "../components/PsAbout";
+import { PsCard } from "../components/PsCard";
+import { LsofAbout } from "../components/LsofAbout";
+import { LsofCard } from "../components/LsofCard";
 import { DockerAbout } from "../components/DockerAbout";
 import { DockerCard } from "../components/DockerCard";
 
@@ -36,11 +44,39 @@ export const commandRegistry: CommandEntry[] = [
     about: ManpageAbout,
   },
   {
+    id: "dig.lookup",
+    cmd: "dig",
+    nameKey: "commands.dig.label",
+    control: DigCard,
+    about: DigAbout,
+  },
+  {
+    id: "ssh.connect",
+    cmd: "ssh",
+    nameKey: "commands.ssh.label",
+    control: SshCard,
+    about: SshAbout,
+  },
+  {
     id: "top.process",
     cmd: "top",
     nameKey: "commands.top.label",
     control: TopCard,
     about: TopAbout,
+  },
+  {
+    id: "ps.snapshot",
+    cmd: "ps",
+    nameKey: "commands.ps.label",
+    control: PsCard,
+    about: PsAbout,
+  },
+  {
+    id: "lsof.files",
+    cmd: "lsof",
+    nameKey: "commands.lsof.label",
+    control: LsofCard,
+    about: LsofAbout,
   },
   {
     id: "docker.builderPrune",

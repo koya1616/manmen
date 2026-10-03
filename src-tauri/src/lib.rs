@@ -1,9 +1,13 @@
 pub mod commands;
+pub mod dig;
 pub mod docker;
 pub mod docker_read;
+pub mod lsof;
 pub mod manpage;
 pub mod pmset;
 pub mod privileged;
+pub mod ps;
 pub mod spec;
+pub mod ssh;
 pub mod top;
 pub mod types;

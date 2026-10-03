@@ -1,4 +1,4 @@
-// Rust の types.rs / pmset.rs / manpage.rs / top.rs / docker.rs とフィールドを一致させること.
+// Rust の types.rs / pmset.rs / manpage.rs / top.rs / ps.rs / docker.rs とフィールドを一致させること.
 
 export interface CommandResult {
   success: boolean;
@@ -56,6 +56,26 @@ export interface TopSnapshot {
   summary: TopSummary;
   columns: string[];
   rows: string[][];
+  stderr: string;
+}
+
+export interface PsSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  columns: string[];
+  rows: string[][];
+  count: number;
+  stderr: string;
+}
+
+export interface LsofSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  columns: string[];
+  rows: string[][];
+  count: number;
   stderr: string;
 }
 
@@ -269,4 +289,61 @@ export interface SystemInfoSnapshot {
   command: string;
   info: SystemInfoData;
   stderr: string;
+}
+
+export interface DigRecord {
+  name: string;
+  ttl: number | null;
+  class: string;
+  dtype: string;
+  value: string;
+}
+
+export interface DigSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  answers: DigRecord[];
+  query_time: string;
+  server: string;
+  when: string;
+  msg_size: string;
+  raw: string;
+  stderr: string;
+}
+
+export interface SshConfigEntry {
+  key: string;
+  value: string;
+}
+
+export interface SshSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  mode: string;
+  entries: SshConfigEntry[];
+  stdout: string;
+  raw: string;
+  stderr: string;
+}
+
+export interface TunnelStarted {
+  id: string;
+  command: string;
+  summary: string;
+}
+
+export interface TunnelInfo {
+  id: string;
+  command: string;
+  summary: string;
+  mode: string;
+}
+
+export interface SshKnownHost {
+  alias: string;
+  hostname: string | null;
+  user: string | null;
+  port: number | null;
 }
