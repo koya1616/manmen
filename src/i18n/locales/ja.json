@@ -476,6 +476,18 @@
     "whoami": {
       "name": "whoami（ユーザ名表示）",
       "label": "ユーザ名表示"
+    },
+    "who": {
+      "name": "who（ログイン中表示）",
+      "label": "ログイン中"
+    },
+    "w": {
+      "name": "w（ログイン・負荷表示）",
+      "label": "ログイン・負荷"
+    },
+    "system_profiler": {
+      "name": "system_profiler（システム情報）",
+      "label": "システム情報"
     }
   },
   "about": {
@@ -950,5 +962,117 @@
     "body": "現在の実効ユーザ名を表示するmacOS標準コマンド（man whoami: display effective user id）。オプションなしで実行します。",
     "usageTitle": "使い方",
     "usage": "「表示」を押すだけです。オプションや引数は受け付けません。"
+  },
+  "who": {
+    "title": "ログイン中表示 (who)",
+    "description": "ログイン中のユーザ一覧を表示します。管理者権限は不要です。",
+    "execute": "表示",
+    "executing": "取得中...",
+    "noOptions": "このコマンドに指定できるオプションはありません。そのまま実行できます。",
+    "empty": "実行すると、ログイン中のユーザ一覧がここに表示されます。"
+  },
+  "whoAbout": {
+    "heading": "who とは",
+    "body": "ログイン中のユーザを表示するmacOS標準コマンド（man who: display who is logged in）。オプションなしで実行します。",
+    "usageTitle": "使い方",
+    "usage": "「表示」を押すだけです。オプションや引数は受け付けません。"
+  },
+  "w": {
+    "title": "ログイン・負荷表示 (w)",
+    "description": "ログイン中のユーザと負荷の概要を表示します。管理者権限は不要です。",
+    "execute": "表示",
+    "executing": "取得中...",
+    "noOptions": "このコマンドに指定できるオプションはありません。そのまま実行できます。",
+    "empty": "実行すると、ログイン・負荷の概要がここに表示されます。"
+  },
+  "wAbout": {
+    "heading": "w とは",
+    "body": "ログイン中のユーザと負荷を表示するmacOS標準コマンド（man w: display who is logged in and what they are doing）。オプションなしで実行します。",
+    "usageTitle": "使い方",
+    "usage": "「表示」を押すだけです。オプションや引数は受け付けません。"
+  },
+  "whoResult": {
+    "users": "ログイン数",
+    "user": "ユーザ",
+    "tty": "端末",
+    "login": "ログイン日時",
+    "noData": "ログイン中のユーザがいません"
+  },
+  "wResult": {
+    "users": "ログイン数",
+    "loadAvg": "ロードアベレージ",
+    "user": "ユーザ",
+    "tty": "端末",
+    "from": "接続元",
+    "login": "ログイン",
+    "idle": "放置",
+    "what": "実行中",
+    "noData": "ログイン中のユーザがいません"
+  },
+  "sp": {
+    "title": "システム情報 (system_profiler)",
+    "description": "ハードウェアやソフトウェアの構成を1種類ずつ取得します。管理者権限は不要です。",
+    "dataType": "データ型",
+    "execute": "取得",
+    "executing": "取得中...",
+    "note": "1種類ずつ取得します。種類によっては数秒かかります。アプリ・フォント等の巨大な一覧は選べません。",
+    "empty": "データ型を選んで実行すると、システム情報がここに表示されます。"
+  },
+  "spTypes": {
+    "SPHardwareDataType": "ハードウェア概要",
+    "SPSoftwareDataType": "ソフトウェア概要",
+    "SPMemoryDataType": "メモリ",
+    "SPStorageDataType": "ストレージ",
+    "SPDisplaysDataType": "ディスプレイ",
+    "SPPowerDataType": "電源・バッテリー",
+    "SPNetworkDataType": "ネットワーク",
+    "SPAirPortDataType": "Wi-Fi",
+    "SPBluetoothDataType": "Bluetooth",
+    "SPUSBHostDataType": "USB",
+    "SPThunderboltDataType": "Thunderbolt",
+    "SPAudioDataType": "オーディオ",
+    "SPCameraDataType": "カメラ",
+    "SPPrintersDataType": "プリンタ",
+    "SPFirewallDataType": "ファイアウォール",
+    "SPNetworkLocationDataType": "ネットワーク場所",
+    "SPInstallHistoryDataType": "インストール履歴",
+    "SPStartupItemDataType": "スタートアップ項目",
+    "SPConfigurationProfileDataType": "構成プロファイル",
+    "SPDeveloperToolsDataType": "開発ツール",
+    "SPDiagnosticsDataType": "診断情報",
+    "SPNVMeDataType": "NVMe"
+  },
+  "spTypeHelp": {
+    "SPHardwareDataType": "機種・チップ・メモリ容量などの概要です。",
+    "SPSoftwareDataType": "macOSのバージョンや起動時間などの概要です。",
+    "SPMemoryDataType": "メモリスロットの構成です。",
+    "SPStorageDataType": "内蔵ストレージの使用状況です。",
+    "SPDisplaysDataType": "接続中のディスプレイの一覧です。",
+    "SPPowerDataType": "電源とバッテリーの状態です。",
+    "SPNetworkDataType": "ネットワークインタフェースの一覧です。",
+    "SPAirPortDataType": "Wi-Fiインタフェースの情報です。",
+    "SPBluetoothDataType": "Bluetooth機器の一覧です。",
+    "SPUSBHostDataType": "USB機器のツリーです。",
+    "SPThunderboltDataType": "Thunderbolt機器の一覧です。",
+    "SPAudioDataType": "オーディオ入出力の一覧です。",
+    "SPCameraDataType": "カメラの一覧です。",
+    "SPPrintersDataType": "プリンタの一覧です。",
+    "SPFirewallDataType": "ファイアウォールの設定です。",
+    "SPNetworkLocationDataType": "ネットワーク場所の一覧です。",
+    "SPInstallHistoryDataType": "ソフトウェア更新の履歴です。",
+    "SPStartupItemDataType": "起動時に読み込む項目の一覧です。",
+    "SPConfigurationProfileDataType": "構成プロファイルの一覧です。",
+    "SPDeveloperToolsDataType": "開発ツールの状態です。",
+    "SPDiagnosticsDataType": "診断情報の状態です。",
+    "SPNVMeDataType": "NVMeデバイスの情報です。"
+  },
+  "spAbout": {
+    "heading": "system_profiler とは",
+    "body": "ハードウェアやソフトウェアの構成を表示するmacOS標準コマンド（man system_profiler: report system hardware and software configuration）。-json を付けると機械可読のJSONで取得できる。データ型（SPHardwareDataType など）を1つ指定して取得する。",
+    "usageTitle": "使い方",
+    "usage": "データ型を選んで「取得」を押す。結果は折りたたみツリーで表示される。深い階層はクリックで開く。"
+  },
+  "spResult": {
+    "noData": "取得できる内容がありません"
   }
 }

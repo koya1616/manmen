@@ -476,6 +476,18 @@
     "whoami": {
       "name": "whoami (username)",
       "label": "Username"
+    },
+    "who": {
+      "name": "who (logged-in users)",
+      "label": "Logged in"
+    },
+    "w": {
+      "name": "w (users and load)",
+      "label": "Users & load"
+    },
+    "system_profiler": {
+      "name": "system_profiler (system info)",
+      "label": "System info"
     }
   },
   "about": {
@@ -950,5 +962,117 @@
     "body": "The standard macOS command that shows the current effective username (man whoami: display effective user id). Runs with no options.",
     "usageTitle": "Usage",
     "usage": "Just press Show. Options and arguments are not accepted."
+  },
+  "who": {
+    "title": "Logged-in users (who)",
+    "description": "Show who is logged in. No administrator privileges needed.",
+    "execute": "Show",
+    "executing": "Loading...",
+    "noOptions": "This command takes no options. Just run it.",
+    "empty": "Run to see the logged-in users here."
+  },
+  "whoAbout": {
+    "heading": "What is who",
+    "body": "The standard macOS command that shows who is logged in (man who: display who is logged in). Runs with no options.",
+    "usageTitle": "Usage",
+    "usage": "Just press Show. Options and arguments are not accepted."
+  },
+  "w": {
+    "title": "Users and load (w)",
+    "description": "Show logged-in users and a load summary. No administrator privileges needed.",
+    "execute": "Show",
+    "executing": "Loading...",
+    "noOptions": "This command takes no options. Just run it.",
+    "empty": "Run to see the users and load summary here."
+  },
+  "wAbout": {
+    "heading": "What is w",
+    "body": "The standard macOS command that shows who is logged in and what they are doing (man w: display who is logged in and what they are doing). Runs with no options.",
+    "usageTitle": "Usage",
+    "usage": "Just press Show. Options and arguments are not accepted."
+  },
+  "whoResult": {
+    "users": "Logged in",
+    "user": "User",
+    "tty": "TTY",
+    "login": "Login",
+    "noData": "No logged-in users"
+  },
+  "wResult": {
+    "users": "Logged in",
+    "loadAvg": "Load average",
+    "user": "User",
+    "tty": "TTY",
+    "from": "From",
+    "login": "Login",
+    "idle": "Idle",
+    "what": "What",
+    "noData": "No logged-in users"
+  },
+  "sp": {
+    "title": "System info (system_profiler)",
+    "description": "Inspect hardware and software configuration, one data type at a time. No administrator privileges needed.",
+    "dataType": "Data type",
+    "execute": "Inspect",
+    "executing": "Loading...",
+    "note": "One data type per run. Some types take a few seconds. Huge listings such as apps and fonts are unavailable.",
+    "empty": "Pick a data type and run to see system info here."
+  },
+  "spTypes": {
+    "SPHardwareDataType": "Hardware overview",
+    "SPSoftwareDataType": "Software overview",
+    "SPMemoryDataType": "Memory",
+    "SPStorageDataType": "Storage",
+    "SPDisplaysDataType": "Displays",
+    "SPPowerDataType": "Power & battery",
+    "SPNetworkDataType": "Network",
+    "SPAirPortDataType": "Wi-Fi",
+    "SPBluetoothDataType": "Bluetooth",
+    "SPUSBHostDataType": "USB",
+    "SPThunderboltDataType": "Thunderbolt",
+    "SPAudioDataType": "Audio",
+    "SPCameraDataType": "Cameras",
+    "SPPrintersDataType": "Printers",
+    "SPFirewallDataType": "Firewall",
+    "SPNetworkLocationDataType": "Network locations",
+    "SPInstallHistoryDataType": "Install history",
+    "SPStartupItemDataType": "Startup items",
+    "SPConfigurationProfileDataType": "Profiles",
+    "SPDeveloperToolsDataType": "Developer tools",
+    "SPDiagnosticsDataType": "Diagnostics",
+    "SPNVMeDataType": "NVMe"
+  },
+  "spTypeHelp": {
+    "SPHardwareDataType": "Model, chip, memory size, and other overview info.",
+    "SPSoftwareDataType": "macOS version, uptime, and other overview info.",
+    "SPMemoryDataType": "Memory slot configuration.",
+    "SPStorageDataType": "Internal storage usage.",
+    "SPDisplaysDataType": "Attached displays.",
+    "SPPowerDataType": "Power and battery status.",
+    "SPNetworkDataType": "Network interfaces.",
+    "SPAirPortDataType": "Wi-Fi interface info.",
+    "SPBluetoothDataType": "Bluetooth devices.",
+    "SPUSBHostDataType": "USB device tree.",
+    "SPThunderboltDataType": "Thunderbolt devices.",
+    "SPAudioDataType": "Audio inputs and outputs.",
+    "SPCameraDataType": "Cameras.",
+    "SPPrintersDataType": "Printers.",
+    "SPFirewallDataType": "Firewall settings.",
+    "SPNetworkLocationDataType": "Network locations.",
+    "SPInstallHistoryDataType": "Software update history.",
+    "SPStartupItemDataType": "Items loaded at startup.",
+    "SPConfigurationProfileDataType": "Configuration profiles.",
+    "SPDeveloperToolsDataType": "Developer tools status.",
+    "SPDiagnosticsDataType": "Diagnostics status.",
+    "SPNVMeDataType": "NVMe device info."
+  },
+  "spAbout": {
+    "heading": "What is system_profiler",
+    "body": "The standard macOS command for reporting hardware and software configuration (man system_profiler: report system hardware and software configuration). With -json it returns machine-readable JSON. Pass one data type (e.g. SPHardwareDataType) per run.",
+    "usageTitle": "Usage",
+    "usage": "Pick a data type and press Inspect. Results render as a collapsible tree; click to open deeper levels."
+  },
+  "spResult": {
+    "noData": "Nothing to display"
   }
 }

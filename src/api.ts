@@ -21,6 +21,9 @@ import type {
   VolumeSnapshot,
   SystemDfSnapshot,
   SystemInfoSnapshot,
+  SystemProfilerSnapshot,
+  WhoSnapshot,
+  WSnapshot,
 } from "./types";
 
 // IPC コマンド名はここに集約する。Rust の commands.rs と一致させること。
@@ -98,6 +101,10 @@ export const api = {
     ncols: number | null;
   }) => invoke<TopSnapshot>("get_top", { query }),
   getWhoami: () => invoke<CommandResult>("get_whoami"),
+  getWho: () => invoke<WhoSnapshot>("get_who"),
+  getW: () => invoke<WSnapshot>("get_w"),
+  getSystemProfiler: (dataType: string) =>
+    invoke<SystemProfilerSnapshot>("get_system_profiler", { query: { dataType } }),
   pruneDockerBuilder: (force: boolean, all: boolean) =>
     invoke<CommandResult>("prune_docker_builder", { force, all }),
   dockerBuilderDu: () => invoke<DuSnapshot>("docker_builder_du"),

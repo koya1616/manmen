@@ -1402,3 +1402,66 @@ kbd {
   padding: 0 4px;
   border-radius: 4px;
 }
+
+/* ---------- system_profiler JSON tree ---------- */
+
+.jtree-root {
+  font-size: 12.5px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.jtree {
+  margin: 0;
+}
+
+.jtree-summary {
+  cursor: pointer;
+  color: var(--text-3);
+}
+
+.jtree-list {
+  list-style: none;
+  margin: 2px 0 6px;
+  padding-left: 16px;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.jtree-item {
+  margin: 0;
+}
+
+.jtree-index {
+  color: var(--text-3);
+  margin-right: 6px;
+}
+
+.jtree-key {
+  color: var(--text-2);
+  font-weight: 600;
+}
+
+.jtree-val {
+  margin: 0 0 2px;
+}
+
+.jtree-str {
+  color: var(--text);
+}
+
+.jtree-num {
+  color: var(--accent);
+}
+
+.jtree-bool {
+  color: var(--warn);
+}
+
+.jtree-null,
+.jtree-empty {
+  color: var(--text-3);
+  font-style: italic;
+}

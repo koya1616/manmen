@@ -17,6 +17,12 @@ import { DockerAbout } from "../components/DockerAbout";
 import { DockerCard } from "../components/DockerCard";
 import { WhoamiAbout } from "../components/WhoamiAbout";
 import { WhoamiCard } from "../components/WhoamiCard";
+import { WhoAbout } from "../components/WhoAbout";
+import { WhoCard } from "../components/WhoCard";
+import { WAbout } from "../components/WAbout";
+import { WCard } from "../components/WCard";
+import { SystemProfilerAbout } from "../components/SystemProfilerAbout";
+import { SystemProfilerCard } from "../components/SystemProfilerCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -93,5 +99,26 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.whoami.label",
     control: WhoamiCard,
     about: WhoamiAbout,
+  },
+  {
+    id: "who.users",
+    cmd: "who",
+    nameKey: "commands.who.label",
+    control: WhoCard,
+    about: WhoAbout,
+  },
+  {
+    id: "w.users",
+    cmd: "w",
+    nameKey: "commands.w.label",
+    control: WCard,
+    about: WAbout,
+  },
+  {
+    id: "system_profiler.overview",
+    cmd: "system_profiler",
+    nameKey: "commands.system_profiler.label",
+    control: SystemProfilerCard,
+    about: SystemProfilerAbout,
   },
 ];

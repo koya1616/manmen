@@ -347,3 +347,65 @@ export interface SshKnownHost {
   user: string | null;
   port: number | null;
 }
+
+// Rust の who.rs とフィールドを一致させること.
+export interface WhoEntry {
+  user: string;
+  tty: string;
+  login: string;
+}
+
+export interface WhoSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  users: WhoEntry[];
+  count: number;
+  stderr: string;
+}
+
+// Rust の w.rs とフィールドを一致させること.
+export interface WSummary {
+  headline: string;
+  load_avg_1: number | null;
+  load_avg_5: number | null;
+  load_avg_15: number | null;
+}
+
+export interface WEntry {
+  user: string;
+  tty: string;
+  from: string;
+  login: string;
+  idle: string;
+  what: string;
+}
+
+export interface WSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  summary: WSummary;
+  users: WEntry[];
+  count: number;
+  stderr: string;
+}
+
+// Rust の system_profiler.rs とフィールドを一致させること.
+// 型ごとにスキーマが違うため JSON を汎用ツリーで表示する.
+export type ProfilerValue =
+  | string
+  | number
+  | boolean
+  | null
+  | ProfilerValue[]
+  | { [key: string]: ProfilerValue };
+
+export interface SystemProfilerSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  data_type: string;
+  value: ProfilerValue;
+  stderr: string;
+}

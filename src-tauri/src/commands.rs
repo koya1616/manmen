@@ -131,6 +131,23 @@ pub fn get_whoami() -> Result<CommandResult, String> {
 }
 
 #[tauri::command]
+pub fn get_who() -> Result<crate::who::WhoSnapshot, String> {
+    crate::who::current()
+}
+
+#[tauri::command]
+pub fn get_w() -> Result<crate::w::WSnapshot, String> {
+    crate::w::current()
+}
+
+#[tauri::command]
+pub fn get_system_profiler(
+    query: crate::system_profiler::SystemProfilerQuery,
+) -> Result<crate::system_profiler::SystemProfilerSnapshot, String> {
+    crate::system_profiler::get_snapshot(query)
+}
+
+#[tauri::command]
 pub fn set_remember(enabled: bool) {
     crate::privileged::set_remember(enabled);
 }
