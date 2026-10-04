@@ -488,6 +488,14 @@
     "system_profiler": {
       "name": "system_profiler（システム情報）",
       "label": "システム情報"
+    },
+    "scutil": {
+      "name": "scutil（システム構成）",
+      "label": "システム構成"
+    },
+    "git": {
+      "name": "git（リポジトリ参照）",
+      "label": "Git"
     }
   },
   "about": {
@@ -1074,5 +1082,103 @@
   },
   "spResult": {
     "noData": "取得できる内容がありません"
+  },
+  "scutil": {
+    "title": "システム構成 (scutil)",
+    "description": "DNS・ネットワーク状態・コンピュータ名を参照します。管理者権限は不要です。変更はしません。",
+    "sub": "サブコマンド",
+    "execute": "取得",
+    "executing": "取得中...",
+    "empty": "サブコマンドを選んで実行すると、結果がここに表示されます。"
+  },
+  "scutilSub": {
+    "dns": "DNS設定",
+    "nwi": "ネットワーク状態",
+    "names": "コンピュータ名"
+  },
+  "scutilSubHelp": {
+    "dns": "DNSリゾルバの設定を表示します（--dns）。",
+    "nwi": "インタフェースの到達性などの状態を表示します（--nwi）。",
+    "names": "ComputerName・LocalHostName・HostNameを表示します（--get ×3）。"
+  },
+  "scutilAbout": {
+    "heading": "scutil とは",
+    "body": "システム構成を操作・参照するmacOS標準コマンド（man scutil: manage system configuration）。このアプリでは参照系（--dns / --nwi / --get）のみ扱い、--set などの変更系は受け付けない。",
+    "usageTitle": "使い方",
+    "usage": "サブコマンドを選んで「取得」を押す。コンピュータ名の変更はできない。"
+  },
+  "scutilDnsResult": {
+    "key": "項目",
+    "value": "値",
+    "noData": "DNS設定が取得できませんでした"
+  },
+  "scutilNwiResult": {
+    "iface": "IF",
+    "key": "項目",
+    "value": "値",
+    "interfaces": "IF一覧",
+    "noData": "ネットワーク状態が取得できませんでした"
+  },
+  "scutilNamesResult": {
+    "key": "項目",
+    "value": "値",
+    "unset": "未設定"
+  },
+  "git": {
+    "title": "Git参照 (git)",
+    "description": "リポジトリの状態・履歴・ブランチ・リモートを参照します。管理者権限は不要です。変更はしません。",
+    "dir": "ディレクトリ",
+    "dirPlaceholder": "例: /Users/you/study/manmen",
+    "dirRequired": "リポジトリのディレクトリを入力してください",
+    "hintDir": "候補から選ぶか直接入力します。存在しない場所は受け付けません。",
+    "sub": "サブコマンド",
+    "execute": "取得",
+    "executing": "取得中...",
+    "empty": "ディレクトリを入力して実行すると、結果がここに表示されます。"
+  },
+  "gitSub": {
+    "status": "状態",
+    "log": "履歴",
+    "branches": "ブランチ",
+    "remotes": "リモート"
+  },
+  "gitSubHelp": {
+    "status": "作業ツリーの状態を表示します（status --short --branch）。",
+    "log": "直近20件のコミットを表示します（log --oneline -n 20）。",
+    "branches": "ブランチの一覧を表示します（branch -a）。",
+    "remotes": "リモートの一覧を表示します（remote -v）。"
+  },
+  "gitAbout": {
+    "heading": "git とは",
+    "body": "バージョン管理をするコマンド（man git: the stupid content tracker）。このアプリでは参照系（status / log / branch -a / remote -v）のみ扱い、add・commit・push などの変更系は受け付けない。",
+    "usageTitle": "使い方",
+    "usage": "リポジトリのディレクトリを入力し、サブコマンドを選んで「取得」を押す。リポジトリでない場所を指定すると git のエラーをそのまま表示する。"
+  },
+  "gitStatusResult": {
+    "branch": "ブランチ",
+    "changes": "変更数",
+    "status": "状態",
+    "path": "パス",
+    "clean": "作業ツリーはクリーンです"
+  },
+  "gitLogResult": {
+    "hash": "ハッシュ",
+    "author": "作成者",
+    "date": "日付",
+    "subject": "件名",
+    "noData": "コミットがありません"
+  },
+  "gitBranchesResult": {
+    "current": "現行",
+    "name": "ブランチ",
+    "remote": "リモート",
+    "yes": "○",
+    "noData": "ブランチがありません"
+  },
+  "gitRemotesResult": {
+    "name": "名前",
+    "url": "URL",
+    "kind": "種別",
+    "noData": "リモートがありません"
   }
 }

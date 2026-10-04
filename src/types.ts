@@ -409,3 +409,142 @@ export interface SystemProfilerSnapshot {
   value: ProfilerValue;
   stderr: string;
 }
+
+// Rust の scutil.rs とフィールドを一致させること.
+export interface ScutilEntry {
+  key: string;
+  value: string;
+}
+
+export interface DnsResolver {
+  name: string;
+  entries: ScutilEntry[];
+}
+
+export interface DnsSection {
+  title: string;
+  resolvers: DnsResolver[];
+}
+
+export interface DnsSnapshot {
+  kind: "dns";
+  success: boolean;
+  exit_code: number;
+  command: string;
+  sections: DnsSection[];
+  stderr: string;
+}
+
+export interface NwiRow {
+  iface: string;
+  key: string;
+  value: string;
+}
+
+export interface NwiSection {
+  title: string;
+  rows: NwiRow[];
+}
+
+export interface NwiSnapshot {
+  kind: "nwi";
+  success: boolean;
+  exit_code: number;
+  command: string;
+  sections: NwiSection[];
+  footer: string;
+  stderr: string;
+}
+
+export interface NameEntry {
+  key: string;
+  value: string;
+}
+
+export interface NamesSnapshot {
+  kind: "names";
+  success: boolean;
+  exit_code: number;
+  command: string;
+  names: NameEntry[];
+  stderr: string;
+}
+
+export type ScutilSnapshot = DnsSnapshot | NwiSnapshot | NamesSnapshot;
+
+// Rust の git.rs とフィールドを一致させること.
+export interface GitFile {
+  xy: string;
+  path: string;
+}
+
+export interface GitStatusSnapshot {
+  kind: "status";
+  success: boolean;
+  exit_code: number;
+  command: string;
+  dir: string;
+  branch: string;
+  tracking: string;
+  files: GitFile[];
+  count: number;
+  stderr: string;
+}
+
+export interface GitCommit {
+  hash: string;
+  author: string;
+  date: string;
+  subject: string;
+}
+
+export interface GitLogSnapshot {
+  kind: "log";
+  success: boolean;
+  exit_code: number;
+  command: string;
+  dir: string;
+  commits: GitCommit[];
+  count: number;
+  stderr: string;
+}
+
+export interface GitBranch {
+  name: string;
+  current: boolean;
+  remote: boolean;
+}
+
+export interface GitBranchesSnapshot {
+  kind: "branches";
+  success: boolean;
+  exit_code: number;
+  command: string;
+  dir: string;
+  branches: GitBranch[];
+  count: number;
+  stderr: string;
+}
+
+export interface GitRemote {
+  name: string;
+  url: string;
+  kind: string;
+}
+
+export interface GitRemotesSnapshot {
+  kind: "remotes";
+  success: boolean;
+  exit_code: number;
+  command: string;
+  dir: string;
+  remotes: GitRemote[];
+  count: number;
+  stderr: string;
+}
+
+export type GitSnapshot =
+  | GitStatusSnapshot
+  | GitLogSnapshot
+  | GitBranchesSnapshot
+  | GitRemotesSnapshot;

@@ -23,6 +23,10 @@ import { WAbout } from "../components/WAbout";
 import { WCard } from "../components/WCard";
 import { SystemProfilerAbout } from "../components/SystemProfilerAbout";
 import { SystemProfilerCard } from "../components/SystemProfilerCard";
+import { ScutilAbout } from "../components/ScutilAbout";
+import { ScutilCard } from "../components/ScutilCard";
+import { GitAbout } from "../components/GitAbout";
+import { GitCard } from "../components/GitCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -120,5 +124,19 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.system_profiler.label",
     control: SystemProfilerCard,
     about: SystemProfilerAbout,
+  },
+  {
+    id: "scutil.network",
+    cmd: "scutil",
+    nameKey: "commands.scutil.label",
+    control: ScutilCard,
+    about: ScutilAbout,
+  },
+  {
+    id: "git.repo",
+    cmd: "git",
+    nameKey: "commands.git.label",
+    control: GitCard,
+    about: GitAbout,
   },
 ];

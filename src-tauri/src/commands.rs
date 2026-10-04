@@ -148,6 +148,23 @@ pub fn get_system_profiler(
 }
 
 #[tauri::command]
+pub fn get_scutil(
+    query: crate::scutil::ScutilQuery,
+) -> Result<crate::scutil::ScutilResult, String> {
+    crate::scutil::get_snapshot(query)
+}
+
+#[tauri::command]
+pub fn get_git(query: crate::git::GitQuery) -> Result<crate::git::GitResult, String> {
+    crate::git::get_snapshot(query)
+}
+
+#[tauri::command]
+pub fn list_git_repos() -> Vec<String> {
+    crate::git::list_repos()
+}
+
+#[tauri::command]
 pub fn set_remember(enabled: bool) {
     crate::privileged::set_remember(enabled);
 }

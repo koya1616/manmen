@@ -22,6 +22,8 @@ import type {
   SystemDfSnapshot,
   SystemInfoSnapshot,
   SystemProfilerSnapshot,
+  ScutilSnapshot,
+  GitSnapshot,
   WhoSnapshot,
   WSnapshot,
 } from "./types";
@@ -105,6 +107,11 @@ export const api = {
   getW: () => invoke<WSnapshot>("get_w"),
   getSystemProfiler: (dataType: string) =>
     invoke<SystemProfilerSnapshot>("get_system_profiler", { query: { dataType } }),
+  getScutil: (sub: string) =>
+    invoke<ScutilSnapshot>("get_scutil", { query: { sub } }),
+  getGit: (sub: string, dir: string) =>
+    invoke<GitSnapshot>("get_git", { query: { sub, dir } }),
+  listGitRepos: () => invoke<string[]>("list_git_repos"),
   pruneDockerBuilder: (force: boolean, all: boolean) =>
     invoke<CommandResult>("prune_docker_builder", { force, all }),
   dockerBuilderDu: () => invoke<DuSnapshot>("docker_builder_du"),

@@ -488,6 +488,14 @@
     "system_profiler": {
       "name": "system_profiler (system info)",
       "label": "System info"
+    },
+    "scutil": {
+      "name": "scutil (system config)",
+      "label": "System config"
+    },
+    "git": {
+      "name": "git (repository)",
+      "label": "Git"
     }
   },
   "about": {
@@ -1074,5 +1082,103 @@
   },
   "spResult": {
     "noData": "Nothing to display"
+  },
+  "scutil": {
+    "title": "System config (scutil)",
+    "description": "Inspect DNS, network state, and computer names. No administrator privileges needed. Nothing is changed.",
+    "sub": "Subcommand",
+    "execute": "Inspect",
+    "executing": "Loading...",
+    "empty": "Pick a subcommand and run to see the result here."
+  },
+  "scutilSub": {
+    "dns": "DNS",
+    "nwi": "Network state",
+    "names": "Computer names"
+  },
+  "scutilSubHelp": {
+    "dns": "Show DNS resolver configuration (--dns).",
+    "nwi": "Show interface reachability and state (--nwi).",
+    "names": "Show ComputerName, LocalHostName, and HostName (three --get runs)."
+  },
+  "scutilAbout": {
+    "heading": "What is scutil",
+    "body": "The standard macOS command for managing system configuration (man scutil: manage system configuration). This app only covers reads (--dns / --nwi / --get); writes such as --set are not accepted.",
+    "usageTitle": "Usage",
+    "usage": "Pick a subcommand and press Inspect. Computer names cannot be changed here."
+  },
+  "scutilDnsResult": {
+    "key": "Key",
+    "value": "Value",
+    "noData": "No DNS configuration available"
+  },
+  "scutilNwiResult": {
+    "iface": "Interface",
+    "key": "Key",
+    "value": "Value",
+    "interfaces": "Interfaces",
+    "noData": "No network state available"
+  },
+  "scutilNamesResult": {
+    "key": "Key",
+    "value": "Value",
+    "unset": "Not set"
+  },
+  "git": {
+    "title": "Git (git)",
+    "description": "Inspect repository status, history, branches, and remotes. No administrator privileges needed. Nothing is changed.",
+    "dir": "Directory",
+    "dirPlaceholder": "e.g. /Users/you/study/manmen",
+    "dirRequired": "Enter a repository directory",
+    "hintDir": "Pick a suggestion or type a path. Missing paths are rejected.",
+    "sub": "Subcommand",
+    "execute": "Inspect",
+    "executing": "Loading...",
+    "empty": "Enter a directory and run to see the result here."
+  },
+  "gitSub": {
+    "status": "Status",
+    "log": "Log",
+    "branches": "Branches",
+    "remotes": "Remotes"
+  },
+  "gitSubHelp": {
+    "status": "Show working tree status (status --short --branch).",
+    "log": "Show the latest 20 commits (log --oneline -n 20).",
+    "branches": "List branches (branch -a).",
+    "remotes": "List remotes (remote -v)."
+  },
+  "gitAbout": {
+    "heading": "What is git",
+    "body": "The version control command (man git: the stupid content tracker). This app only covers reads (status / log / branch -a / remote -v); writes such as add, commit, and push are not accepted.",
+    "usageTitle": "Usage",
+    "usage": "Enter a repository directory, pick a subcommand, and press Inspect. Non-repository paths show git's error as-is."
+  },
+  "gitStatusResult": {
+    "branch": "Branch",
+    "changes": "Changes",
+    "status": "Status",
+    "path": "Path",
+    "clean": "Working tree is clean"
+  },
+  "gitLogResult": {
+    "hash": "Hash",
+    "author": "Author",
+    "date": "Date",
+    "subject": "Subject",
+    "noData": "No commits"
+  },
+  "gitBranchesResult": {
+    "current": "Current",
+    "name": "Branch",
+    "remote": "Remote",
+    "yes": "yes",
+    "noData": "No branches"
+  },
+  "gitRemotesResult": {
+    "name": "Name",
+    "url": "URL",
+    "kind": "Kind",
+    "noData": "No remotes"
   }
 }
