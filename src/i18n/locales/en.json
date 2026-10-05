@@ -504,6 +504,10 @@
     "curl": {
       "name": "curl (HTTP request)",
       "label": "HTTP request"
+    },
+    "kill": {
+      "name": "kill (send signal)",
+      "label": "Send signal"
     }
   },
   "about": {
@@ -1331,5 +1335,71 @@
     "follow": "Follow redirects (-L)",
     "compressed": "Request compression (--compressed)",
     "insecure": "Skip certificate check (-k)"
+  },
+  "kill": {
+    "title": "Send signal (kill)",
+    "description": "Send a signal to processes to terminate, pause, or resume them. Other users' processes require administrator privileges.",
+    "pids": "Process IDs",
+    "pidsPlaceholder": "e.g. 1234, 5678",
+    "pidsInvalid": "Enter up to {{max}} numeric PIDs separated by commas or spaces (0 and 1 are not allowed)",
+    "noTargets": "No matching processes found",
+    "targets": "Target processes",
+    "user": "User",
+    "command": "Command",
+    "notFound": "Not found",
+    "refresh": "Refresh",
+    "signal": "Signal",
+    "groupTarget": "Target",
+    "groupSignal": "Signal",
+    "hintPids": "PIDs to signal. Use PIDs found with ps / top / lsof. Up to {{max}}.",
+    "hintTargets": "What each PID currently is, according to ps. Always check before sending.",
+    "hintSudo": "Use for root or other users' processes. You may be asked to authenticate.",
+    "execute": "Review",
+    "executing": "Sending...",
+    "confirm": "Send SIG{{signal}} to {{n}} process(es) ({{names}})?",
+    "cancel": "Cancel",
+    "send": "Send SIG{{signal}}",
+    "note": "PID 0 (whole process group), 1 (launchd), and this app itself cannot be signaled. kill -l and numeric signals are not available.",
+    "empty": "Enter PIDs and send to see the results here."
+  },
+  "killSignal": {
+    "TERM": "Terminate",
+    "INT": "Interrupt",
+    "HUP": "Reload",
+    "QUIT": "Quit+dump",
+    "KILL": "Force kill",
+    "STOP": "Pause",
+    "CONT": "Resume"
+  },
+  "killSignalHelp": {
+    "TERM": "A normal termination request (kill's default). The process can clean up before exiting. Try this first.",
+    "INT": "An interrupt, the same as Ctrl+C.",
+    "HUP": "Hang-up. Daemons often treat it as \"reload configuration\".",
+    "QUIT": "A quit request, the same as Ctrl+\\. May leave a crash report (core dump).",
+    "KILL": "Force kill. The process cannot refuse or clean up, and unsaved data is lost. Use only when TERM does not work.",
+    "STOP": "Pause the process. It cannot be refused. Resume with CONT.",
+    "CONT": "Resume a process paused with STOP."
+  },
+  "killFlags": {
+    "sudo": "Send as administrator (sudo)"
+  },
+  "killAbout": {
+    "heading": "What is kill",
+    "body": "The standard macOS command for sending signals to processes (man kill: terminate or signal a process). Despite the name, it can also pause (STOP), resume (CONT), and reload (HUP).",
+    "usageTitle": "Usage",
+    "usage": "Enter PIDs found with ps / top / lsof, check the target processes, then press Review and Send. Send TERM first and use KILL only if the process does not stop.",
+    "safetyTitle": "Safety limits",
+    "safety": "Signals are sent only from the button in the confirmation panel; ⌘↵ just opens the panel. PID 0, 1, and this app itself are rejected, and only 7 common signals are available."
+  },
+  "killResult": {
+    "signal": "Signal",
+    "sent": "Sent",
+    "status": "Result",
+    "error": "Error",
+    "ok": "Sent",
+    "failed": "Failed",
+    "noSuchProcess": "No such process",
+    "notPermitted": "Permission denied",
+    "hint": "A successful send does not mean the process exits immediately. Check the target processes list to see if it is still running."
   }
 }

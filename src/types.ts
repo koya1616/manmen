@@ -630,3 +630,26 @@ export interface CurlSnapshot {
   info: CurlInfo | null;
   stderr: string;
 }
+
+// Rust の kill.rs とフィールドを一致させること.
+export interface KillTarget {
+  pid: number;
+  found: boolean;
+  user: string;
+  command: string;
+}
+
+export interface KillPidResult {
+  pid: number;
+  ok: boolean;
+  error: string;
+}
+
+export interface KillSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  signal: string;
+  results: KillPidResult[];
+  stderr: string;
+}

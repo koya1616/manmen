@@ -41,6 +41,16 @@ pub fn get_curl(query: crate::curl::CurlQuery) -> Result<crate::curl::CurlSnapsh
 }
 
 #[tauri::command]
+pub fn get_kill_targets(pids: String) -> Result<Vec<crate::kill::KillTarget>, String> {
+    crate::kill::get_targets(pids)
+}
+
+#[tauri::command]
+pub fn send_kill(query: crate::kill::KillQuery) -> Result<crate::kill::KillSnapshot, String> {
+    crate::kill::get_snapshot(query)
+}
+
+#[tauri::command]
 pub fn get_ssh(query: crate::ssh::SshQuery) -> Result<SshSnapshot, String> {
     crate::ssh::get_snapshot(query)
 }

@@ -28,6 +28,8 @@ import type {
    WSnapshot,
    PingSnapshot,
   CurlSnapshot,
+  KillTarget,
+  KillSnapshot,
  } from "./types";
 
 // IPC コマンド名はここに集約する。Rust の commands.rs と一致させること。
@@ -137,6 +139,9 @@ export const api = {
     insecure: boolean;
     compressed: boolean;
   }) => invoke<CurlSnapshot>("get_curl", { query }),
+  getKillTargets: (pids: string) => invoke<KillTarget[]>("get_kill_targets", { pids }),
+  sendKill: (query: { pids: string; signal: string; sudo: boolean }) =>
+    invoke<KillSnapshot>("send_kill", { query }),
   listGitRepos: () => invoke<string[]>("list_git_repos"),
   pruneDockerBuilder: (force: boolean, all: boolean) =>
     invoke<CommandResult>("prune_docker_builder", { force, all }),

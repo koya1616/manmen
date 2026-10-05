@@ -1341,6 +1341,26 @@ kbd {
   opacity: 0.7;
 }
 
+/* ---------- kill ---------- */
+
+.kill-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.kill-confirm > span {
+  flex: 1 1 240px;
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.kill-confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
 /* ---------- curl ---------- */
 
 .curl-timing-cell {

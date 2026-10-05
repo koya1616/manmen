@@ -31,6 +31,8 @@ import { PingAbout } from "../components/PingAbout";
 import { PingCard } from "../components/PingCard";
 import { CurlAbout } from "../components/CurlAbout";
 import { CurlCard } from "../components/CurlCard";
+import { KillAbout } from "../components/KillAbout";
+import { KillCard } from "../components/KillCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -156,5 +158,12 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.curl.label",
     control: CurlCard,
     about: CurlAbout,
+  },
+  {
+    id: "kill.signal",
+    cmd: "kill",
+    nameKey: "commands.kill.label",
+    control: KillCard,
+    about: KillAbout,
   },
 ];

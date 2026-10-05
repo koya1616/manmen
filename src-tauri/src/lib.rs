@@ -5,6 +5,7 @@ pub mod dig;
 pub mod docker;
 pub mod docker_read;
 pub mod git;
+pub mod kill;
 pub mod lsof;
 pub mod manpage;
 pub mod ping;
