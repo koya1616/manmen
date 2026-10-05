@@ -512,6 +512,22 @@
     "traceroute": {
       "name": "traceroute (route trace)",
       "label": "Route trace"
+    },
+    "df": {
+      "name": "df (disk free)",
+      "label": "Disk free"
+    },
+    "du": {
+      "name": "du (folder usage)",
+      "label": "Folder usage"
+    },
+    "ifconfig": {
+      "name": "ifconfig (network interfaces)",
+      "label": "Interfaces"
+    },
+    "networksetup": {
+      "name": "networksetup (network settings)",
+      "label": "Network settings"
     }
   },
   "about": {
@@ -1470,5 +1486,218 @@
     "placeholder": "Search by command or feature (e.g. ping, process)",
     "noMatch": "No matching commands",
     "help": "↑↓ to select · Enter to open · Esc to close"
+  },
+  "disk": {
+    "pathInvalid": "Enter a path starting with / or ~ without line breaks"
+  },
+  "df": {
+    "title": "Disk free (df)",
+    "description": "Show the size, usage, and free space of each mounted volume. No administrator privileges required.",
+    "path": "Path",
+    "pathPlaceholder": "All volumes when empty (e.g. ~ or /Volumes/USB)",
+    "fsType": "Type (-T)",
+    "allTypes": "All",
+    "groupTarget": "Target",
+    "groupDisplay": "Display",
+    "displayOnly": "display only",
+    "hintPath": "When set, only the volume containing this path is shown.",
+    "hintFsType": "Filter by file system type. apfs is the Mac's internal disk; msdos/exfat are USB drives and similar.",
+    "hintLocal": "Only volumes attached to this Mac, excluding network drives (-l).",
+    "hintAll": "Include mounts that are normally hidden (-a).",
+    "hintHideSystem": "Hide internal macOS volumes such as /System/Volumes/VM and simulators. The command does not change.",
+    "execute": "Run",
+    "executing": "Loading...",
+    "note": "Always fetched with -k (KB), -Y (type), and -i (inodes); units are converted on screen.",
+    "empty": "Run to see free space for each volume here."
+  },
+  "dfFlags": {
+    "local": "Local only (-l)",
+    "all": "All mounts (-a)",
+    "hideSystem": "Hide system volumes"
+  },
+  "dfAbout": {
+    "heading": "What is df",
+    "body": "The standard macOS command that shows free disk space (man df: display free disk space). Shows each volume's size, usage, free space, capacity, and inode usage.",
+    "usageTitle": "Usage",
+    "usage": "Press Run to list all volumes. On APFS, volumes in the same container share free space, so several rows show the same free value. Use du to find what is using the space."
+  },
+  "dfResult": {
+    "mount": "Mounted on",
+    "size": "Size",
+    "used": "Used",
+    "avail": "Free",
+    "capacity": "Capacity",
+    "type": "Type",
+    "filesystem": "Device",
+    "inodes": "Inodes",
+    "noData": "No volumes to show",
+    "hidden": "{{n}} system volume(s) hidden",
+    "hint": "Capacity turns yellow at 85% and red at 95%. APFS volumes share free space within a container."
+  },
+  "du": {
+    "title": "Folder usage (du)",
+    "description": "Measure how much space each folder uses, largest first. No administrator privileges required.",
+    "path": "Path",
+    "pathPlaceholder": "e.g. ~ or ~/Library",
+    "depth": "Depth (-d)",
+    "depthInvalid": "Depth must be 0–3",
+    "timeout": "Time limit",
+    "timeoutInvalid": "Time limit must be 5–120 seconds",
+    "groupTarget": "Target",
+    "groupCount": "Counting",
+    "groupTiming": "Timing",
+    "hintPath": "Folder to measure. Starts with / or ~.",
+    "hintDepth": "How many levels to list. 0 shows only the total; 1 shows each subfolder.",
+    "hintAllFiles": "List files as well as folders (-a).",
+    "hintOneFs": "Do not descend into other volumes such as external disks (-x).",
+    "hintApparent": "Count apparent file size instead of actual disk usage (-A). Differs for compressed or sparse files.",
+    "hintTimeout": "Stop after this many seconds and show what was counted so far. This is an app limit, not a du option.",
+    "execute": "Run",
+    "executing": "Measuring...",
+    "note": "Returns up to 1000 entries, largest first. Following symlinks (-H/-L) and exclude patterns (-I) are not available.",
+    "empty": "Enter a path and run to see the largest folders here."
+  },
+  "duFlags": {
+    "allFiles": "Include files (-a)",
+    "oneFs": "Stay on one volume (-x)",
+    "apparent": "Apparent size (-A)"
+  },
+  "duAbout": {
+    "heading": "What is du",
+    "body": "The standard macOS command that shows disk usage of files and folders (man du: display disk usage statistics). It walks folder contents to add them up, so large folders take time.",
+    "usageTitle": "Usage",
+    "usage": "When df shows little free space, measure ~ at depth 1, then drill into large folders. Folders you lack permission for can be counted after granting this app Full Disk Access in System Settings."
+  },
+  "duResult": {
+    "total": "Total",
+    "items": "Entries",
+    "root": "Target",
+    "path": "Path",
+    "size": "Size",
+    "share": "Share",
+    "noData": "No entries to show",
+    "timedOut": "Stopped at the time limit; results are partial and the total was not counted. Reduce depth or raise the limit.",
+    "errors": "{{n}} item(s) could not be read (e.g. permission denied) and are not included in the total.",
+    "truncated": "Too many entries; showing the largest {{n}}"
+  },
+  "ifconfig": {
+    "title": "Network interfaces (ifconfig)",
+    "description": "Show this Mac's IP addresses, MAC addresses, and the state of each interface. No administrator privileges required.",
+    "interface": "Interface",
+    "interfacePlaceholder": "All interfaces when empty (e.g. en0)",
+    "interfaceInvalid": "Enter an interface name like en0 (lowercase letters and digits)",
+    "family": "Address type",
+    "allFamilies": "All",
+    "groupTarget": "Target",
+    "groupDisplay": "Display",
+    "hintInterface": "Name an interface such as en0 to show only it. Empty shows all (-a).",
+    "hintUpOnly": "Only interfaces that are up (-u).",
+    "hintFamily": "Only IPv4 (inet) or IPv6 (inet6) addresses.",
+    "hintActiveOnly": "Only list interfaces whose link is active or that have an address. The command does not change.",
+    "execute": "Run",
+    "executing": "Loading...",
+    "note": "Display only. Setting addresses, up/down, and creating/destroying interfaces are not available.",
+    "empty": "Run to see each interface's addresses here."
+  },
+  "ifconfigFlags": {
+    "upOnly": "Up only (-u)",
+    "activeOnly": "Show in-use only"
+  },
+  "ifconfigAbout": {
+    "heading": "What is ifconfig",
+    "body": "The standard macOS command for showing and changing network interface settings (man ifconfig: configure network interface parameters). This app only shows them. On most Macs en0 is Wi-Fi, lo0 is the Mac itself (127.0.0.1), and utun is a tunnel such as a VPN.",
+    "usageTitle": "Usage",
+    "usage": "Press Run to see interfaces in use and their IP addresses. Which interface is Wi-Fi is labeled automatically from networksetup. Check DNS and proxy settings with networksetup."
+  },
+  "ifconfigResult": {
+    "primary": "Main IPv4 address",
+    "primaryIface": "Interface",
+    "count": "Interfaces",
+    "interface": "Interface",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "down": "Down",
+    "temporary": "temporary",
+    "noData": "No interfaces to show",
+    "hidden": "{{n}} unused interface(s) hidden",
+    "hint": "/24 etc. is the netmask length. Gray IPv6 addresses (fe80::) are link-local, used only within the local network."
+  },
+  "ifconfigKind": {
+    "loopback": "Loopback",
+    "tunnel": "VPN / tunnel",
+    "awdl": "AirDrop etc.",
+    "llw": "Low-latency Wi-Fi",
+    "bridge": "Bridge",
+    "ap": "Access point",
+    "internal": "Internal",
+    "ipv6tunnel": "IPv6 tunnel"
+  },
+  "networksetup": {
+    "title": "Network settings (networksetup)",
+    "description": "Show network services, DNS and proxy settings, Wi-Fi state, and more. No administrator privileges required.",
+    "sub": "What to show",
+    "service": "Service",
+    "serviceInvalid": "Choose a service",
+    "loadingServices": "Loading services...",
+    "device": "Device",
+    "devicePlaceholder": "Detect Wi-Fi automatically when empty (e.g. en0)",
+    "deviceInvalid": "Enter a device name like en0 (lowercase letters and digits)",
+    "hintService": "The services listed in System Settings > Network.",
+    "hintDevice": "The Wi-Fi device name. When empty, it is found from the Wi-Fi hardware port.",
+    "execute": "Run",
+    "executing": "Loading...",
+    "note": "Only -get / -list commands are available. Changing DNS or proxies, switching locations, and other -set commands are not.",
+    "empty": "Choose what to show and run to see the settings here."
+  },
+  "networksetupSub": {
+    "services": "Services",
+    "info": "Service details",
+    "wifi": "Wi-Fi",
+    "locations": "Locations"
+  },
+  "networksetupSubHelp": {
+    "services": "Network services in priority order (-listnetworkserviceorder). Services higher in the list are preferred.",
+    "info": "IP settings, DNS servers, search domains, and proxies for the chosen service (-getinfo and 8 more commands).",
+    "wifi": "Wi-Fi power and the current network name (-getairportpower / -getairportnetwork).",
+    "locations": "The current network location and all saved locations (-getcurrentlocation / -listlocations)."
+  },
+  "networksetupAbout": {
+    "heading": "What is networksetup",
+    "body": "The standard macOS command for viewing and changing System Settings > Network from the command line (man networksetup: configuration tool for network settings in System Preferences). This app only uses its read commands.",
+    "usageTitle": "Usage",
+    "usage": "Choose what to show and press Run. If Service details shows no DNS servers, DNS is provided automatically (e.g. by your router). The DNS actually in use can also be checked with scutil --dns."
+  },
+  "networksetupResult": {
+    "order": "Order",
+    "service": "Service",
+    "hardwarePort": "Hardware port",
+    "device": "Device",
+    "enabled": "Enabled",
+    "yes": "Yes",
+    "no": "No",
+    "none": "None",
+    "noData": "No services",
+    "ip": "IP settings ({{service}})",
+    "dns": "DNS servers",
+    "dnsAuto": "Not set manually (automatic)",
+    "searchDomains": "Search domains",
+    "proxies": "Proxies",
+    "proxyKind": "Type",
+    "server": "Server",
+    "authenticated": "authenticated",
+    "bypass": "Bypass proxies for",
+    "proxy": {
+      "web": "Web (HTTP)",
+      "secureweb": "Secure web (HTTPS)",
+      "socks": "SOCKS",
+      "autoDiscovery": "Auto discovery",
+      "pac": "Auto config (PAC)"
+    },
+    "power": "Power",
+    "network": "Current network",
+    "wifiHint": "The network name may be unavailable even when connected, because macOS hides Wi-Fi names without Location Services permission.",
+    "currentLocation": "Current location",
+    "commands": "Commands run ({{n}})"
   }
 }

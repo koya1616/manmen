@@ -1,7 +1,9 @@
 //! 管理者権限実行の共通基盤。
 //! コマンド固有の知識は持たせないこと。新しいコマンドもこのモジュール経由で実行する。
 
-use std::process::Command;
+use std::io::Read;
+use std::process::{Command, Stdio};
+use std::time::{Duration, Instant};
 use std::sync::atomic::{AtomicBool, Ordering};
 
 use crate::types::CommandResult;
@@ -51,6 +53,64 @@ pub fn execute_plain(
         .output()
         .map_err(|e| spawn_error(program, &resolved, e))?;
     Ok(CommandResult::from_output(output, preview))
+}
+
+/// 権限不要コマンドを時間制限つきで実行する。
+/// 制限を超えたら kill し、それまでに出た出力と `true` (打ち切り) を返す。
+pub fn execute_plain_with_timeout(
+    program: &str,
+    args: &[&str],
+    preview: String,
+    timeout: Duration,
+) -> Result<(CommandResult, bool), String> {
+    let resolved = resolve_program(program);
+    let mut child = Command::new(&resolved)
+        .args(args)
+        .env("PATH", expanded_path())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| spawn_error(program, &resolved, e))?;
+    // パイプが詰まって子が止まらないよう、待つ間も別スレッドで読み続ける
+    let stdout_reader = read_in_background(child.stdout.take());
+    let stderr_reader = read_in_background(child.stderr.take());
+    let deadline = Instant::now() + timeout;
+    let mut timed_out = false;
+    let status = loop {
+        if let Some(status) = child.try_wait().map_err(|e| format!("failed to wait {program}: {e}"))? {
+            break status;
+        }
+        if Instant::now() >= deadline {
+            let _ = child.kill();
+            timed_out = true;
+            break child.wait().map_err(|e| format!("failed to wait {program}: {e}"))?;
+        }
+        std::thread::sleep(Duration::from_millis(50));
+    };
+    let stdout = stdout_reader.join().unwrap_or_default();
+    let stderr = stderr_reader.join().unwrap_or_default();
+    Ok((
+        CommandResult {
+            success: status.success() && !timed_out,
+            exit_code: status.code().unwrap_or(-1),
+            stdout: String::from_utf8_lossy(&stdout).to_string(),
+            stderr: String::from_utf8_lossy(&stderr).to_string(),
+            command: preview,
+        },
+        timed_out,
+    ))
+}
+
+fn read_in_background<R: Read + Send + 'static>(
+    source: Option<R>,
+) -> std::thread::JoinHandle<Vec<u8>> {
+    std::thread::spawn(move || {
+        let mut buf = Vec::new();
+        if let Some(mut source) = source {
+            let _ = source.read_to_end(&mut buf);
+        }
+        buf
+    })
 }
 
 /// 管理者権限で実行する (省略ONの経路: `sudo -n` → 初回のみ `sudo -A` でGUI認証)。
@@ -263,7 +323,40 @@ fn start_keepalive() {
 
 #[cfg(test)]
 mod tests {
-    use super::{join_path, needs_password, resolve_program, search_dirs, shell_escape};
+    use super::{
+        execute_plain_with_timeout, join_path, needs_password, resolve_program, search_dirs,
+        shell_escape,
+    };
+    use std::time::{Duration, Instant};
+
+    #[test]
+    fn kills_command_after_timeout() {
+        let started = Instant::now();
+        let (result, timed_out) = execute_plain_with_timeout(
+            "/bin/sleep",
+            &["5"],
+            "sleep 5".to_string(),
+            Duration::from_millis(200),
+        )
+        .unwrap();
+        assert!(timed_out);
+        assert!(!result.success);
+        assert!(started.elapsed() < Duration::from_secs(3));
+    }
+
+    #[test]
+    fn returns_output_within_timeout() {
+        let (result, timed_out) = execute_plain_with_timeout(
+            "/bin/echo",
+            &["hello"],
+            "echo hello".to_string(),
+            Duration::from_secs(5),
+        )
+        .unwrap();
+        assert!(!timed_out);
+        assert!(result.success);
+        assert_eq!(result.stdout.trim(), "hello");
+    }
 
     #[test]
     fn detects_password_required() {

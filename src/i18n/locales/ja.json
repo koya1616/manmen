@@ -512,6 +512,22 @@
     "traceroute": {
       "name": "traceroute（経路調査）",
       "label": "経路調査"
+    },
+    "df": {
+      "name": "df（ディスク空き容量）",
+      "label": "ディスク空き容量"
+    },
+    "du": {
+      "name": "du（フォルダ使用量）",
+      "label": "フォルダ使用量"
+    },
+    "ifconfig": {
+      "name": "ifconfig（ネットワークインターフェース）",
+      "label": "インターフェース"
+    },
+    "networksetup": {
+      "name": "networksetup（ネットワーク設定）",
+      "label": "ネットワーク設定"
     }
   },
   "about": {
@@ -1470,5 +1486,218 @@
     "placeholder": "コマンド名や機能名で検索（例: ping, プロセス）",
     "noMatch": "一致するコマンドがありません",
     "help": "↑↓ で選択 · Enter で開く · Esc で閉じる"
+  },
+  "disk": {
+    "pathInvalid": "パスは / か ~ で始め、改行などを含まない形で入力してください"
+  },
+  "df": {
+    "title": "ディスク空き容量 (df)",
+    "description": "マウントされているボリュームごとの容量・使用量・空き容量を調べます。管理者権限は不要です。",
+    "path": "パス",
+    "pathPlaceholder": "空欄は全ボリューム（例: ~ や /Volumes/USB）",
+    "fsType": "種別 (-T)",
+    "allTypes": "すべて",
+    "groupTarget": "対象",
+    "groupDisplay": "表示",
+    "displayOnly": "表示のみ",
+    "hintPath": "指定すると、そのパスがあるボリュームだけを表示します。",
+    "hintFsType": "ファイルシステムの種別で絞り込みます。apfs は Mac の内蔵ディスク、msdos/exfat は USB メモリなどです。",
+    "hintLocal": "ネットワークドライブを除き、この Mac に直接つながったボリュームだけを表示します（-l）。",
+    "hintAll": "通常は隠れているマウントも含めて表示します（-a）。",
+    "hintHideSystem": "/System/Volumes/VM などの macOS 内部用ボリュームやシミュレータを表から隠します。コマンドは変わりません。",
+    "execute": "実行",
+    "executing": "取得中...",
+    "note": "表示用に -k（KB単位）・-Y（種別）・-i（inode）を常に付けて取得し、単位は画面側で変換します。",
+    "empty": "実行すると、ボリュームごとの空き容量がここに表示されます。"
+  },
+  "dfFlags": {
+    "local": "ローカルのみ (-l)",
+    "all": "すべてのマウント (-a)",
+    "hideSystem": "システム用ボリュームを隠す"
+  },
+  "dfAbout": {
+    "heading": "df とは",
+    "body": "ファイルシステムの空き容量を表示するmacOS標準コマンド（man df: display free disk space）。ボリュームごとの全体容量・使用量・空き容量・使用率と、inode（ファイル数の上限）の使用状況が分かる。",
+    "usageTitle": "使い方",
+    "usage": "「実行」を押すと全ボリュームを表示する。APFS では同じコンテナ内のボリュームが空き容量を共有するため、複数の行で空き容量が同じ値になる。どこが容量を使っているかは du で調べる。"
+  },
+  "dfResult": {
+    "mount": "マウント先",
+    "size": "容量",
+    "used": "使用",
+    "avail": "空き",
+    "capacity": "使用率",
+    "type": "種別",
+    "filesystem": "デバイス",
+    "inodes": "inode",
+    "noData": "表示できるボリュームがありません",
+    "hidden": "システム用ボリューム {{n}} 件を隠しています",
+    "hint": "使用率は 85% 以上で黄色、95% 以上で赤になります。APFS は同じコンテナ内で空き容量を共有します。"
+  },
+  "du": {
+    "title": "フォルダ使用量 (du)",
+    "description": "フォルダごとに使っている容量を調べ、大きい順に表示します。管理者権限は不要です。",
+    "path": "パス",
+    "pathPlaceholder": "例: ~ や ~/Library",
+    "depth": "深さ (-d)",
+    "depthInvalid": "深さは 0〜3 です",
+    "timeout": "打ち切り時間",
+    "timeoutInvalid": "打ち切り時間は 5〜120 秒です",
+    "groupTarget": "対象",
+    "groupCount": "数え方",
+    "groupTiming": "タイミング",
+    "hintPath": "調べるフォルダです。/ か ~ で始めます。",
+    "hintDepth": "何階層下まで一覧に出すかです。0 なら合計だけ、1 なら直下のフォルダごとです。",
+    "hintAllFiles": "フォルダだけでなくファイルも一覧に含めます（-a）。",
+    "hintOneFs": "外付けディスクなど別のボリュームの中までは数えません（-x）。",
+    "hintApparent": "ディスク上の実使用量ではなく、ファイルの見かけのサイズで数えます（-A）。圧縮やスパースファイルで差が出ます。",
+    "hintTimeout": "この秒数で打ち切り、それまでに数えた分だけを表示します。du のオプションではなく、このアプリの制限です。",
+    "execute": "実行",
+    "executing": "集計中...",
+    "note": "大きい順に最大1000件まで返します。シンボリックリンクの追従（-H/-L）・除外パターン（-I）は受け付けません。",
+    "empty": "パスを入力して実行すると、使用量の大きいフォルダがここに表示されます。"
+  },
+  "duFlags": {
+    "allFiles": "ファイルも表示 (-a)",
+    "oneFs": "他のボリュームに入らない (-x)",
+    "apparent": "見かけのサイズ (-A)"
+  },
+  "duAbout": {
+    "heading": "du とは",
+    "body": "ファイルやフォルダのディスク使用量を表示するmacOS標準コマンド（man du: display disk usage statistics）。フォルダの中身をたどって合計するため、大きなフォルダでは時間がかかる。",
+    "usageTitle": "使い方",
+    "usage": "df で空きが少ないと分かったら、~ を深さ1で調べ、大きいフォルダを見つけたらそのパスでさらに調べる。「権限がない」フォルダは、システム設定の「フルディスクアクセス」をこのアプリに許可すると数えられる。"
+  },
+  "duResult": {
+    "total": "合計",
+    "items": "項目数",
+    "root": "対象",
+    "path": "パス",
+    "size": "サイズ",
+    "share": "割合",
+    "noData": "表示できる項目がありません",
+    "timedOut": "打ち切り時間に達したため途中までの結果です。合計は数えきれていません。深さを減らすか、打ち切り時間を延ばしてください。",
+    "errors": "読み取れなかった項目が {{n}} 件あります（権限がないなど）。その分は合計に含まれていません。",
+    "truncated": "項目が多いため大きい順に {{n}} 件だけ表示しています"
+  },
+  "ifconfig": {
+    "title": "ネットワークインターフェース (ifconfig)",
+    "description": "この Mac の IP アドレス・MAC アドレス・インターフェースごとの状態を表示します。管理者権限は不要です。",
+    "interface": "インターフェース",
+    "interfacePlaceholder": "空欄は全インターフェース（例: en0）",
+    "interfaceInvalid": "インターフェース名は en0 のような英小文字と数字で入力してください",
+    "family": "アドレスの種類",
+    "allFamilies": "すべて",
+    "groupTarget": "対象",
+    "groupDisplay": "表示",
+    "hintInterface": "en0 などの名前を指定すると、そのインターフェースだけを表示します。空欄なら全部です（-a）。",
+    "hintUpOnly": "有効（UP）になっているインターフェースだけを表示します（-u）。",
+    "hintFamily": "IPv4（inet）か IPv6（inet6）のアドレスだけを表示します。",
+    "hintActiveOnly": "リンクが接続中か、アドレスを持っているインターフェースだけを表に出します。コマンドは変わりません。",
+    "execute": "実行",
+    "executing": "取得中...",
+    "note": "表示のみを扱います。アドレス設定・up/down・インターフェースの作成/削除などの変更は受け付けません。",
+    "empty": "実行すると、インターフェースごとのアドレスがここに表示されます。"
+  },
+  "ifconfigFlags": {
+    "upOnly": "UP のみ (-u)",
+    "activeOnly": "使用中のみ表示"
+  },
+  "ifconfigAbout": {
+    "heading": "ifconfig とは",
+    "body": "ネットワークインターフェースの設定を表示・変更するmacOS標準コマンド（man ifconfig: configure network interface parameters）。このアプリでは表示だけを扱う。en0 は多くの Mac で Wi-Fi、lo0 は自分自身（127.0.0.1）、utun は VPN などのトンネルを表す。",
+    "usageTitle": "使い方",
+    "usage": "「実行」を押すと使用中のインターフェースと IP アドレスを表示する。どのインターフェースが Wi-Fi かは networksetup の対応表から自動で表示する。DNS やプロキシの設定は networksetup で確認する。"
+  },
+  "ifconfigResult": {
+    "primary": "主な IPv4 アドレス",
+    "primaryIface": "そのインターフェース",
+    "count": "インターフェース数",
+    "interface": "インターフェース",
+    "status": "状態",
+    "active": "接続中",
+    "inactive": "未接続",
+    "down": "無効",
+    "temporary": "一時",
+    "noData": "表示できるインターフェースがありません",
+    "hidden": "使用していないインターフェース {{n}} 件を隠しています",
+    "hint": "/24 などはネットマスクの長さです。灰色の IPv6（fe80::）は同じネットワーク内だけで使うリンクローカルアドレスです。"
+  },
+  "ifconfigKind": {
+    "loopback": "ループバック",
+    "tunnel": "VPN・トンネル",
+    "awdl": "AirDrop など",
+    "llw": "低遅延 Wi-Fi",
+    "bridge": "ブリッジ",
+    "ap": "アクセスポイント",
+    "internal": "内部用",
+    "ipv6tunnel": "IPv6 トンネル"
+  },
+  "networksetup": {
+    "title": "ネットワーク設定 (networksetup)",
+    "description": "ネットワークサービスの一覧、DNS・プロキシ設定、Wi-Fi の状態などを表示します。管理者権限は不要です。",
+    "sub": "表示する内容",
+    "service": "サービス",
+    "serviceInvalid": "サービスを選んでください",
+    "loadingServices": "サービス一覧を読み込み中...",
+    "device": "デバイス",
+    "devicePlaceholder": "空欄は Wi-Fi を自動検出（例: en0）",
+    "deviceInvalid": "デバイス名は en0 のような英小文字と数字で入力してください",
+    "hintService": "「システム設定 > ネットワーク」に並んでいるサービスです。",
+    "hintDevice": "Wi-Fi のデバイス名です。空欄なら Wi-Fi のハードウェアポートから自動で探します。",
+    "execute": "実行",
+    "executing": "取得中...",
+    "note": "-get / -list の取得系のみを扱います。DNS やプロキシの変更・ネットワーク環境の切り替えなどの -set 系は受け付けません。",
+    "empty": "表示する内容を選んで実行すると、設定がここに表示されます。"
+  },
+  "networksetupSub": {
+    "services": "サービス一覧",
+    "info": "サービス詳細",
+    "wifi": "Wi-Fi",
+    "locations": "ネットワーク環境"
+  },
+  "networksetupSubHelp": {
+    "services": "ネットワークサービスを優先順に表示します（-listnetworkserviceorder）。上にあるものほど優先して使われます。",
+    "info": "選んだサービスの IP 設定・DNS サーバー・検索ドメイン・各種プロキシをまとめて表示します（-getinfo ほか 8 コマンド）。",
+    "wifi": "Wi-Fi の電源と接続中のネットワーク名を表示します（-getairportpower / -getairportnetwork）。",
+    "locations": "現在のネットワーク環境（場所）と、登録されている一覧を表示します（-getcurrentlocation / -listlocations）。"
+  },
+  "networksetupAbout": {
+    "heading": "networksetup とは",
+    "body": "「システム設定 > ネットワーク」の内容をコマンドで表示・変更するmacOS標準コマンド（man networksetup: configuration tool for network settings in System Preferences）。このアプリでは取得系だけを扱う。",
+    "usageTitle": "使い方",
+    "usage": "表示する内容を選んで「実行」を押す。「サービス詳細」で DNS サーバーが空なら、ルーターなどから自動で配られた DNS を使っている。実際に使われている DNS は scutil --dns でも確認できる。"
+  },
+  "networksetupResult": {
+    "order": "順位",
+    "service": "サービス",
+    "hardwarePort": "ハードウェアポート",
+    "device": "デバイス",
+    "enabled": "有効",
+    "yes": "はい",
+    "no": "いいえ",
+    "none": "なし",
+    "noData": "サービスがありません",
+    "ip": "IP 設定（{{service}}）",
+    "dns": "DNS サーバー",
+    "dnsAuto": "手動設定なし（自動）",
+    "searchDomains": "検索ドメイン",
+    "proxies": "プロキシ",
+    "proxyKind": "種類",
+    "server": "サーバー",
+    "authenticated": "認証あり",
+    "bypass": "プロキシを使わないホスト",
+    "proxy": {
+      "web": "Web (HTTP)",
+      "secureweb": "保護された Web (HTTPS)",
+      "socks": "SOCKS",
+      "autoDiscovery": "自動検出",
+      "pac": "自動構成 (PAC)"
+    },
+    "power": "電源",
+    "network": "接続中のネットワーク",
+    "wifiHint": "接続中でもネットワーク名が取れない場合があります。macOS の位置情報の許可が無いと Wi-Fi 名が隠されるためです。",
+    "currentLocation": "現在のネットワーク環境",
+    "commands": "実行したコマンド（{{n}}件）"
   }
 }

@@ -1,4 +1,4 @@
-//! ps / top / lsof で重複していたユーザ名・PIDリスト検証の共通実装。
+//! ps / top / lsof で重複していたユーザ名・PIDリスト検証、df / du のパス検証の共通実装。
 //! 上限はモジュールごとの MAX_PIDS に合わせるため引数で受ける。
 //! エラーメッセージは従来の各モジュールと同一にすること (Frontend の表示とテストに影響するため)。
 
@@ -37,4 +37,29 @@ pub fn parse_pids(raw: &str, max: usize) -> Result<Vec<String>, String> {
         return Err(format!("プロセスIDは {max} 件までです"));
     }
     Ok(pids)
+}
+
+/// `~` / `~/…` を展開し、存在する絶対パスだけを許可する。
+/// `-` 始まりなどオプションと誤解される値は絶対パスの条件で弾かれる。
+pub fn resolve_existing_path(raw: &str) -> Result<String, String> {
+    let raw = raw.trim();
+    if raw.is_empty() {
+        return Err("パスを入力してください".to_string());
+    }
+    if raw.chars().any(|c| c.is_control()) {
+        return Err(format!("パスが不正です: {raw}"));
+    }
+    let expanded = if raw == "~" || raw.starts_with("~/") {
+        let home = std::env::var("HOME").map_err(|_| "HOME が取得できません".to_string())?;
+        format!("{home}{}", &raw[1..])
+    } else {
+        raw.to_string()
+    };
+    if !expanded.starts_with('/') {
+        return Err("パスは / か ~ で始めてください".to_string());
+    }
+    if !std::path::Path::new(&expanded).exists() {
+        return Err(format!("パスが見つかりません: {raw}"));
+    }
+    Ok(expanded)
 }

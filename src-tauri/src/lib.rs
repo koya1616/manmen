@@ -1,13 +1,17 @@
 pub mod commands;
 pub mod common;
 pub mod curl;
+pub mod df;
 pub mod dig;
 pub mod docker;
 pub mod docker_read;
+pub mod du;
 pub mod git;
+pub mod ifconfig;
 pub mod kill;
 pub mod lsof;
 pub mod manpage;
+pub mod networksetup;
 pub mod ping;
 pub mod pmset;
 pub mod privileged;

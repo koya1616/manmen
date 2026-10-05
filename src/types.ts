@@ -681,3 +681,149 @@ export interface TracerouteSnapshot {
   raw: string;
   stderr: string;
 }
+
+// Rust の df.rs とフィールドを一致させること.
+export interface DfRow {
+  filesystem: string;
+  fs_type: string;
+  size_kb: number;
+  used_kb: number;
+  avail_kb: number;
+  capacity_percent: number;
+  inodes_used: number;
+  inodes_free: number;
+  inode_percent: number;
+  mount: string;
+}
+
+export interface DfSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  rows: DfRow[];
+  stderr: string;
+}
+
+// Rust の du.rs とフィールドを一致させること.
+export interface DiskUsageItem {
+  size_kb: number;
+  path: string;
+  depth: number;
+}
+
+export interface DiskUsageSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  root: string;
+  total_kb: number | null;
+  items: DiskUsageItem[];
+  total_items: number;
+  timed_out: boolean;
+  error_count: number;
+  stderr: string;
+}
+
+// Rust の ifconfig.rs とフィールドを一致させること.
+export interface IfconfigInet {
+  address: string;
+  netmask: string;
+  prefix_len: number | null;
+  broadcast: string;
+  destination: string;
+}
+
+export interface IfconfigInet6 {
+  address: string;
+  prefix_len: number | null;
+  link_local: boolean;
+  attributes: string[];
+}
+
+export interface IfconfigInterface {
+  name: string;
+  flags: string[];
+  mtu: number | null;
+  mac: string;
+  inet: IfconfigInet[];
+  inet6: IfconfigInet6[];
+  status: string;
+  media: string;
+  hardware_port: string;
+}
+
+export interface IfconfigSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  interfaces: IfconfigInterface[];
+  stderr: string;
+}
+
+// Rust の networksetup.rs とフィールドを一致させること.
+export interface NetworksetupEntry {
+  key: string;
+  value: string;
+}
+
+export interface NetworkService {
+  order: number | null;
+  name: string;
+  enabled: boolean;
+  hardware_port: string;
+  device: string;
+}
+
+export interface ProxySetting {
+  kind: "web" | "secureweb" | "socks";
+  enabled: boolean;
+  server: string;
+  port: string;
+  authenticated: boolean;
+}
+
+interface NetworksetupMeta {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  commands: string[];
+  stderr: string;
+}
+
+export interface NetworksetupServicesSnapshot extends NetworksetupMeta {
+  kind: "services";
+  services: NetworkService[];
+}
+
+export interface NetworksetupInfoSnapshot extends NetworksetupMeta {
+  kind: "info";
+  service: string;
+  info: NetworksetupEntry[];
+  dns_servers: string[];
+  search_domains: string[];
+  proxies: ProxySetting[];
+  auto_proxy_discovery: boolean;
+  auto_proxy_url: string;
+  auto_proxy_enabled: boolean;
+  bypass_domains: string[];
+}
+
+export interface NetworksetupWifiSnapshot extends NetworksetupMeta {
+  kind: "wifi";
+  device: string;
+  power: string;
+  network: string;
+  network_message: string;
+}
+
+export interface NetworksetupLocationsSnapshot extends NetworksetupMeta {
+  kind: "locations";
+  current: string;
+  locations: string[];
+}
+
+export type NetworksetupSnapshot =
+  | NetworksetupServicesSnapshot
+  | NetworksetupInfoSnapshot
+  | NetworksetupWifiSnapshot
+  | NetworksetupLocationsSnapshot;

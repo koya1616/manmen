@@ -31,6 +31,10 @@ import type {
   KillTarget,
   KillSnapshot,
   TracerouteSnapshot,
+  DfSnapshot,
+  DiskUsageSnapshot,
+  IfconfigSnapshot,
+  NetworksetupSnapshot,
  } from "./types";
 
 // IPC コマンド名はここに集約する。Rust の commands.rs と一致させること。
@@ -153,6 +157,21 @@ export const api = {
     numeric: boolean;
     asLookup: boolean;
   }) => invoke<TracerouteSnapshot>("get_traceroute", { query }),
+  getDf: (query: { path: string; all: boolean; local: boolean; fsType: string }) =>
+    invoke<DfSnapshot>("get_df", { query }),
+  getDu: (query: {
+    path: string;
+    depth: number;
+    allFiles: boolean;
+    oneFs: boolean;
+    apparent: boolean;
+    timeoutSecs: number;
+  }) => invoke<DiskUsageSnapshot>("get_du", { query }),
+  getIfconfig: (query: { interface: string; upOnly: boolean; family: string }) =>
+    invoke<IfconfigSnapshot>("get_ifconfig", { query }),
+  getNetworksetup: (query: { sub: string; service: string; device: string }) =>
+    invoke<NetworksetupSnapshot>("get_networksetup", { query }),
+  listNetworkServices: () => invoke<string[]>("list_network_services"),
   listGitRepos: () => invoke<string[]>("list_git_repos"),
   pruneDockerBuilder: (force: boolean, all: boolean) =>
     invoke<CommandResult>("prune_docker_builder", { force, all }),

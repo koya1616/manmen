@@ -35,6 +35,14 @@ import { KillAbout } from "../components/KillAbout";
 import { KillCard } from "../components/KillCard";
 import { TracerouteAbout } from "../components/TracerouteAbout";
 import { TracerouteCard } from "../components/TracerouteCard";
+import { DfAbout } from "../components/DfAbout";
+import { DfCard } from "../components/DfCard";
+import { DuAbout } from "../components/DuAbout";
+import { DuCard } from "../components/DuCard";
+import { IfconfigAbout } from "../components/IfconfigAbout";
+import { IfconfigCard } from "../components/IfconfigCard";
+import { NetworksetupAbout } from "../components/NetworksetupAbout";
+import { NetworksetupCard } from "../components/NetworksetupCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -174,5 +182,33 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.traceroute.label",
     control: TracerouteCard,
     about: TracerouteAbout,
+  },
+  {
+    id: "df.usage",
+    cmd: "df",
+    nameKey: "commands.df.label",
+    control: DfCard,
+    about: DfAbout,
+  },
+  {
+    id: "du.usage",
+    cmd: "du",
+    nameKey: "commands.du.label",
+    control: DuCard,
+    about: DuAbout,
+  },
+  {
+    id: "ifconfig.show",
+    cmd: "ifconfig",
+    nameKey: "commands.ifconfig.label",
+    control: IfconfigCard,
+    about: IfconfigAbout,
+  },
+  {
+    id: "networksetup.read",
+    cmd: "networksetup",
+    nameKey: "commands.networksetup.label",
+    control: NetworksetupCard,
+    about: NetworksetupAbout,
   },
 ];
