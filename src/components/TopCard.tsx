@@ -12,7 +12,7 @@ import {
 } from "../commands/topOptions";
 import { useTop } from "../hooks/useTop";
 import { TopResultView } from "./TopResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import {
   FlagRow,
@@ -235,28 +235,16 @@ export function TopCard({ active, about }: { active: boolean; about: ReactNode }
         </>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            runner.result
-              ? {
-                  success: runner.result.success,
-                  exitCode: runner.result.exit_code,
-                  stderr: runner.result.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== form.preview}
+        <RunnerOutput
+          runner={runner}
+          preview={form.preview}
           emptyHint={t("top.empty")}
+          result={runner.result}
         >
           {runner.result ? (
             <TopResultView result={runner.result} />
           ) : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

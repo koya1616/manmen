@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { DIG_CLASSES, DIG_TYPES, type DigTransport, type DigType } from "../commands/digOptions";
 import { useDig } from "../hooks/useDig";
 import { DigResultView } from "./DigResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import { FlagRow, OptionRow, Segmented, TextField } from "./ui/controls";
 
@@ -164,26 +164,14 @@ export function DigCard({ active, about }: { active: boolean; about: ReactNode }
         </>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            runner.result
-              ? {
-                  success: runner.result.success,
-                  exitCode: runner.result.exit_code,
-                  stderr: runner.result.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== form.preview}
+        <RunnerOutput
+          runner={runner}
+          preview={form.preview}
           emptyHint={t("dig.empty")}
+          result={runner.result}
         >
           {runner.result ? <DigResultView result={runner.result} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

@@ -12,7 +12,7 @@ import { DockerSystemInfoResultView } from "./DockerSystemInfoResultView";
 import { DockerInspectResultView } from "./DockerInspectResultView";
 import { DockerLsResultView } from "./DockerLsResultView";
 import { DockerVersionResultView } from "./DockerVersionResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import { FlagRow, OptionRow, Segmented, TextField } from "./ui/controls";
 
@@ -99,23 +99,11 @@ export function DockerCard({ active, about }: { active: boolean; about: ReactNod
         </>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            out
-              ? {
-                  success: out.result.success,
-                  exitCode: out.result.exit_code,
-                  stderr: out.result.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== form.preview}
+        <RunnerOutput
+          runner={runner}
+          preview={form.preview}
           emptyHint={t("docker.empty")}
+          result={out?.result ?? null}
         >
           {out?.kind === "du" ? <DockerDuResultView result={out.result} /> : null}
           {out?.kind === "containers" ? <DockerContainersResultView result={out.result} /> : null}
@@ -128,7 +116,7 @@ export function DockerCard({ active, about }: { active: boolean; about: ReactNod
           {out?.kind === "version" ? <DockerVersionResultView result={out.result} /> : null}
           {out?.kind === "inspect" ? <DockerInspectResultView result={out.result} /> : null}
           {out?.kind === "prune" ? <CommandResultView result={out.result} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

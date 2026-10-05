@@ -5,7 +5,7 @@ import { GitBranchesResultView } from "./GitBranchesResultView";
 import { GitLogResultView } from "./GitLogResultView";
 import { GitRemotesResultView } from "./GitRemotesResultView";
 import { GitStatusResultView } from "./GitStatusResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import { OptionRow, Segmented, TextField } from "./ui/controls";
 
@@ -61,29 +61,17 @@ export function GitCard({ active, about }: { active: boolean; about: ReactNode }
         </>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            out
-              ? {
-                  success: out.success,
-                  exitCode: out.exit_code,
-                  stderr: out.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== preview}
+        <RunnerOutput
+          runner={runner}
+          preview={preview}
           emptyHint={t("git.empty")}
+          result={out}
         >
           {out?.kind === "status" ? <GitStatusResultView result={out} /> : null}
           {out?.kind === "log" ? <GitLogResultView result={out} /> : null}
           {out?.kind === "branches" ? <GitBranchesResultView result={out} /> : null}
           {out?.kind === "remotes" ? <GitRemotesResultView result={out} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

@@ -4,7 +4,7 @@ import { SCUTIL_SUBS, useScutil } from "../hooks/useScutil";
 import { ScutilDnsResultView } from "./ScutilDnsResultView";
 import { ScutilNwiResultView } from "./ScutilNwiResultView";
 import { ScutilNamesResultView } from "./ScutilNamesResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import { OptionRow, Segmented } from "./ui/controls";
 
@@ -41,28 +41,16 @@ export function ScutilCard({ active, about }: { active: boolean; about: ReactNod
         </OptionRow>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            out
-              ? {
-                  success: out.success,
-                  exitCode: out.exit_code,
-                  stderr: out.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== preview}
+        <RunnerOutput
+          runner={runner}
+          preview={preview}
           emptyHint={t("scutil.empty")}
+          result={out}
         >
           {out?.kind === "dns" ? <ScutilDnsResultView result={out} /> : null}
           {out?.kind === "nwi" ? <ScutilNwiResultView result={out} /> : null}
           {out?.kind === "names" ? <ScutilNamesResultView result={out} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

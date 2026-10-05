@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { SYSTEM_PROFILER_TYPES } from "../commands/systemProfilerTypes";
 import { useSystemProfiler } from "../hooks/useSystemProfiler";
 import { SystemProfilerResultView } from "./SystemProfilerResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import { OptionRow, Segmented } from "./ui/controls";
 
@@ -43,23 +43,11 @@ export function SystemProfilerCard({ active, about }: { active: boolean; about: 
         </>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            runner.result
-              ? {
-                  success: runner.result.success,
-                  exitCode: runner.result.exit_code,
-                  stderr: runner.result.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== preview}
+        <RunnerOutput
+          runner={runner}
+          preview={preview}
           emptyHint={t("sp.empty")}
+          result={runner.result}
         >
           {runner.result && runner.result.value !== null ? (
             <SystemProfilerResultView
@@ -67,7 +55,7 @@ export function SystemProfilerCard({ active, about }: { active: boolean; about: 
               value={runner.result.value}
             />
           ) : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

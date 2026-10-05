@@ -11,7 +11,7 @@ import {
 import { currentValue, usePmset } from "../hooks/usePmset";
 import type { PmsetState } from "../types";
 import { CommandResultView } from "./CommandResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { useLink, Workbench } from "./ui/Workbench";
 import { OptionRow, Segmented, Stepper, Toggle } from "./ui/controls";
 
@@ -214,26 +214,14 @@ export function PmsetCard({ active, about }: { active: boolean; about: ReactNode
         </>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            runner.result
-              ? {
-                  success: runner.result.success,
-                  exitCode: runner.result.exit_code,
-                  stderr: runner.result.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== preview}
+        <RunnerOutput
+          runner={runner}
+          preview={preview}
           emptyHint={t("pmset.empty")}
+          result={runner.result}
         >
           {runner.result ? <CommandResultView result={runner.result} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

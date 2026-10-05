@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { PS_COLUMNS, type PsSort } from "../commands/psOptions";
 import { usePs } from "../hooks/usePs";
 import { PsResultView } from "./PsResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import { KeyPicker, OptionRow, Segmented, TextField } from "./ui/controls";
 
@@ -120,26 +120,14 @@ export function PsCard({ active, about }: { active: boolean; about: ReactNode })
         </>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            runner.result
-              ? {
-                  success: runner.result.success,
-                  exitCode: runner.result.exit_code,
-                  stderr: runner.result.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== form.preview}
+        <RunnerOutput
+          runner={runner}
+          preview={form.preview}
           emptyHint={t("ps.empty")}
+          result={runner.result}
         >
           {runner.result ? <PsResultView result={runner.result} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

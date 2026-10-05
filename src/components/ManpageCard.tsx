@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { MAN_TOPIC_GROUPS } from "../commands/manTopics";
 import { useManpage } from "../hooks/useManpage";
 import { ManpageResultView } from "./ManpageResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { useLink, Workbench } from "./ui/Workbench";
 
 const VALID_TOPICS = new Set(MAN_TOPIC_GROUPS.flatMap((group) => group.topics));
@@ -156,26 +156,21 @@ export function ManpageCard({ active, about }: { active: boolean; about: ReactNo
         />
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            runner.result
-              ? {
-                  success: runner.result.success,
-                  exitCode: runner.result.exit_code,
-                  stderr: runner.result.sections.length > 0 ? runner.result.stderr : "",
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== preview}
+        <RunnerOutput
+          runner={runner}
+          preview={preview}
           emptyHint={t("man.empty")}
+          result={runner.result}
+          stderr={
+            runner.result
+              ? runner.result.sections.length > 0
+                ? runner.result.stderr
+                : ""
+              : undefined
+          }
         >
           {runner.result ? <ManpageResultView key={runner.ranCommand} result={runner.result} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

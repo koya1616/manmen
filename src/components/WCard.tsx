@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useW } from "../hooks/useW";
 import { WResultView } from "./WResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 
 export function WCard({ active, about }: { active: boolean; about: ReactNode }) {
@@ -23,26 +23,14 @@ export function WCard({ active, about }: { active: boolean; about: ReactNode }) 
       about={about}
       options={<p className="muted">{t("w.noOptions")}</p>}
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            runner.result
-              ? {
-                  success: runner.result.success,
-                  exitCode: runner.result.exit_code,
-                  stderr: runner.result.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== preview}
+        <RunnerOutput
+          runner={runner}
+          preview={preview}
           emptyHint={t("w.empty")}
+          result={runner.result}
         >
           {runner.result ? <WResultView result={runner.result} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );

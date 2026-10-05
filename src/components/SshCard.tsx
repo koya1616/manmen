@@ -14,6 +14,7 @@ import { useSshTunnel } from "../hooks/useSshTunnel";
 import type { SshKnownHost } from "../types";
 import { SshResultView } from "./SshResultView";
 import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import { FlagRow, OptionRow, Segmented, Stepper, TextField } from "./ui/controls";
 
@@ -424,26 +425,14 @@ export function SshCard({ active, about }: { active: boolean; about: ReactNode }
             )}
           </OutputPane>
         ) : (
-          <OutputPane
-            running={ssh.runner.running}
-            error={ssh.runner.error}
-            meta={
-              ssh.runner.result
-                ? {
-                    success: ssh.runner.result.success,
-                    exitCode: ssh.runner.result.exit_code,
-                    stderr: ssh.runner.result.stderr,
-                  }
-                : null
-            }
-            ranAt={ssh.runner.ranAt}
-            durationMs={ssh.runner.durationMs}
-            ranCommand={ssh.runner.ranCommand}
-            stale={ssh.runner.ranCommand !== null && ssh.runner.ranCommand !== preview}
+          <RunnerOutput
+            runner={ssh.runner}
+            preview={preview}
             emptyHint={t("ssh.empty")}
+            result={ssh.runner.result}
           >
             {ssh.runner.result ? <SshResultView result={ssh.runner.result} /> : null}
-          </OutputPane>
+          </RunnerOutput>
         )
       }
     />

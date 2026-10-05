@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { LSOF_PROTOCOLS, LSOF_STATES } from "../commands/lsofOptions";
 import { useLsof } from "../hooks/useLsof";
 import { LsofResultView } from "./LsofResultView";
-import { OutputPane } from "./ui/OutputPane";
+import { RunnerOutput } from "./ui/RunnerOutput";
 import { Workbench } from "./ui/Workbench";
 import { OptionRow, Segmented, TextField } from "./ui/controls";
 
@@ -163,26 +163,14 @@ export function LsofCard({ active, about }: { active: boolean; about: ReactNode 
         </>
       }
       output={
-        <OutputPane
-          running={runner.running}
-          error={runner.error}
-          meta={
-            runner.result
-              ? {
-                  success: runner.result.success,
-                  exitCode: runner.result.exit_code,
-                  stderr: runner.result.stderr,
-                }
-              : null
-          }
-          ranAt={runner.ranAt}
-          durationMs={runner.durationMs}
-          ranCommand={runner.ranCommand}
-          stale={runner.ranCommand !== null && runner.ranCommand !== form.preview}
+        <RunnerOutput
+          runner={runner}
+          preview={form.preview}
           emptyHint={t("lsof.empty")}
+          result={runner.result}
         >
           {runner.result ? <LsofResultView result={runner.result} /> : null}
-        </OutputPane>
+        </RunnerOutput>
       }
     />
   );
