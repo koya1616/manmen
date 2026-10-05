@@ -209,7 +209,7 @@ fn format_interval(interval: f64) -> String {
 }
 
 /// dig と同様、オプション解釈を防ぐためホスト名相当かIPに制限する。
-fn validate_host(host: &str) -> Result<(), String> {
+pub fn validate_host(host: &str) -> Result<(), String> {
     if host.is_empty() {
         return Err("ホストを入力してください".to_string());
     }

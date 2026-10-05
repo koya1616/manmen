@@ -9,6 +9,7 @@ fn main() {
             manmen_lib::commands::get_curl,
             manmen_lib::commands::get_kill_targets,
             manmen_lib::commands::send_kill,
+            manmen_lib::commands::get_traceroute,
             manmen_lib::commands::get_ssh,
             manmen_lib::commands::start_ssh_tunnel,
             manmen_lib::commands::stop_ssh_tunnel,

@@ -5,10 +5,12 @@ export function Sidebar({
   entries,
   selectedId,
   onSelect,
+  onOpenSearch,
 }: {
   entries: CommandEntry[];
   selectedId: string;
   onSelect: (id: string) => void;
+  onOpenSearch: () => void;
 }) {
   const { t, i18n } = useTranslation();
 
@@ -26,6 +28,10 @@ export function Sidebar({
         </span>
         <span className="brand-name">{t("app.title")}</span>
       </div>
+      <button type="button" className="sidebar-search" onClick={onOpenSearch}>
+        <span>{t("palette.open")}</span>
+        <kbd>⌘K</kbd>
+      </button>
       <nav>
         <ul>
           {entries.map((entry, index) => (
@@ -37,7 +43,7 @@ export function Sidebar({
               >
                 <code className="nav-cmd">{entry.cmd}</code>
                 <span className="nav-label">{t(entry.nameKey)}</span>
-                <kbd className="nav-key">⌘{index + 1}</kbd>
+                {index < 9 ? <kbd className="nav-key">⌘{index + 1}</kbd> : null}
               </button>
             </li>
           ))}

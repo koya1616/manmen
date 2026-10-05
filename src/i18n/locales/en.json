@@ -508,6 +508,10 @@
     "kill": {
       "name": "kill (send signal)",
       "label": "Send signal"
+    },
+    "traceroute": {
+      "name": "traceroute (route trace)",
+      "label": "Route trace"
     }
   },
   "about": {
@@ -1401,5 +1405,70 @@
     "noSuchProcess": "No such process",
     "notPermitted": "Permission denied",
     "hint": "A successful send does not mean the process exits immediately. Check the target processes list to see if it is still running."
+  },
+  "traceroute": {
+    "title": "Route trace (traceroute)",
+    "description": "Find the routers (hops) on the way to a host and the round-trip time to each. No administrator privileges required.",
+    "host": "Host",
+    "protocol": "Protocol",
+    "default": "default",
+    "maxTtl": "Max hops (-m)",
+    "maxTtlInvalid": "Max hops must be 1–30",
+    "firstTtl": "First hop (-f)",
+    "firstTtlPlaceholder": "Starts at 1 when empty",
+    "firstTtlInvalid": "First hop must be between 1 and max hops",
+    "queries": "Probes per hop (-q)",
+    "queriesInvalid": "Probes must be 1–3",
+    "wait": "Reply wait (-w)",
+    "waitInvalid": "Wait must be 1–5 seconds",
+    "worst": "Worst case if nothing replies: about {{secs}} s (limit {{max}} s)",
+    "worstInvalid": "Worst case would be about {{secs}} s. Reduce hops, probes, or wait (limit {{max}} s)",
+    "groupTarget": "Target",
+    "groupRange": "Range",
+    "groupTiming": "Timing",
+    "groupDisplay": "Display",
+    "hintProtocol": "UDP is the default. If the trace stops partway, ICMP (-I) may get through.",
+    "hintMaxTtl": "How many hops to trace. Stops early when the host is reached.",
+    "hintFirstTtl": "Which hop to start from. Use it to skip your home or office network.",
+    "hintQueries": "Packets sent per hop.",
+    "hintWait": "Seconds to wait for each reply.",
+    "hintNumeric": "Show IP addresses without resolving names (-n). Finishes faster.",
+    "hintAsLookup": "Look up each hop's AS number, i.e. which organization's network it is (-a).",
+    "execute": "Run",
+    "executing": "Tracing...",
+    "note": "Low-level options such as source selection (-s/-i), gateways (-g), bypassing routing (-r), and firewall evasion (-e) are not available.",
+    "empty": "Enter a host and run to see the route here."
+  },
+  "tracerouteAbout": {
+    "heading": "What is traceroute",
+    "body": "The standard macOS command that shows the path packets take to a host (man traceroute: print the route packets take to network host). It sends packets with increasing TTL and uses the errors routers return to map the route and the time to each hop.",
+    "usageTitle": "Usage",
+    "usage": "Enter a host and press Run. Use it to find where traffic stops when ping fails, or which segment is slow. * means no reply, but many routers are configured not to reply, so it is not always a failure."
+  },
+  "tracerouteResult": {
+    "reached": "Reached",
+    "yes": "Yes",
+    "no": "No",
+    "hops": "Hops",
+    "target": "Target",
+    "hop": "Hop",
+    "responder": "Responder",
+    "avg": "Average",
+    "rtts": "Replies (ms)",
+    "lost": "Lost",
+    "noReply": "No reply (*)",
+    "noData": "No route data",
+    "hint": "!H, !N, etc. are unreachable notices (!H: host, !N: network, !X: administratively prohibited)."
+  },
+  "tracerouteFlags": {
+    "numeric": "Numeric output (-n)",
+    "asLookup": "Show AS numbers (-a)"
+  },
+  "palette": {
+    "title": "Command search",
+    "open": "Search commands",
+    "placeholder": "Search by command or feature (e.g. ping, process)",
+    "noMatch": "No matching commands",
+    "help": "↑↓ to select · Enter to open · Esc to close"
   }
 }

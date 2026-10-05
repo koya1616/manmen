@@ -653,3 +653,31 @@ export interface KillSnapshot {
   results: KillPidResult[];
   stderr: string;
 }
+
+// Rust の traceroute.rs とフィールドを一致させること.
+export interface TracerouteResponder {
+  host: string;
+  ip: string;
+  asn: string;
+  rtts_ms: number[];
+  annotations: string[];
+}
+
+export interface TracerouteHop {
+  ttl: number;
+  responders: TracerouteResponder[];
+  timeouts: number;
+}
+
+export interface TracerouteSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  target: string;
+  resolved_ip: string;
+  max_hops: number;
+  hops: TracerouteHop[];
+  reached: boolean;
+  raw: string;
+  stderr: string;
+}

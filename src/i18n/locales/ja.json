@@ -508,6 +508,10 @@
     "kill": {
       "name": "kill（シグナル送信）",
       "label": "シグナル送信"
+    },
+    "traceroute": {
+      "name": "traceroute（経路調査）",
+      "label": "経路調査"
     }
   },
   "about": {
@@ -1401,5 +1405,70 @@
     "noSuchProcess": "プロセスがありません",
     "notPermitted": "権限がありません",
     "hint": "送信に成功しても、プロセスがすぐ終了するとは限りません。対象プロセス欄で残っているかを確認できます。"
+  },
+  "traceroute": {
+    "title": "経路調査 (traceroute)",
+    "description": "宛先までに通過するルーター（ホップ）と、それぞれまでの応答時間を調べます。管理者権限は不要です。",
+    "host": "ホスト",
+    "protocol": "プロトコル",
+    "default": "既定",
+    "maxTtl": "最大ホップ数 (-m)",
+    "maxTtlInvalid": "最大ホップ数は 1〜30 です",
+    "firstTtl": "開始ホップ (-f)",
+    "firstTtlPlaceholder": "空欄は 1 から",
+    "firstTtlInvalid": "開始ホップは 1〜最大ホップ数 です",
+    "queries": "試行回数 (-q)",
+    "queriesInvalid": "試行回数は 1〜3 です",
+    "wait": "応答待ち (-w)",
+    "waitInvalid": "応答待ちは 1〜5 秒です",
+    "worst": "応答が全く無い場合の最悪の所要時間: 約{{secs}}秒（上限 {{max}}秒）",
+    "worstInvalid": "最悪の所要時間が約{{secs}}秒になります。ホップ数・試行回数・応答待ちを減らしてください（上限 {{max}}秒）",
+    "groupTarget": "宛先",
+    "groupRange": "範囲",
+    "groupTiming": "タイミング",
+    "groupDisplay": "表示",
+    "hintProtocol": "既定は UDP です。途中で止まる場合は ICMP（-I）にすると通ることがあります。",
+    "hintMaxTtl": "何ホップ先まで調べるかです。宛先に着いた時点で終わります。",
+    "hintFirstTtl": "何ホップ目から調べるかです。手前の自宅・社内ネットワークを飛ばしたいときに使います。",
+    "hintQueries": "1ホップあたりに送るパケット数です。",
+    "hintWait": "1パケットの応答を待つ秒数です。",
+    "hintNumeric": "名前解決をせず IP のまま表示します（-n）。速く終わります。",
+    "hintAsLookup": "各ホップの AS 番号（どの組織のネットワークか）を調べて表示します（-a）。",
+    "execute": "実行",
+    "executing": "調査中...",
+    "note": "送信元指定（-s/-i）・ゲートウェイ指定（-g）・ルーティング無視（-r）・ファイアウォール回避（-e）などの低レベルなオプションは受け付けません。",
+    "empty": "ホストを入力して実行すると、経路がここに表示されます。"
+  },
+  "tracerouteAbout": {
+    "heading": "traceroute とは",
+    "body": "宛先までのパケットの経路を調べるmacOS標準コマンド（man traceroute: print the route packets take to network host）。TTL を1ずつ増やしながらパケットを送り、途中のルーターが返すエラーから経路と各区間の応答時間を割り出す。",
+    "usageTitle": "使い方",
+    "usage": "ホストを入力して「実行」を押す。ping は通らないがどこで止まっているか知りたいとき、遅い区間を探したいときに使う。* は応答が無かったことを示すが、応答しない設定のルーターも多く、必ずしも障害ではない。"
+  },
+  "tracerouteResult": {
+    "reached": "宛先到達",
+    "yes": "到達",
+    "no": "未到達",
+    "hops": "ホップ数",
+    "target": "宛先",
+    "hop": "ホップ",
+    "responder": "応答元",
+    "avg": "平均",
+    "rtts": "各応答時間 (ms)",
+    "lost": "無応答",
+    "noReply": "応答なし (*)",
+    "noData": "経路を取得できませんでした",
+    "hint": "!H・!N などは到達不能の通知です（!H: ホスト、!N: ネットワーク、!X: 管理上の拒否）。"
+  },
+  "tracerouteFlags": {
+    "numeric": "数値で表示 (-n)",
+    "asLookup": "AS番号を表示 (-a)"
+  },
+  "palette": {
+    "title": "コマンド検索",
+    "open": "コマンドを検索",
+    "placeholder": "コマンド名や機能名で検索（例: ping, プロセス）",
+    "noMatch": "一致するコマンドがありません",
+    "help": "↑↓ で選択 · Enter で開く · Esc で閉じる"
   }
 }

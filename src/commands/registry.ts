@@ -33,6 +33,8 @@ import { CurlAbout } from "../components/CurlAbout";
 import { CurlCard } from "../components/CurlCard";
 import { KillAbout } from "../components/KillAbout";
 import { KillCard } from "../components/KillCard";
+import { TracerouteAbout } from "../components/TracerouteAbout";
+import { TracerouteCard } from "../components/TracerouteCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -165,5 +167,12 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.kill.label",
     control: KillCard,
     about: KillAbout,
+  },
+  {
+    id: "traceroute.trace",
+    cmd: "traceroute",
+    nameKey: "commands.traceroute.label",
+    control: TracerouteCard,
+    about: TracerouteAbout,
   },
 ];

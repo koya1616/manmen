@@ -30,6 +30,7 @@ import type {
   CurlSnapshot,
   KillTarget,
   KillSnapshot,
+  TracerouteSnapshot,
  } from "./types";
 
 // IPC コマンド名はここに集約する。Rust の commands.rs と一致させること。
@@ -142,6 +143,16 @@ export const api = {
   getKillTargets: (pids: string) => invoke<KillTarget[]>("get_kill_targets", { pids }),
   sendKill: (query: { pids: string; signal: string; sudo: boolean }) =>
     invoke<KillSnapshot>("send_kill", { query }),
+  getTraceroute: (query: {
+    host: string;
+    maxTtl: number;
+    firstTtl: number | null;
+    queries: number;
+    wait: number;
+    icmp: boolean;
+    numeric: boolean;
+    asLookup: boolean;
+  }) => invoke<TracerouteSnapshot>("get_traceroute", { query }),
   listGitRepos: () => invoke<string[]>("list_git_repos"),
   pruneDockerBuilder: (force: boolean, all: boolean) =>
     invoke<CommandResult>("prune_docker_builder", { force, all }),

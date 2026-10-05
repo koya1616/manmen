@@ -17,6 +17,7 @@ pub mod spec;
 pub mod ssh;
 pub mod system_profiler;
 pub mod top;
+pub mod traceroute;
 pub mod types;
 pub mod w;
 pub mod who;

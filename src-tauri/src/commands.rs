@@ -51,6 +51,13 @@ pub fn send_kill(query: crate::kill::KillQuery) -> Result<crate::kill::KillSnaps
 }
 
 #[tauri::command]
+pub fn get_traceroute(
+    query: crate::traceroute::TracerouteQuery,
+) -> Result<crate::traceroute::TracerouteSnapshot, String> {
+    crate::traceroute::get_snapshot(query)
+}
+
+#[tauri::command]
 pub fn get_ssh(query: crate::ssh::SshQuery) -> Result<SshSnapshot, String> {
     crate::ssh::get_snapshot(query)
 }
