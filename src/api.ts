@@ -24,9 +24,10 @@ import type {
   SystemProfilerSnapshot,
   ScutilSnapshot,
   GitSnapshot,
-  WhoSnapshot,
-  WSnapshot,
-} from "./types";
+   WhoSnapshot,
+   WSnapshot,
+   PingSnapshot,
+ } from "./types";
 
 // IPC コマンド名はここに集約する。Rust の commands.rs と一致させること。
 export const api = {
@@ -111,6 +112,17 @@ export const api = {
     invoke<ScutilSnapshot>("get_scutil", { query: { sub } }),
   getGit: (sub: string, dir: string) =>
     invoke<GitSnapshot>("get_git", { query: { sub, dir } }),
+  getPing: (query: {
+    host: string;
+    count: number;
+    interval: number;
+    timeout: number | null;
+    waitMs: number | null;
+    size: number;
+    ttl: number | null;
+    numeric: boolean;
+    noFragment: boolean;
+  }) => invoke<PingSnapshot>("get_ping", { query }),
   listGitRepos: () => invoke<string[]>("list_git_repos"),
   pruneDockerBuilder: (force: boolean, all: boolean) =>
     invoke<CommandResult>("prune_docker_builder", { force, all }),

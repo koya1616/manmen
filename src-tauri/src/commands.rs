@@ -31,6 +31,11 @@ pub fn get_dig(query: crate::dig::DigQuery) -> Result<DigSnapshot, String> {
 }
 
 #[tauri::command]
+pub fn get_ping(query: crate::ping::PingQuery) -> Result<crate::ping::PingSnapshot, String> {
+    crate::ping::get_snapshot(query)
+}
+
+#[tauri::command]
 pub fn get_ssh(query: crate::ssh::SshQuery) -> Result<SshSnapshot, String> {
     crate::ssh::get_snapshot(query)
 }

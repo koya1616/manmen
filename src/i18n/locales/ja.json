@@ -496,6 +496,10 @@
     "git": {
       "name": "git（リポジトリ参照）",
       "label": "Git"
+    },
+    "ping": {
+      "name": "ping（疎通確認）",
+      "label": "疎通確認"
     }
   },
   "about": {
@@ -1180,5 +1184,67 @@
     "url": "URL",
     "kind": "種別",
     "noData": "リモートがありません"
+  },
+  "ping": {
+    "title": "疎通確認 (ping)",
+    "description": "ホストにICMPエコーを送って到達性と応答時間を調べます。管理者権限は不要です。",
+    "host": "ホスト",
+    "hostPlaceholder": "例: example.com",
+    "hostInvalid": "ホストは英数字と . _ - : のホスト名またはIPで入力してください",
+    "count": "回数 (-c)",
+    "countInvalid": "回数は 1〜20 です",
+    "interval": "送信間隔 (-i)",
+    "intervalInvalid": "間隔は 0.2〜10 秒です",
+    "timeout": "全体タイムアウト (-t)",
+    "timeoutPlaceholder": "空欄は制限なし（例: 10）",
+    "timeoutInvalid": "タイムアウトは 1〜120 秒です",
+    "waitMs": "応答待ち (-W)",
+    "waitPlaceholder": "空欄は既定（例: 1000）",
+    "waitInvalid": "応答待ちは 100〜10000 ミリ秒です",
+    "size": "サイズ (-s)",
+    "sizeInvalid": "サイズは 0〜1472 です",
+    "ttl": "TTL (-m)",
+    "ttlPlaceholder": "空欄は既定（例: 64）",
+    "ttlInvalid": "TTL は 1〜255 です",
+    "groupTarget": "宛先",
+    "groupTiming": "タイミング",
+    "groupPacket": "パケット",
+    "hintHost": "ホスト名またはIPアドレスです。- で始まる値は使えません。",
+    "hintCount": "送るパケットの数です。指定しないと止まらないため必須です。1〜20。",
+    "hintInterval": "パケットを送る間隔の秒数です。小数も使えます。既定は1秒です。",
+    "hintTimeout": "何秒たっても終わらなければ打ち切ります。空欄なら回数分だけ送ります。",
+    "hintWaitMs": "1件の応答を待つミリ秒です。空欄なら ping の既定です。",
+    "hintSize": "データ部のバイト数です。既定は56です。",
+    "hintTtl": "パケットの生存時間です。空欄なら OS の既定です。",
+    "hintNumeric": "名前解決をせず数値のまま表示します（-n）。",
+    "hintNoFragment": "フラグメント禁止ビットを立てます（-D）。",
+    "execute": "実行",
+    "executing": "実行中...",
+    "note": "連続実行やフラッド（-f）・スイープ・送信元指定（-S）・マルチキャスト専用オプションは受け付けません。",
+    "empty": "ホストを入力して実行すると、疎通結果がここに表示されます。"
+  },
+  "pingAbout": {
+    "heading": "ping とは",
+    "body": "ICMPエコー要求を送って応答を待つmacOS標準コマンド（man ping: send ICMP ECHO_REQUEST packets to network hosts）。到達性と往復時間・損失率が分かる。回数（-c）・間隔（-i）・タイムアウト（-t）・応答待ち（-W）・サイズ（-s）・TTL（-m）・数値表示（-n）・DF（-D）に対応する。",
+    "usageTitle": "使い方",
+    "usage": "ホストを入力して「実行」を押す。応答が無い相手はタイムアウト行として数え、損失率に反映される。"
+  },
+  "pingResult": {
+    "transmitted": "送信",
+    "received": "受信",
+    "loss": "損失率",
+    "avg": "平均",
+    "minMax": "最小 / 最大",
+    "from": "応答元",
+    "ttl": "TTL",
+    "time": "応答時間",
+    "status": "状態",
+    "ok": "応答",
+    "timeout": "タイムアウト",
+    "noData": "応答がありませんでした"
+  },
+  "pingFlags": {
+    "numeric": "数値で表示 (-n)",
+    "noFragment": "フラグメント禁止 (-D)"
   }
 }

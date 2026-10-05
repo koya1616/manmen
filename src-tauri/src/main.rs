@@ -5,6 +5,7 @@ fn main() {
             manmen_lib::commands::set_pmset,
             manmen_lib::commands::get_manpage,
             manmen_lib::commands::get_dig,
+            manmen_lib::commands::get_ping,
             manmen_lib::commands::get_ssh,
             manmen_lib::commands::start_ssh_tunnel,
             manmen_lib::commands::stop_ssh_tunnel,

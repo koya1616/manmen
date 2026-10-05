@@ -496,6 +496,10 @@
     "git": {
       "name": "git (repository)",
       "label": "Git"
+    },
+    "ping": {
+      "name": "ping (connectivity)",
+      "label": "Ping"
     }
   },
   "about": {
@@ -1180,5 +1184,67 @@
     "url": "URL",
     "kind": "Kind",
     "noData": "No remotes"
+  },
+  "ping": {
+    "title": "Ping (ping)",
+    "description": "Send ICMP echo requests to check reachability and latency. No administrator privileges required.",
+    "host": "Host",
+    "hostPlaceholder": "e.g. example.com",
+    "hostInvalid": "Enter a hostname or IP with alphanumerics and . _ - :",
+    "count": "Count (-c)",
+    "countInvalid": "Count must be 1–20",
+    "interval": "Interval (-i)",
+    "intervalInvalid": "Interval must be 0.2–10 seconds",
+    "timeout": "Overall timeout (-t)",
+    "timeoutPlaceholder": "No limit when empty (e.g. 10)",
+    "timeoutInvalid": "Timeout must be 1–120 seconds",
+    "waitMs": "Reply wait (-W)",
+    "waitPlaceholder": "Default when empty (e.g. 1000)",
+    "waitInvalid": "Wait must be 100–10000 ms",
+    "size": "Size (-s)",
+    "sizeInvalid": "Size must be 0–1472",
+    "ttl": "TTL (-m)",
+    "ttlPlaceholder": "Default when empty (e.g. 64)",
+    "ttlInvalid": "TTL must be 1–255",
+    "groupTarget": "Target",
+    "groupTiming": "Timing",
+    "groupPacket": "Packet",
+    "hintHost": "Hostname or IP address. Values starting with - are not allowed.",
+    "hintCount": "How many packets to send. Required because ping runs forever without it. 1–20.",
+    "hintInterval": "Seconds between packets. Fractional values allowed. Default is 1 second.",
+    "hintTimeout": "Abort after this many seconds. Empty means send the full count.",
+    "hintWaitMs": "Milliseconds to wait for each reply. Empty means the ping default.",
+    "hintSize": "Data bytes per packet. Default is 56.",
+    "hintTtl": "Packet time to live. Empty means the OS default.",
+    "hintNumeric": "Show numeric addresses without resolving names (-n).",
+    "hintNoFragment": "Set the Don't Fragment bit (-D).",
+    "execute": "Run",
+    "executing": "Running...",
+    "note": "Flood (-f), sweeps, source selection (-S), and multicast-only options are not available.",
+    "empty": "Enter a host and run to see ping results here."
+  },
+  "pingAbout": {
+    "heading": "What is ping",
+    "body": "The standard macOS command that sends ICMP echo requests and waits for replies (man ping: send ICMP ECHO_REQUEST packets to network hosts). Shows reachability, round-trip time, and loss. Supports count (-c), interval (-i), timeout (-t), reply wait (-W), size (-s), TTL (-m), numeric (-n), and DF (-D).",
+    "usageTitle": "Usage",
+    "usage": "Enter a host and press Run. Unanswered packets are counted as timeouts in the loss rate."
+  },
+  "pingResult": {
+    "transmitted": "Sent",
+    "received": "Received",
+    "loss": "Loss",
+    "avg": "Average",
+    "minMax": "Min / Max",
+    "from": "From",
+    "ttl": "TTL",
+    "time": "Time",
+    "status": "Status",
+    "ok": "Reply",
+    "timeout": "Timeout",
+    "noData": "No replies received"
+  },
+  "pingFlags": {
+    "numeric": "Numeric output (-n)",
+    "noFragment": "Don't fragment (-D)"
   }
 }

@@ -548,3 +548,36 @@ export type GitSnapshot =
   | GitLogSnapshot
   | GitBranchesSnapshot
   | GitRemotesSnapshot;
+
+// Rust の ping.rs とフィールドを一致させること.
+export interface PingReply {
+  seq: number;
+  bytes: number | null;
+  from: string;
+  ttl: number | null;
+  time_ms: number | null;
+  timeout: boolean;
+}
+
+export interface PingStats {
+  transmitted: number;
+  received: number;
+  loss_percent: number;
+  min_ms: number | null;
+  avg_ms: number | null;
+  max_ms: number | null;
+  stddev_ms: number | null;
+}
+
+export interface PingSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  target: string;
+  resolved_ip: string;
+  replies: PingReply[];
+  timeout_count: number;
+  stats: PingStats;
+  raw: string;
+  stderr: string;
+}

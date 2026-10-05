@@ -6,6 +6,7 @@ pub mod docker_read;
 pub mod git;
 pub mod lsof;
 pub mod manpage;
+pub mod ping;
 pub mod pmset;
 pub mod privileged;
 pub mod ps;

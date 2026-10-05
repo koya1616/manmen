@@ -27,6 +27,8 @@ import { ScutilAbout } from "../components/ScutilAbout";
 import { ScutilCard } from "../components/ScutilCard";
 import { GitAbout } from "../components/GitAbout";
 import { GitCard } from "../components/GitCard";
+import { PingAbout } from "../components/PingAbout";
+import { PingCard } from "../components/PingCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -138,5 +140,12 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.git.label",
     control: GitCard,
     about: GitAbout,
+  },
+  {
+    id: "ping.probe",
+    cmd: "ping",
+    nameKey: "commands.ping.label",
+    control: PingCard,
+    about: PingAbout,
   },
 ];
