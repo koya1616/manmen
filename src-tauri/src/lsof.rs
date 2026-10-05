@@ -7,6 +7,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::common::parse::parse_table;
 use crate::common::validate::{parse_pids as parse_pids_common, validate_user};
 use crate::privileged;
 
@@ -260,49 +261,7 @@ fn parse_pids(raw: &str) -> Result<Vec<String>, String> {
 
 /// 先頭の見出し行を除き、9列に切る。末尾の NAME 列は空白を含むため残り全部を1セルにする。
 fn parse_rows(stdout: &str) -> Vec<Vec<String>> {
-    const WIDTH: usize = 9;
-    let mut lines = stdout.lines();
-    let _ = lines.next();
-    lines
-        .filter_map(|line| {
-            if line.trim().is_empty() {
-                return None;
-            }
-            let head: Vec<String> = line.split_whitespace().take(WIDTH - 1).map(str::to_string).collect();
-            if head.len() < WIDTH - 1 {
-                return None;
-            }
-            let mut row = head;
-            match nth_field_start(line, WIDTH) {
-                Some(tail) => row.push(tail.to_string()),
-                None => return None,
-            }
-            Some(row)
-        })
-        .collect()
-}
-
-/// 空白区切りの n 番目 (1始まり) フィールドの開始位置以降を返す。
-fn nth_field_start(line: &str, n: usize) -> Option<&str> {
-    let mut index = 0;
-    let bytes = line.as_bytes();
-    let mut field = 0;
-    while index < bytes.len() {
-        while index < bytes.len() && bytes[index].is_ascii_whitespace() {
-            index += 1;
-        }
-        if index >= bytes.len() {
-            break;
-        }
-        field += 1;
-        if field == n {
-            return Some(line[index..].trim_end());
-        }
-        while index < bytes.len() && !bytes[index].is_ascii_whitespace() {
-            index += 1;
-        }
-    }
-    None
+    parse_table(stdout, COLUMNS.len())
 }
 
 #[cfg(test)]
