@@ -46,7 +46,7 @@ import { NetworksetupCard } from "../components/NetworksetupCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
-// 2. ここにエントリを1行追加する
+// 2. ここにエントリを1行追加する (意味の近いグループの中に置く。先頭9件が ⌘1〜⌘9 になる)
 export interface CommandEntry {
   id: string;
   // サイドバーに等幅で出すコマンド名
@@ -57,13 +57,7 @@ export interface CommandEntry {
 }
 
 export const commandRegistry: CommandEntry[] = [
-  {
-    id: "pmset.apply",
-    cmd: "pmset",
-    nameKey: "commands.pmset.label",
-    control: PmsetCard,
-    about: PmsetAbout,
-  },
+  // マニュアル
   {
     id: "man.manpage",
     cmd: "man",
@@ -71,19 +65,13 @@ export const commandRegistry: CommandEntry[] = [
     control: ManpageCard,
     about: ManpageAbout,
   },
+  // プロセス
   {
-    id: "dig.lookup",
-    cmd: "dig",
-    nameKey: "commands.dig.label",
-    control: DigCard,
-    about: DigAbout,
-  },
-  {
-    id: "ssh.connect",
-    cmd: "ssh",
-    nameKey: "commands.ssh.label",
-    control: SshCard,
-    about: SshAbout,
+    id: "ps.snapshot",
+    cmd: "ps",
+    nameKey: "commands.ps.label",
+    control: PsCard,
+    about: PsAbout,
   },
   {
     id: "top.process",
@@ -93,13 +81,6 @@ export const commandRegistry: CommandEntry[] = [
     about: TopAbout,
   },
   {
-    id: "ps.snapshot",
-    cmd: "ps",
-    nameKey: "commands.ps.label",
-    control: PsCard,
-    about: PsAbout,
-  },
-  {
     id: "lsof.files",
     cmd: "lsof",
     nameKey: "commands.lsof.label",
@@ -107,12 +88,101 @@ export const commandRegistry: CommandEntry[] = [
     about: LsofAbout,
   },
   {
-    id: "docker.builderPrune",
-    cmd: "docker",
-    nameKey: "commands.docker.label",
-    control: DockerCard,
-    about: DockerAbout,
+    id: "kill.signal",
+    cmd: "kill",
+    nameKey: "commands.kill.label",
+    control: KillCard,
+    about: KillAbout,
   },
+  // ネットワーク: 相手への疎通・問い合わせ
+  {
+    id: "ping.probe",
+    cmd: "ping",
+    nameKey: "commands.ping.label",
+    control: PingCard,
+    about: PingAbout,
+  },
+  {
+    id: "traceroute.trace",
+    cmd: "traceroute",
+    nameKey: "commands.traceroute.label",
+    control: TracerouteCard,
+    about: TracerouteAbout,
+  },
+  {
+    id: "dig.lookup",
+    cmd: "dig",
+    nameKey: "commands.dig.label",
+    control: DigCard,
+    about: DigAbout,
+  },
+  {
+    id: "curl.request",
+    cmd: "curl",
+    nameKey: "commands.curl.label",
+    control: CurlCard,
+    about: CurlAbout,
+  },
+  {
+    id: "ssh.connect",
+    cmd: "ssh",
+    nameKey: "commands.ssh.label",
+    control: SshCard,
+    about: SshAbout,
+  },
+  // ネットワーク: この Mac の設定
+  {
+    id: "ifconfig.show",
+    cmd: "ifconfig",
+    nameKey: "commands.ifconfig.label",
+    control: IfconfigCard,
+    about: IfconfigAbout,
+  },
+  {
+    id: "networksetup.read",
+    cmd: "networksetup",
+    nameKey: "commands.networksetup.label",
+    control: NetworksetupCard,
+    about: NetworksetupAbout,
+  },
+  {
+    id: "scutil.network",
+    cmd: "scutil",
+    nameKey: "commands.scutil.label",
+    control: ScutilCard,
+    about: ScutilAbout,
+  },
+  // ディスク
+  {
+    id: "df.usage",
+    cmd: "df",
+    nameKey: "commands.df.label",
+    control: DfCard,
+    about: DfAbout,
+  },
+  {
+    id: "du.usage",
+    cmd: "du",
+    nameKey: "commands.du.label",
+    control: DuCard,
+    about: DuAbout,
+  },
+  // システム・電源
+  {
+    id: "system_profiler.overview",
+    cmd: "system_profiler",
+    nameKey: "commands.system_profiler.label",
+    control: SystemProfilerCard,
+    about: SystemProfilerAbout,
+  },
+  {
+    id: "pmset.apply",
+    cmd: "pmset",
+    nameKey: "commands.pmset.label",
+    control: PmsetCard,
+    about: PmsetAbout,
+  },
+  // ユーザー・ログイン
   {
     id: "whoami.user",
     cmd: "whoami",
@@ -134,20 +204,7 @@ export const commandRegistry: CommandEntry[] = [
     control: WCard,
     about: WAbout,
   },
-  {
-    id: "system_profiler.overview",
-    cmd: "system_profiler",
-    nameKey: "commands.system_profiler.label",
-    control: SystemProfilerCard,
-    about: SystemProfilerAbout,
-  },
-  {
-    id: "scutil.network",
-    cmd: "scutil",
-    nameKey: "commands.scutil.label",
-    control: ScutilCard,
-    about: ScutilAbout,
-  },
+  // 開発ツール
   {
     id: "git.repo",
     cmd: "git",
@@ -156,59 +213,10 @@ export const commandRegistry: CommandEntry[] = [
     about: GitAbout,
   },
   {
-    id: "ping.probe",
-    cmd: "ping",
-    nameKey: "commands.ping.label",
-    control: PingCard,
-    about: PingAbout,
-  },
-  {
-    id: "curl.request",
-    cmd: "curl",
-    nameKey: "commands.curl.label",
-    control: CurlCard,
-    about: CurlAbout,
-  },
-  {
-    id: "kill.signal",
-    cmd: "kill",
-    nameKey: "commands.kill.label",
-    control: KillCard,
-    about: KillAbout,
-  },
-  {
-    id: "traceroute.trace",
-    cmd: "traceroute",
-    nameKey: "commands.traceroute.label",
-    control: TracerouteCard,
-    about: TracerouteAbout,
-  },
-  {
-    id: "df.usage",
-    cmd: "df",
-    nameKey: "commands.df.label",
-    control: DfCard,
-    about: DfAbout,
-  },
-  {
-    id: "du.usage",
-    cmd: "du",
-    nameKey: "commands.du.label",
-    control: DuCard,
-    about: DuAbout,
-  },
-  {
-    id: "ifconfig.show",
-    cmd: "ifconfig",
-    nameKey: "commands.ifconfig.label",
-    control: IfconfigCard,
-    about: IfconfigAbout,
-  },
-  {
-    id: "networksetup.read",
-    cmd: "networksetup",
-    nameKey: "commands.networksetup.label",
-    control: NetworksetupCard,
-    about: NetworksetupAbout,
+    id: "docker.builderPrune",
+    cmd: "docker",
+    nameKey: "commands.docker.label",
+    control: DockerCard,
+    about: DockerAbout,
   },
 ];
