@@ -1,4 +1,5 @@
 // Rust の ps.rs ALLOWED_COLUMNS と一致させること。
+import { isValidUser as isValidUserBase, parsePidList as parsePidListBase } from "./validate";
 
 export const PS_COLUMNS = [
   "pid",
@@ -36,23 +37,8 @@ export const PS_DEFAULT_SORT: PsSort = "none";
 export const PS_MAX_PIDS = 16;
 export const PS_MAX_COLUMNS = 16;
 
-const USER_PATTERN = /^[A-Za-z0-9_][A-Za-z0-9._-]{0,31}$/;
+export { isValidUserBase as isValidUser };
 
 export function parsePidList(raw: string): string[] | null {
-  const tokens = raw
-    .split(/[\s,]+/)
-    .map((token) => token.trim())
-    .filter(Boolean);
-  const unique: string[] = [];
-  for (const token of tokens) {
-    if (!/^\d+$/.test(token)) return null;
-    if (!unique.includes(token)) unique.push(token);
-  }
-  if (unique.length > PS_MAX_PIDS) return null;
-  return unique;
-}
-
-export function isValidUser(user: string): boolean {
-  const trimmed = user.trim();
-  return trimmed === "" || USER_PATTERN.test(trimmed);
+  return parsePidListBase(raw, PS_MAX_PIDS);
 }

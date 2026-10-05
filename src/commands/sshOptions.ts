@@ -1,4 +1,5 @@
 // Rust の ssh.rs ALLOWED_STRICT / FEATURED_KEYS / MIN_TIMEOUT 等と一致させること。
+import { isValidUser } from "./validate";
 
 export const SSH_MODES = ["config", "test"] as const;
 
@@ -33,7 +34,6 @@ export const SSH_FEATURED_KEYS = [
 ];
 
 const HOST_PATTERN = /^[A-Za-z0-9_.:-]+$/;
-const USER_PATTERN = /^[A-Za-z0-9_][A-Za-z0-9._-]{0,31}$/;
 
 export function isValidSshHost(raw: string): boolean {
   const host = raw.trim();
@@ -46,9 +46,7 @@ export function isValidSshHost(raw: string): boolean {
 }
 
 export function isValidSshUser(raw: string): boolean {
-  const user = raw.trim();
-  if (user === "") return true;
-  return USER_PATTERN.test(user);
+  return isValidUser(raw);
 }
 
 export function isValidSshPort(raw: string): boolean {
