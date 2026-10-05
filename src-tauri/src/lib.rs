@@ -1,4 +1,5 @@
 pub mod commands;
+pub mod common;
 pub mod dig;
 pub mod docker;
 pub mod docker_read;

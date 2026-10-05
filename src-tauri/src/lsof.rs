@@ -7,6 +7,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::common::validate::{parse_pids as parse_pids_common, validate_user};
 use crate::privileged;
 
 /// `-i` のプロトコル。`man lsof` の `[46][protocol]` のうち日常的なものに限る。
@@ -186,22 +187,6 @@ fn validate_state(state: &str) -> Result<(), String> {
     }
 }
 
-fn validate_user(user: &str) -> Result<(), String> {
-    if user.is_empty() {
-        return Ok(());
-    }
-    let ok = user.len() <= 32
-        && user
-            .chars()
-            .all(|c| c.is_ascii_alphanumeric() || matches!(c, '_' | '.' | '-'))
-        && !user.starts_with('-');
-    if ok {
-        Ok(())
-    } else {
-        Err(format!("ユーザ名が不正です: {user}"))
-    }
-}
-
 /// `-c` はコマンド名の前方一致。オプション解釈を防ぐため英数字等に制限する。
 fn validate_comm(comm: &str) -> Result<(), String> {
     if comm.is_empty() {
@@ -270,22 +255,7 @@ fn validate_host(host: &str) -> Result<(), String> {
 }
 
 fn parse_pids(raw: &str) -> Result<Vec<String>, String> {
-    let mut pids = Vec::new();
-    for token in raw.split(|c: char| c == ',' || c.is_whitespace()) {
-        if token.is_empty() {
-            continue;
-        }
-        if token.parse::<u32>().is_err() || token.starts_with('+') || token.starts_with('-') {
-            return Err(format!("プロセスIDが不正です: {token}"));
-        }
-        if !pids.contains(&token.to_string()) {
-            pids.push(token.to_string());
-        }
-    }
-    if pids.len() > MAX_PIDS {
-        return Err(format!("プロセスIDは {MAX_PIDS} 件までです"));
-    }
-    Ok(pids)
+    parse_pids_common(raw, MAX_PIDS)
 }
 
 /// 先頭の見出し行を除き、9列に切る。末尾の NAME 列は空白を含むため残り全部を1セルにする。
