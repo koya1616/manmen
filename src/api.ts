@@ -27,6 +27,7 @@ import type {
    WhoSnapshot,
    WSnapshot,
    PingSnapshot,
+  CurlSnapshot,
  } from "./types";
 
 // IPC コマンド名はここに集約する。Rust の commands.rs と一致させること。
@@ -123,6 +124,19 @@ export const api = {
     numeric: boolean;
     noFragment: boolean;
   }) => invoke<PingSnapshot>("get_ping", { query }),
+  getCurl: (query: {
+    url: string;
+    head: boolean;
+    headers: string[];
+    follow: boolean;
+    maxRedirs: number;
+    maxTime: number;
+    connectTimeout: number | null;
+    httpVersion: string;
+    ipVersion: string;
+    insecure: boolean;
+    compressed: boolean;
+  }) => invoke<CurlSnapshot>("get_curl", { query }),
   listGitRepos: () => invoke<string[]>("list_git_repos"),
   pruneDockerBuilder: (force: boolean, all: boolean) =>
     invoke<CommandResult>("prune_docker_builder", { force, all }),

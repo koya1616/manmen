@@ -500,6 +500,10 @@
     "ping": {
       "name": "ping（疎通確認）",
       "label": "疎通確認"
+    },
+    "curl": {
+      "name": "curl（HTTPリクエスト）",
+      "label": "HTTPリクエスト"
     }
   },
   "about": {
@@ -1246,5 +1250,86 @@
   "pingFlags": {
     "numeric": "数値で表示 (-n)",
     "noFragment": "フラグメント禁止 (-D)"
+  },
+  "curl": {
+    "title": "HTTPリクエスト (curl)",
+    "description": "URL に GET / HEAD リクエストを送り、ステータス・ヘッダ・本文・所要時間を調べます。管理者権限は不要です。",
+    "url": "URL",
+    "urlPlaceholder": "例: https://example.com",
+    "urlInvalid": "URL は http:// か https:// で始まり、空白を含まない形で入力してください",
+    "method": "メソッド",
+    "headers": "リクエストヘッダ (-H)",
+    "headerPlaceholder": "例: Accept: application/json",
+    "headerInvalid": "ヘッダは「名前: 値」の形式で入力してください",
+    "addHeader": "+ ヘッダを追加",
+    "maxRedirs": "リダイレクト上限 (--max-redirs)",
+    "maxRedirsInvalid": "リダイレクト上限は 0〜20 です",
+    "maxTime": "最大時間 (-m)",
+    "maxTimeInvalid": "最大時間は 1〜120 秒です",
+    "connectTimeout": "接続タイムアウト (--connect-timeout)",
+    "connectTimeoutPlaceholder": "空欄は既定（1〜{{max}}秒）",
+    "connectTimeoutInvalid": "接続タイムアウトは 1〜60 秒です",
+    "httpVersion": "HTTP バージョン",
+    "ipVersion": "IP バージョン",
+    "auto": "自動",
+    "seconds": "秒",
+    "groupRequest": "リクエスト",
+    "groupRedirect": "リダイレクト",
+    "groupTiming": "タイミング",
+    "groupConnection": "接続",
+    "hintUrl": "http:// または https:// の URL です。file:// などその他のスキームは使えません。",
+    "hintMethod": "GET は本文まで取得し（-i でヘッダも表示）、HEAD はヘッダだけを取得します（-I）。",
+    "hintHeaders": "送るヘッダを「名前: 値」で指定します。最大5件。",
+    "hintFollow": "3xx の Location を追いかけて最終的なレスポンスまで取得します（-L）。",
+    "hintMaxRedirs": "追いかけるリダイレクトの最大回数です。",
+    "hintMaxTime": "この秒数で処理全体を打ち切ります。止まらないのを防ぐため必須です。",
+    "hintConnectTimeout": "接続確立までに待つ秒数です。空欄なら curl の既定です。",
+    "hintHttpVersion": "使う HTTP バージョンを固定します。自動なら交渉で決まります。",
+    "hintIpVersion": "IPv4 / IPv6 のどちらで接続するかを固定します。",
+    "hintCompressed": "圧縮レスポンスを要求して展開します（--compressed）。",
+    "hintInsecure": "証明書の検証を行いません（-k）。検証用途以外では使わないでください。",
+    "execute": "実行",
+    "executing": "実行中...",
+    "note": "POST などの送信（-d/-F/-T）・ファイル保存（-o/-O）・設定ファイル（-K）・Cookie/認証オプションは受け付けません。本文は先頭64KBまで表示します。",
+    "empty": "URL を入力して実行すると、レスポンスがここに表示されます。"
+  },
+  "curlAbout": {
+    "heading": "curl とは",
+    "body": "URL を指定してデータを転送するmacOS標準コマンド（man curl: transfer a URL）。HTTP のステータスコード・レスポンスヘッダ・本文に加え、DNS 解決・接続・TLS・最初のバイトまでの所要時間を確認できる。",
+    "usageTitle": "使い方",
+    "usage": "URL を入力して「実行」を押す。リダイレクト先まで見たいときは「リダイレクトを追う（-L）」をオンにする。",
+    "safetyTitle": "安全のための固定オプション",
+    "safety": "表示しているコマンドに加えて、~/.curlrc を読まない -q、URL グロブを無効にする -g、http/https 以外を拒否する --proto / --proto-redir、20MB を超えるダウンロードを止める --max-filesize、計測値を取り出す -w を常に付けて実行する。"
+  },
+  "curlResult": {
+    "status": "ステータス",
+    "total": "合計時間",
+    "size": "受信サイズ",
+    "httpVersion": "HTTP",
+    "remote": "接続先",
+    "numRedirects": "リダイレクト",
+    "contentType": "Content-Type",
+    "finalUrl": "最終 URL",
+    "timing": "所要時間（開始からの累積）",
+    "time": {
+      "namelookup": "DNS 解決",
+      "connect": "TCP 接続",
+      "appconnect": "TLS ハンドシェイク",
+      "redirect": "リダイレクト",
+      "starttransfer": "最初のバイト",
+      "total": "合計"
+    },
+    "redirects": "途中のレスポンス",
+    "headers": "レスポンスヘッダ",
+    "noHeaders": "ヘッダがありません",
+    "body": "本文",
+    "noBody": "本文はありません",
+    "binary": "本文がバイナリのため表示しません",
+    "truncated": "本文が長いため先頭64KBのみ表示しています"
+  },
+  "curlFlags": {
+    "follow": "リダイレクトを追う (-L)",
+    "compressed": "圧縮を要求 (--compressed)",
+    "insecure": "証明書を検証しない (-k)"
   }
 }

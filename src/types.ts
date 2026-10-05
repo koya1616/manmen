@@ -581,3 +581,52 @@ export interface PingSnapshot {
   raw: string;
   stderr: string;
 }
+
+// Rust の curl.rs とフィールドを一致させること.
+export interface CurlHeader {
+  name: string;
+  value: string;
+}
+
+export interface CurlResponse {
+  status_line: string;
+  http_version: string;
+  status_code: number | null;
+  headers: CurlHeader[];
+}
+
+export interface CurlInfo {
+  http_code: number;
+  http_version: string;
+  method: string | null;
+  scheme: string | null;
+  remote_ip: string | null;
+  remote_port: number | null;
+  url_effective: string | null;
+  num_redirects: number;
+  content_type: string | null;
+  size_download: number;
+  size_header: number;
+  speed_download: number;
+  ssl_verify_result: number;
+  time_namelookup: number;
+  time_connect: number;
+  time_appconnect: number;
+  time_pretransfer: number;
+  time_redirect: number;
+  time_starttransfer: number;
+  time_total: number;
+  errormsg: string | null;
+}
+
+export interface CurlSnapshot {
+  success: boolean;
+  exit_code: number;
+  command: string;
+  responses: CurlResponse[];
+  body: string;
+  body_truncated: boolean;
+  body_binary: boolean;
+  info: CurlInfo | null;
+  stderr: string;
+}

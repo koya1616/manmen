@@ -500,6 +500,10 @@
     "ping": {
       "name": "ping (connectivity)",
       "label": "Ping"
+    },
+    "curl": {
+      "name": "curl (HTTP request)",
+      "label": "HTTP request"
     }
   },
   "about": {
@@ -1246,5 +1250,86 @@
   "pingFlags": {
     "numeric": "Numeric output (-n)",
     "noFragment": "Don't fragment (-D)"
+  },
+  "curl": {
+    "title": "HTTP request (curl)",
+    "description": "Send a GET / HEAD request to a URL and inspect the status, headers, body, and timing. No administrator privileges required.",
+    "url": "URL",
+    "urlPlaceholder": "e.g. https://example.com",
+    "urlInvalid": "Enter a URL starting with http:// or https:// without spaces",
+    "method": "Method",
+    "headers": "Request headers (-H)",
+    "headerPlaceholder": "e.g. Accept: application/json",
+    "headerInvalid": "Enter headers as \"Name: value\"",
+    "addHeader": "+ Add header",
+    "maxRedirs": "Max redirects (--max-redirs)",
+    "maxRedirsInvalid": "Max redirects must be 0–20",
+    "maxTime": "Max time (-m)",
+    "maxTimeInvalid": "Max time must be 1–120 seconds",
+    "connectTimeout": "Connect timeout (--connect-timeout)",
+    "connectTimeoutPlaceholder": "Default when empty (1–{{max}} s)",
+    "connectTimeoutInvalid": "Connect timeout must be 1–60 seconds",
+    "httpVersion": "HTTP version",
+    "ipVersion": "IP version",
+    "auto": "Auto",
+    "seconds": "s",
+    "groupRequest": "Request",
+    "groupRedirect": "Redirects",
+    "groupTiming": "Timing",
+    "groupConnection": "Connection",
+    "hintUrl": "An http:// or https:// URL. Other schemes such as file:// are not allowed.",
+    "hintMethod": "GET fetches the body (headers shown with -i). HEAD fetches headers only (-I).",
+    "hintHeaders": "Headers to send, as \"Name: value\". Up to 5.",
+    "hintFollow": "Follow 3xx Location headers to the final response (-L).",
+    "hintMaxRedirs": "Maximum number of redirects to follow.",
+    "hintMaxTime": "Abort the whole transfer after this many seconds. Required so requests never hang.",
+    "hintConnectTimeout": "Seconds to wait for the connection. Empty means the curl default.",
+    "hintHttpVersion": "Force an HTTP version. Auto lets negotiation decide.",
+    "hintIpVersion": "Force connecting over IPv4 or IPv6.",
+    "hintCompressed": "Request a compressed response and decompress it (--compressed).",
+    "hintInsecure": "Skip certificate verification (-k). Use only for testing.",
+    "execute": "Run",
+    "executing": "Running...",
+    "note": "Uploads (-d/-F/-T), saving to files (-o/-O), config files (-K), and cookie/auth options are not available. Only the first 64 KB of the body is shown.",
+    "empty": "Enter a URL and run to see the response here."
+  },
+  "curlAbout": {
+    "heading": "What is curl",
+    "body": "The standard macOS command for transferring data from a URL (man curl: transfer a URL). Shows the HTTP status code, response headers, and body, plus how long DNS, connect, TLS, and the first byte took.",
+    "usageTitle": "Usage",
+    "usage": "Enter a URL and press Run. Turn on \"Follow redirects (-L)\" to see the final destination.",
+    "safetyTitle": "Fixed safety options",
+    "safety": "In addition to the command shown, it always runs with -q (ignore ~/.curlrc), -g (disable URL globbing), --proto / --proto-redir (http/https only), --max-filesize (stop downloads over 20 MB), and -w (to collect timing)."
+  },
+  "curlResult": {
+    "status": "Status",
+    "total": "Total time",
+    "size": "Downloaded",
+    "httpVersion": "HTTP",
+    "remote": "Remote",
+    "numRedirects": "Redirects",
+    "contentType": "Content-Type",
+    "finalUrl": "Final URL",
+    "timing": "Timing (cumulative from start)",
+    "time": {
+      "namelookup": "DNS lookup",
+      "connect": "TCP connect",
+      "appconnect": "TLS handshake",
+      "redirect": "Redirects",
+      "starttransfer": "First byte",
+      "total": "Total"
+    },
+    "redirects": "Intermediate responses",
+    "headers": "Response headers",
+    "noHeaders": "No headers",
+    "body": "Body",
+    "noBody": "No body",
+    "binary": "The body is binary and is not shown",
+    "truncated": "The body is long; only the first 64 KB is shown"
+  },
+  "curlFlags": {
+    "follow": "Follow redirects (-L)",
+    "compressed": "Request compression (--compressed)",
+    "insecure": "Skip certificate check (-k)"
   }
 }

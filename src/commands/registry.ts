@@ -29,6 +29,8 @@ import { GitAbout } from "../components/GitAbout";
 import { GitCard } from "../components/GitCard";
 import { PingAbout } from "../components/PingAbout";
 import { PingCard } from "../components/PingCard";
+import { CurlAbout } from "../components/CurlAbout";
+import { CurlCard } from "../components/CurlCard";
 
 // 新しいコマンドの追加手順:
 // 1. hooks/ と components/ に対応UIを追加する (usePmset.ts 等を参照)
@@ -147,5 +149,12 @@ export const commandRegistry: CommandEntry[] = [
     nameKey: "commands.ping.label",
     control: PingCard,
     about: PingAbout,
+  },
+  {
+    id: "curl.request",
+    cmd: "curl",
+    nameKey: "commands.curl.label",
+    control: CurlCard,
+    about: CurlAbout,
   },
 ];

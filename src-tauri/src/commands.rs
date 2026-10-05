@@ -36,6 +36,11 @@ pub fn get_ping(query: crate::ping::PingQuery) -> Result<crate::ping::PingSnapsh
 }
 
 #[tauri::command]
+pub fn get_curl(query: crate::curl::CurlQuery) -> Result<crate::curl::CurlSnapshot, String> {
+    crate::curl::get_snapshot(query)
+}
+
+#[tauri::command]
 pub fn get_ssh(query: crate::ssh::SshQuery) -> Result<SshSnapshot, String> {
     crate::ssh::get_snapshot(query)
 }
